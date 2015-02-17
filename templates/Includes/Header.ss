@@ -1,0 +1,3 @@
+<header>
+	<% include Menu %>
+</header>

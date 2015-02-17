@@ -1,0 +1,12 @@
+---
+Name: theme-framework
+After:
+  - 'framework/*'
+  - 'cms/*'
+---
+SiteConfig:
+  extensions: 
+    - ThemeSiteConfigExtension
+ContentController:
+  extensions:
+    - ThemePageControllerExtension

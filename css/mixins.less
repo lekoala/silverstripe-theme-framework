@@ -1,0 +1,142 @@
+////////////////////////////////////
+// Additionnal mixins for lesshat //
+////////////////////////////////////
+
+// Gradients
+////////////
+
+.gradient-h (@startColor: #EEE, @endColor: #FFF) {
+	background-color: @endColor;
+	background-image: -webkit-gradient(linear, left center, right center, from(@startColor),to(@endColor));
+	background-image: -webkit-linear-gradient(left, @startColor, @endColor);
+	background-image:    -moz-linear-gradient(left, @startColor, @endColor);
+	background-image:      -o-linear-gradient(left, @startColor, @endColor);
+	background-image:         linear-gradient(left, @startColor, @endColor);
+	filter: e(%("progid:DXImageTransform.Microsoft.gradient(GradientType=1, StartColorStr='%d', EndColorStr='%d')", @startColor, @endColor));
+}
+
+.gradient-v (@startColor: #EEE, @endColor: #FFF) {
+    background-color: mix(@startColor, @endColor, 60%);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(@startColor), to(@endColor));
+    background-image: -webkit-linear-gradient(top, @startColor, @endColor);
+    background-image:    -moz-linear-gradient(top, @startColor, @endColor);
+    background-image:      -o-linear-gradient(top, @startColor, @endColor);
+    background-image:         linear-gradient(top, @startColor, @endColor);
+    filter: e(%("progid:DXImageTransform.Microsoft.gradient(GradientType=0, StartColorStr='%d', EndColorStr='%d')", @startColor, @endColor));
+}
+
+.gradient-vline (@startColor: #B0BAC5, @middleColor1: #9DA7B2, @middleColor2: #919CA8, @endColor: #7E8A98) {
+    background: mix(@middleColor1, @middleColor2, 50%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, @startColor), color-stop(50%, @middleColor1), color-stop(51%, @middleColor2), color-stop(100%, @endColor));
+    background-image: -webkit-linear-gradient(top, @startColor 0%, @middleColor1 50%, @middleColor2 51%, @endColor 100%);
+    background-image:    -moz-linear-gradient(top, @startColor 0%, @middleColor1 50%, @middleColor2 51%, @endColor 100%);
+    background-image:      -o-linear-gradient(top, @startColor 0%, @middleColor1 50%, @middleColor2 51%, @endColor 100%);
+    background-image:         linear-gradient(top, @startColor 0%, @middleColor1 50%, @middleColor2 51%, @endColor 100%);
+}
+
+.gradient-v3colors (@startColor: #00b3ee, @middleColor: #7a43b6, @colorStop: 50%, @endColor: #c3325f) {
+    background-color: mix(@middleColor, @endColor, 80%);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(@startColor), color-stop(@colorStop, @middleColor), to(@endColor));
+    background-image: -webkit-linear-gradient(@startColor, @middleColor @colorStop, @endColor);
+    background-image:    -moz-linear-gradient(top, @startColor, @middleColor @colorStop, @endColor);
+    background-image:      -o-linear-gradient(@startColor, @middleColor @colorStop, @endColor);
+    background-image:         linear-gradient(@startColor, @middleColor @colorStop, @endColor);
+    filter: e(%("progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='%d', endColorstr='%d')", @startColor, @endColor));
+}
+
+.gradient-radial (@innerColor: #EEE, @outerColor: #FFF) {
+	background-color: @outerColor;
+	background-image: -webkit-gradient(radial, 50% 50%, 200, 50% 50%, 20, from(@outerColor), to(@innerColor));
+	background-image: -webkit-radial-gradient(50% 50%, @innerColor, @outerColor);
+	background-image:    -moz-radial-gradient(50% 50%, @innerColor, @outerColor);
+	background-image:      -o-radial-gradient(50% 50%, @innerColor, @outerColor);
+	background-image:         radial-gradient(50% 50%, @innerColor, @outerColor);
+}
+
+.gradient-direction (@startColor: #555, @endColor: #333, @degrees: 45) {
+	background: @endColor;
+	background-image: -webkit-gradient(linear, ~"@{degrees}deg", from(@startColor), to(@endColor));
+	background-image: -webkit-linear-gradient(~"@{degrees}deg", @startColor, @endColor);
+	background-image:    -moz-linear-gradient(~"@{degrees}deg", @startColor, @endColor);
+	background-image:      -o-linear-gradient(~"@{degrees}deg", @startColor, @endColor);
+	background-image:         linear-gradient(~"@{degrees}deg", @startColor, @endColor);
+}
+
+// Helpers
+//////////
+
+//@link http://zerosixthree.se/vertical-align-anything-with-just-3-lines-of-css/
+.vertical-align() {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+//apply this to parent of vertical-align if text is blurry
+.preserve-3d() {
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+
+// This parent can be any width and height
+.centered-container() {
+  text-align: center;
+}
+ 
+// The ghost, nudged to maintain perfect centering
+.centered-container:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.25em; //adjust for spacing
+}
+
+.centered-element() {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.square (@value: 100) {
+	.size(@value, @value);
+}
+
+.hide-text() {
+	text-indent: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.center-block() {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.clearfix() {
+  *zoom: 1;
+  &:before,
+  &:after {
+    display: table;
+    content: "";
+    line-height: 0;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+//provided that you set html { font-size:62.5%}
+.font-size(@size:1.6,@line:1.5) {
+	@remValue: @size;
+	@pxValue: (@size * 10);
+	@remValueLine: @remValue * @line;
+	@pxValueLine: @pxValue * @line;
+	font-size: ~"@{pxValue}px"; 
+	font-size: ~"@{remValue}rem";
+	line-heigth: ~"@{pxValueLine}px"; 
+	line-height: ~"@{remValueLine}rem";
+}

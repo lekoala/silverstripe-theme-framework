@@ -1,0 +1,407 @@
+@import "variables.less";
+@import "lesshat.less";
+@import "mixins.less";
+
+// button
+a.btn, button, input[type="submit"], .Actions .action {
+    background: @link-color;
+    color: #fff;
+    display: inline-block;
+    .border-radius(@base-line-height/4);
+	padding:0 @base-line-height/2;
+	line-height:@base-line-height;
+    margin-bottom: @base-line-height/2;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: none;
+    margin-right: @base-line-height/2;
+    float: left;
+}
+a.btn:hover, button, input[type="submit"]:hover, .Actions .action:hover {
+    background:@hover-color;
+    color: #fff;
+}
+a.btn {
+    margin-bottom: @base-line-height/2;
+}
+a.btn:after {
+    content: '\2192';
+    padding-left: 10px;
+}
+
+// message animation @link http://coveloping.com/tools/css-animation-generator
+.message { 
+    -webkit-animation-duration: 1s; 
+    animation-duration: 1s; 
+    -webkit-animation-fill-mode: both; 
+    animation-fill-mode: both; 
+    -webkit-animation-timing-function: ease-out; 
+    animation-timing-function: ease-out; 
+	-webkit-animation-name: bounceIn; 
+    animation-name: bounceIn; 
+} 
+
+@-webkit-keyframes bounceIn { 
+    0% { 
+        opacity: 0; 
+        -webkit-transform: scale(.3); 
+    } 
+
+    50% { 
+        opacity: 1; 
+        -webkit-transform: scale(1.05); 
+    } 
+
+    70% { 
+        -webkit-transform: scale(.9); 
+    } 
+
+    100% { 
+		-webkit-transform: scale(1); 
+    } 
+} 
+
+@keyframes bounceIn { 
+    0% { 
+        opacity: 0; 
+        transform: scale(.3); 
+    } 
+
+    50% { 
+        opacity: 1; 
+        transform: scale(1.05); 
+    } 
+
+    70% { 
+        transform: scale(.9); 
+    } 
+
+    100% { 
+        transform: scale(1); 
+    } 
+} 
+
+// message
+.message {
+	clear:both;
+	background-color: #eee;
+	padding:@base-line-height/4 @base-line-height/2;
+	border: 1px solid #e8c805;
+	.border-radius(@base-line-height/4);
+	margin-bottom:@base-line-height/2-2px; //don't forget to substract border'
+	color:#000;
+
+	&.good {
+        background-color: @good-color;
+        border-color: darken(@good-color,15%);
+    }
+	&.bad {
+        background-color: @bad-color;
+        border-color: darken(@bad-color,15%);
+	}
+	&.warning {
+        background-color: @warning-color;
+        border-color: darken(@warning-color,15%);
+	}
+	&.info {
+		background-color: @info-color;
+        border-color: darken(@info-color,15%);
+	}
+}
+
+.parsley-error-list {
+	color: darken(@bad-color,15%);
+}
+
+// form
+form {
+	.field {
+		margin-bottom:@base-line-height /4*3;
+		clear:both;
+	}
+	.middleColumn.fieldgroup {
+	}
+	.fieldgroup-field {
+		display:inline-block;
+		width:auto;
+		margin-right:16px;
+		margin-bottom:@base-line-height /4*3;
+	}
+    label {
+		margin-bottom:@base-line-height/4;
+    }
+    label.left {
+        display: block;
+        font-weight: bold;
+    }
+    label.right {
+        color: #888;
+    }
+    .date {
+        .middleColumn {
+            input {
+                width: 114px;
+            }
+        }
+    }
+    .requiredField {
+        label.left:after {
+            color: #B94A48;
+            content: "*";
+            font-weight: normal;
+            padding-left: 3px;
+        }
+    }
+    div.checkbox:after {
+        content: ".";
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden;
+    }
+    .field.checkbox {
+		margin:@base-line-height / 2 0;
+        .checkbox {
+            clear: both;
+        }
+		label {
+			margin-top:0;
+			margin-bottom:0;
+		}
+    }
+    input.holder-required {
+        border: 1px solid #cf0000;
+    }
+	fieldset {
+		border: 0;
+		margin: 0;
+		padding: 0;
+	}
+	input.text,textarea,.textajaxuniquetext,select {
+		width: 100%;
+		max-width: @base-line-height*20;
+		padding: 0 8px;
+		height:@base-line-height * 1.5;
+		-webkit-box-sizing: border-box; 
+		-moz-box-sizing: border-box;   
+		box-sizing: border-box;         
+		background-color: #fff;
+		border: 0;
+		color:#333;
+		.border-radius(6px);
+	}
+
+	input.text:focus,textarea:focus,.textajaxuniquetext:focus,select:focus {
+		outline:none;
+	}
+	input[disabled],textarea[disabled] {
+		background-color: #f7f7f7;
+		border: 1px solid #dad9d9;
+	}
+	textarea {
+		resize: vertical;
+		height:auto;
+	}
+	.field .checkbox, .field .radio {
+		float: left;
+		width: @base-line-height/2;
+		height: @base-line-height/2;
+		margin-right: @base-line-height/4;
+		margin-top: @base-line-height/4;
+		padding: 0;
+	}
+	.description {
+		color:#ccc;
+		display:inline-block;
+		padding-top:@base-line-height/4;
+		padding-bottom:@base-line-height/4;
+		font-size:0.9em;
+	}
+	.checkbox label.right,.radio label.right {
+		float: left;
+	}
+	input.bad {
+        background-color: @bad-color;
+        border-color: darken(@bad-color,15%);
+	}
+	.Actions {
+		margin-bottom: @base-line-height;
+	}
+
+	input.action[class] {
+		width: auto;
+	}
+	.Actions:after {
+		color: #B94A48;
+		display: inline-block;
+		font-weight: normal;
+		margin-top: 9px;
+	}
+	#MemberLoginForm_LoginForm {
+		.Actions:after {
+			display: none;
+		}
+	}
+	#Remember {
+		min-height: 20px;
+	}
+	#ForgotPassword {
+		clear: left;
+	}
+	#MemberLoginForm_LostPasswordForm {
+		.Actions:after {
+			display: none;
+		}
+	}
+	.FormHeading {
+		clear: both;
+		padding-top: 15px;
+	}
+	.Actions input.resetformaction,.Actions input.action-minor {
+		float: left;
+		background-color: #888;
+	}
+	.Actions input.resetformaction:hover,.Actions input.action-minor:hover {
+		background-color: #aaa;
+	}
+	.checkbox {
+		label.right {
+			margin-right:10px
+		}
+	}
+	.checkboxset ul,.optionset ul {
+		margin: 0;
+	}
+	.checkboxset li,.optionset li {
+		margin-bottom: 5px;
+		list-style-type:none;
+	}
+	span.message {
+		margin: 10px 0;
+		display: block;
+		max-width: 390px;
+		clear: left;
+	}
+	span.message.required {
+		color:@bad-color;
+		background:transparent;
+		padding:0;
+		border:0;
+	}
+	div.holder-required {
+
+	}
+	input:invalid,textarea:invalid {
+	}
+	.no-boxshadow input:invalid,.no-boxshadow textarea:invalid {
+		background-color: #f0dddd;
+	}
+	.ss-uploadfield-item-info {
+		button {
+			margin-top: 4px !important;
+			float: left;
+		}
+	}
+	.creditCardField input,input.currency,input.numeric {
+		width: 50px;
+	}
+	#DMYDate-month,#DMYDate-day {
+		width: 25px;
+	}
+
+	//parsley validation
+	input,select,textarea {
+		&.parsley-success {
+			color: #111 !important;
+			background-color: darken(@good-color,10%) !important;
+			border-color: @good-color !important;
+		}
+
+	}
+
+	input,select,textarea {
+		&.parsley-error {
+			color: #eee !important;
+			background-color: darken(@bad-color,15%) !important;
+			border-color: @bad-color  !important;
+		}
+	}
+	
+	input, textarea, select {
+		&.autocompleted {
+			background:darken(@good-color,10%);
+		}
+		&.not-autocompleted {
+			background: #fec;
+		}
+	}
+}
+
+@-webkit-keyframes parsleyFadeIn { 
+	0% { opacity: 0; }
+	20% { opacity: 0; }
+	40% { opacity: 0.3; }
+	60% { opacity: 0.5; }
+	80% { opacity: 0.9; }
+	100% { opacity: 1; }
+}
+
+@keyframes parsleyFadeIn {
+	0% { opacity: 0; }
+	20% { opacity: 0; }
+	40% { opacity: 0.3; }
+	60% { opacity: 0.5; }
+	80% { opacity: 0.9; }
+	100% { opacity: 1; }
+}
+
+.parsley-errors-list {
+	list-style-type: none;
+	font-size: 0.8em;
+	line-height: 1em;
+	height: 0;
+	.opacity(0);
+	color:@bad-color;
+	display:none;
+	.transition(opacity, 0.3s, ease-out);
+}
+
+.parsley-errors-list.filled {
+	padding: @base-line-height / 4 0;
+	height: auto;
+	.opacity(1);
+	display:block;
+	-webkit-animation-name: parsleyFadeIn;
+	-webkit-animation-duration: .3s;
+	animation-name: parsleyFadeIn;
+	animation-duration: .3s;
+}
+
+#SearchForm_SearchForm {
+	margin-top:@base-line-height/4;
+	margin-bottom:0;
+	min-width:240px;
+
+	.middleColumn, .field {
+		display:inline-block;
+		margin:0;
+		float:left;
+		clear:none;
+	}
+	.action {
+		clear:none;
+		float:left;
+		margin:0;
+		text-indent:-999px;
+		padding: @base-line-height/4;
+		height:@base-line-height * 1.5;
+		width:@base-line-height * 1.5;
+		.border-radius(0);
+		.border-top-right-radius(5px);
+		.border-bottom-right-radius(5px);
+		background-image:url('../images/search-white.png');
+		.background-size(75%);
+		background-position: center center;
+		background-repeat: no-repeat;
+	}
+}

@@ -1,0 +1,83 @@
+@import "variables.less";
+@import "lesshat.less";
+@import "mixins.less";
+
+// global
+
+html { 
+	font-size:62.5%;
+	position: relative;
+	min-height: 100% 
+}; 
+
+body {
+	min-height:100%;
+	font-size:@bfs;
+    line-height: @blh;
+	background: @body-bg-color;
+    color: @body-color;
+    font-family: @body-font;
+    a {
+		color:@link-color;
+        text-decoration: none;
+		.transition(all, 0.2s, ease-in-out);
+    }
+    a:link {
+        -webkit-tap-highlight-color: @link-color;
+    }
+}
+
+::selection,::-moz-selection {
+    background: @link-color;
+    color: #fff;
+    text-shadow: none;
+}
+
+a img {
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-tap-highlight-color: transparent; /* For some Androids */
+}
+
+.lazyload,
+.lazyloading {
+    .opacity(0);
+}
+.lazyloaded {
+    .opacity(1);
+    .transition(opacity, 300ms);
+}
+
+.box {
+	padding:@base-line-height;
+	margin-bottom:@base-line-height;
+}
+
+.typography nav {
+	ul {
+		list-style:none;
+		margin:0;
+		padding:0;
+	}
+	li {
+		float:left;
+	}
+	a {
+		padding:@base-line-height/2;
+	}
+}
+
+// layout
+
+header {
+
+}
+
+footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	clear: both;
+}
+
+#main {
+}
