@@ -96,7 +96,11 @@ class ThemeSiteConfigExtension extends DataExtension
     {
         $img = $this->RandomBackgroundImage();
         if ($img) {
-            return "background-image:url('".$img->SetWidth(1800)->Link()."')";
+            $resizedImage = $img->SetWidth(1800);
+            if(!$resizedImage) {
+                $resizedImage = $img;
+            }
+            return "background-image:url('".$resizedImage->Link()."')";
         }
     }
 
