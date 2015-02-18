@@ -21,6 +21,13 @@ class ThemeSiteConfigExtension extends DataExtension
 
     public function updateCMSFields(FieldList $fields)
     {
+        $fields->removeByName('Theme');
+        $themeDropdownField = new DropdownField("Theme",
+            _t('SiteConfig.THEME', 'Theme'), $this->getAvailableThemesExtended());
+        $themeDropdownField->setEmptyString(_t('SiteConfig.DEFAULTTHEME',
+                '(Use default theme)'));
+        $fields->addFieldToTab('Root.Theme', $themeDropdownField);
+
         $fields->addFieldToTab('Root.Theme', new MiniColorsField('PrimaryColor'));
         $fields->addFieldToTab('Root.Theme',
             new MiniColorsField('SecondaryColor'));
@@ -40,12 +47,27 @@ class ThemeSiteConfigExtension extends DataExtension
         $fields->addFieldToTab('Root.Theme',
             ImageUploadField::createForClass($this, 'BackgroundImages'));
 
-        $themeDropdownField = $fields->dataFieldByName('Theme');
-        if ($themeDropdownField) {
-            $fields->insertBefore($themeDropdownField, 'PrimaryColor');
-        }
 
         return $fields;
+    }
+
+    /**
+     * Get all available themes that haven't been marked as disabled.
+     * @param string $baseDir Optional alternative theme base directory for testing
+     * @return array of theme directory names
+     */
+    public function getAvailableThemesExtended($baseDir = null)
+    {
+        if (class_exists('Subsite') && Subsite::currentSubsiteID()) {
+            $subsiteThemes = Subsite::config()->allowed_themes;
+            return array_combine($subsiteThemes, $subsiteThemes);
+        }
+        $themes   = SSViewer::get_themes($baseDir);
+        $disabled = (array) $this->owner->config()->disabled_themes;
+        foreach ($disabled as $theme) {
+            if (isset($themes[$theme])) unset($themes[$theme]);
+        }
+        return $themes;
     }
 
     /**
@@ -66,7 +88,7 @@ class ThemeSiteConfigExtension extends DataExtension
     {
         $img = $this->RandomBackgroundImage();
         if ($img) {
-            return "background-image:url('".$img->SetWidth(1200)->Link()."')";
+            return "background-image:url('".$img->SetWidth(1800)->Link()."')";
         }
     }
 
@@ -81,9 +103,27 @@ class ThemeSiteConfigExtension extends DataExtension
             if ($subsiteID === null) {
                 $subsiteID = Subsite::currentSubsiteID();
             }
-            $path = '/assets/favico/favico-'.$subsiteID.'.ico';
+            $path = '/assets/Theme/favico-'.$subsiteID.'.ico';
         } else {
-            $path = '/assets/favico/favico.ico';
+            $path = '/assets/Theme/favico.ico';
+        }
+        return $path;
+    }
+
+    /**
+     * Get a path to styles
+     * @param int $subsiteID
+     * @return string
+     */
+    public function StylesPath($subsiteID = null)
+    {
+        if (class_exists('Subsite')) {
+            if ($subsiteID === null) {
+                $subsiteID = Subsite::currentSubsiteID();
+            }
+            $path = '/assets/Theme/styles-'.$subsiteID.'.css';
+        } else {
+            $path = '/assets/Theme/styles.css';
         }
         return $path;
     }
@@ -92,18 +132,50 @@ class ThemeSiteConfigExtension extends DataExtension
     {
         parent::onAfterWrite();
 
-        // Create favicon
-        if ($this->owner->IconID) {
-            $source      = $this->owner->Icon()->getFullPath();
-            $destination = Director::baseFolder().$this->FaviconPath();
-            $dir         = dirname($destination);
+        $baseDir = Director::baseFolder().'/assets/Theme';
+        if (!is_dir($baseDir)) {
+            mkdir($baseDir, 0777, true);
+        }
 
-            if (!is_dir($dir)) {
-                mkdir($dir, 0777, true);
+        // Create theme according to colors
+        $destination = Director::baseFolder().$this->StylesPath();
+        if ($this->owner->isChanged('PrimaryColor') || $this->owner->isChanged('SecondaryColor')
+            || !is_file($destination)) {
+            if ($this->owner->Theme) {
+                $themeDir = 'themes/'.$this->owner->Theme;
+            } else {
+                $themeDir = SSViewer::get_theme_folder();
             }
+            $options = array();
+            if(Director::isLive()) {
+                $options['compress'] = true;
+            }
+            $parser  = new Less_Parser($options);
+            try {
+                $parser->parseFile(Director::baseFolder().'/'.$themeDir.'/css/all.less');
+                $vars = array();
+                if ($this->owner->PrimaryColor) {
+                    $vars['primary-color'] = $this->owner->PrimaryColor;
+                }
+                if ($this->owner->SecondaryColor) {
+                    $vars['secondary-color'] = $this->owner->SecondaryColor;
+                }
+                if (!empty($vars)) {
+                    $parser->ModifyVars($vars);
+                }
+                $css = $parser->getCss();
+                file_put_contents($destination, $css);
+            } catch (Exception $ex) {
+                SS_Log::log('Failed to create css files : '.$ex->getMessage(),
+                    SS_Log::DEBUG);
+            }
+        }
 
+        // Create favicon
+        $destination = Director::baseFolder().$this->FaviconPath();
+        if ($this->owner->IconID && (!is_file($destination) || ($this->owner->isChanged('IconID')))) {
+            $source  = $this->owner->Icon()->getFullPath();
             $ico_lib = new PHP_ICO($source, array(array(16, 16)));
-
             try {
                 $ico_lib->save_ico($destination);
             } catch (Exception $ex) {

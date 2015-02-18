@@ -38,6 +38,15 @@ Demo theme
 =============
 TODO
 
+Thirdparty libs
+=============
+
+Icon generator
+https://github.com/chrisbliss18/php-ico
+
+Less compiler
+https://github.com/oyejorge/less.php
+
 Compatibility
 =============
 Tested with 3.1

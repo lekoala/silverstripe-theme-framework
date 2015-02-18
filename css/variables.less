@@ -12,25 +12,25 @@
 @large-screen: ~"only screen and (min-width: 1224px)";
 @very-large-screen: ~"only screen and (min-width: 1824px)";
 
-///////////////////
-// Custom Colors //
-///////////////////
-
-@red:#da323d;
-@black-bg: #151419;
-
 /////////////////
 // Base Colors //
 /////////////////
 
-@primary-color:#da323d;
-@secondary-color:#3c3d3d;
+@base-color: #fff; //positive or negative
 
+@primary-color:#e6e2af;
+@secondary-color:#046380;
+
+@very-light-gray: #eee;
+@light-gray: #999;
 @gray: #666;
+@dark-gray: #333;
+@very-dark-gray: #111;
 
-@footer-bg-color: #242424;
-@footer-text-color: #bcbec0;
+@footer-bg-color: @light-gray;
+@footer-text-color: @dark-gray;
 
+// For validation or message boxes for instance
 @good-color:#dea;
 @bad-color:#fbb;
 @warning-color:#fda;
@@ -39,9 +39,9 @@
 @link-color: @primary-color;
 @hover-color: darken(@link-color,15%);
 
-@body-bg-color: #151419;
-@body-color: #eee;
-@header-color: lighten(@body-color,15%);
+@body-bg-color: @base-color;
+@body-text-color: @dark-gray;
+@header-color: lighten(@body-text-color,15%);
 
 ///////////
 // Fonts //
@@ -52,9 +52,9 @@
 @header-font: 'Open Sans', Arial, Helvetica, sans-serif;
 @header-font-weight: 600;
 
-////////////////
-// Typography //
-////////////////
+///////////////
+// GridLover //
+///////////////
 
 //check http://www.gridlover.net/app/ to generate others
 

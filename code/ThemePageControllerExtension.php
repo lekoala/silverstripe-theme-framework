@@ -24,6 +24,15 @@ class ThemePageControllerExtension extends Extension
         }
 
         $themeDir = SSViewer::get_theme_folder();
+        $config = SiteConfig::current_site_config();
+        $stylesPath = $config->StylesPath();
+        $stylesFile = Director::baseFolder() . $stylesPath;
+        if(is_file($stylesFile)) {
+            Requirements::css(trim($stylesPath,'/'));
+        }
+        else {
+            Requirements::themedCSS('all');
+        }
         Requirements::javascript($themeDir.'/javascript/init.js');
     }
 }

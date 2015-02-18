@@ -17,7 +17,6 @@
 		<link href="$RssLink" rel="alternate" type="application/rss+xml" title="$RssTitle" />
 		<% end_if %>
 
-		<% require themedCSS('all') %>
 		<!--[if lt IE 9]>
 		<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
