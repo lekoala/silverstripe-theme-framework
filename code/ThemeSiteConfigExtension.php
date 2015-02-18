@@ -47,6 +47,14 @@ class ThemeSiteConfigExtension extends DataExtension
         $fields->addFieldToTab('Root.Theme',
             ImageUploadField::createForClass($this, 'BackgroundImages'));
 
+        if (Director::isDev()) {
+            $fields->addFieldToTab('Root.Theme',
+                new HeaderField('ThemeDevHeader', 'Dev tools'));
+            $fields->addFieldToTab('Root.Theme',
+                new CheckboxField('RefreshTheme'));
+            $fields->addFieldToTab('Root.Theme',
+                new CheckboxField('RefreshIcon'));
+        }
 
         return $fields;
     }
@@ -139,18 +147,22 @@ class ThemeSiteConfigExtension extends DataExtension
 
         // Create theme according to colors
         $destination = Director::baseFolder().$this->StylesPath();
-        if ($this->owner->isChanged('PrimaryColor') || $this->owner->isChanged('SecondaryColor')
-            || !is_file($destination)) {
+        if (!empty($_POST['RefreshTheme']) || $this->owner->isChanged('PrimaryColor')
+            || $this->owner->isChanged('SecondaryColor')) {
             if ($this->owner->Theme) {
                 $themeDir = 'themes/'.$this->owner->Theme;
             } else {
                 $themeDir = SSViewer::get_theme_folder();
             }
             $options = array();
-            if(Director::isLive()) {
+            if (Director::isLive()) {
                 $options['compress'] = true;
             }
-            $parser  = new Less_Parser($options);
+            if (Director::isDev()) {
+                $options['sourceMap'] = true;
+            }
+            $options['cache_dir'] = TEMP_FOLDER;
+            $parser               = new Less_Parser($options);
             try {
                 $parser->parseFile(Director::baseFolder().'/'.$themeDir.'/css/all.less');
                 $vars = array();
@@ -173,7 +185,7 @@ class ThemeSiteConfigExtension extends DataExtension
 
         // Create favicon
         $destination = Director::baseFolder().$this->FaviconPath();
-        if ($this->owner->IconID && (!is_file($destination) || ($this->owner->isChanged('IconID')))) {
+        if ($this->owner->IconID && (!empty($_POST['RefreshIcon']) || ($this->owner->isChanged('IconID')))) {
             $source  = $this->owner->Icon()->getFullPath();
             $ico_lib = new PHP_ICO($source, array(array(16, 16)));
             try {

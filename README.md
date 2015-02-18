@@ -19,9 +19,11 @@ Default CSS for Silverstripe
 
 Libraries: 
 
-- Lesshat
 - Mixins
 - Normalize
+
+Please note that since less files are compiled through php, your less librairies
+should not make use of Javascript functions (like Lesshat does).
 
 Default styles:
 

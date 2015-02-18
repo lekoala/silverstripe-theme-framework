@@ -23,14 +23,16 @@ class ThemePageControllerExtension extends Extension
             Requirements::javascript(THIRDPARTY_DIR.'/jquery/jquery.min.js');
         }
 
-        $themeDir = SSViewer::get_theme_folder();
-        $config = SiteConfig::current_site_config();
+        $themeDir   = SSViewer::get_theme_folder();
+        $config     = SiteConfig::current_site_config();
         $stylesPath = $config->StylesPath();
-        $stylesFile = Director::baseFolder() . $stylesPath;
-        if(is_file($stylesFile)) {
-            Requirements::css(trim($stylesPath,'/'));
-        }
-        else {
+        $stylesFile = Director::baseFolder().$stylesPath;
+
+        if (is_file($stylesFile)) {
+            // We use compiled file
+            Requirements::css(trim($stylesPath, '/'));
+        } else {
+            // We use theme file
             Requirements::themedCSS('all');
         }
         Requirements::javascript($themeDir.'/javascript/init.js');
