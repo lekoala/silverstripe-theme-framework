@@ -164,7 +164,7 @@ class ThemeSiteConfigExtension extends DataExtension
             $options['cache_dir'] = TEMP_FOLDER;
             $parser               = new Less_Parser($options);
             try {
-                $parser->parseFile(Director::baseFolder().'/'.$themeDir.'/css/all.less');
+                $parser->parseFile(Director::baseFolder().'/'.$themeDir.'/css/all.less','/' . $themeDir . '/css');
                 $vars = array();
                 if ($this->owner->PrimaryColor) {
                     $vars['primary-color'] = $this->owner->PrimaryColor;
