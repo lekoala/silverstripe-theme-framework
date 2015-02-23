@@ -6,6 +6,15 @@
 					<% loop Menu(1) %>
 					<li class="$LinkingMode $FirstLast">
 						<a href="$Link">$MenuTitle</a>
+						<% if Children %>
+						<ul class="sub-menu">
+							<% loop Children %>
+							<% if ShowInMenus %>
+							<li class="$LinkingMode $FirstLast"><a href="$Link">$MenuTitle</a></li>
+							<% end_if %>
+							<% end_loop %>
+						</ul>
+						<% end_if %>
 					</li>
 					<% end_loop %>
 				</ul>
