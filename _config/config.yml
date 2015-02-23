@@ -7,6 +7,6 @@ After:
 SiteConfig:
   extensions: 
     - ThemeSiteConfigExtension
-ContentController:
+Controller:
   extensions:
     - ThemePageControllerExtension
