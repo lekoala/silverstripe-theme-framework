@@ -1,12 +1,18 @@
 @import "variables.less";
 @import "mixins.less";
 
+////////////
+// Layout //
+////////////
+
+// Reset font sizes
 html { 
 	font-size:62.5%;
 	position: relative;
 	min-height: 100% 
 }; 
 
+// Define base colors
 body {
 	min-height:100%;
 	font-size:@bfs;
@@ -35,6 +41,10 @@ a img {
 	-webkit-tap-highlight-color: transparent; /* For some Androids */
 }
 
+// Lazy classes for lazysizes
+.no-js img.lazyload {
+	display: none;
+}
 .lazyload,
 .lazyloading {
     .opacity(0);
@@ -44,11 +54,34 @@ a img {
     .transition(opacity, 300ms);
 }
 
+// Ratio container
+.ratio-container {
+    position: relative;
+}
+.ratio-container:after {
+    content: '';
+    display: block;
+    height: 0;
+    width: 100%;
+    /* 16:9 = 56.25% = calc(9 / 16 * 100%) */
+    padding-bottom: 42.86%;
+    content: "";
+}
+.ratio-container > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+// Simple box based on base line height
 .box {
 	padding:@base-line-height;
 	margin-bottom:@base-line-height;
 }
 
+// Default nav styles
 .typography nav {
 	ul {
 		list-style:none;
@@ -63,16 +96,10 @@ a img {
 	}
 }
 
-header {
-
-}
-
+// Sticky footer
 footer {
 	position: absolute;
 	bottom: 0;
 	width: 100%;
 	clear: both;
-}
-
-#main {
 }

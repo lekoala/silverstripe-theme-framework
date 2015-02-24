@@ -1,6 +1,10 @@
 @import "variables.less";
 @import "mixins.less";
 
+//////////
+// Form //
+//////////
+
 // button
 a.btn, button, input[type="submit"], .Actions .action {
     background: @link-color;
@@ -106,10 +110,6 @@ a.btn:after {
 		background-color: @info-color;
         border-color: darken(@info-color,15%);
 	}
-}
-
-.parsley-error-list {
-	color: darken(@bad-color,15%);
 }
 
 // form
@@ -308,24 +308,6 @@ form {
 		width: 25px;
 	}
 
-	//parsley validation
-	input,select,textarea {
-		&.parsley-success {
-			color: #111 !important;
-			background-color: darken(@good-color,10%) !important;
-			border-color: @good-color !important;
-		}
-
-	}
-
-	input,select,textarea {
-		&.parsley-error {
-			color: #eee !important;
-			background-color: darken(@bad-color,15%) !important;
-			border-color: @bad-color  !important;
-		}
-	}
-	
 	input, textarea, select {
 		&.autocompleted {
 			background:darken(@good-color,10%);
@@ -335,6 +317,23 @@ form {
 		}
 	}
 }
+
+// Default SearchForm
+
+#SearchForm_SearchForm {
+	margin-top:@base-line-height/4;
+	margin-bottom:0;
+	min-width:240px;
+
+	.middleColumn, .field {
+		display:inline-block;
+		margin:0;
+		float:left;
+		clear:none;
+	}
+}
+
+// Parsley styles
 
 @-webkit-keyframes parsleyFadeIn { 
 	0% { opacity: 0; }
@@ -376,15 +375,21 @@ form {
 	animation-duration: .3s;
 }
 
-#SearchForm_SearchForm {
-	margin-top:@base-line-height/4;
-	margin-bottom:0;
-	min-width:240px;
+form {
+	input,select,textarea {
+		&.parsley-success {
+			color: #111 !important;
+			background-color: darken(@good-color,10%) !important;
+			border-color: @good-color !important;
+		}
 
-	.middleColumn, .field {
-		display:inline-block;
-		margin:0;
-		float:left;
-		clear:none;
+	}
+
+	input,select,textarea {
+		&.parsley-error {
+			color: #eee !important;
+			background-color: darken(@bad-color,15%) !important;
+			border-color: @bad-color  !important;
+		}
 	}
 }
