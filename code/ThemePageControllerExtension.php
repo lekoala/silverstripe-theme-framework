@@ -8,9 +8,23 @@
 class ThemePageControllerExtension extends Extension
 {
 
+    /**
+     * Helper to detect if we are in admin or development admin
+     * 
+     * @return boolean
+     */
     public function isAdminBackend()
     {
-        return Controller::curr() instanceof LeftAndMain;
+        if (
+            $this->owner instanceof LeftAndMain ||
+            $this->owner instanceof DevelopmentAdmin ||
+            $this->owner instanceof DatabaseAdmin ||
+            (class_exists('DevBuildController') && $this->owner instanceof DevBuildController)
+        ) {
+            return true;
+        }
+
+        return false;
     }
 
     public static function config()

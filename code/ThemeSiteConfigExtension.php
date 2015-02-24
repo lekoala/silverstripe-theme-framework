@@ -10,6 +10,7 @@ class ThemeSiteConfigExtension extends DataExtension
     private static $db        = array(
         'PrimaryColor' => 'DBColor',
         'SecondaryColor' => 'DBColor',
+        'GoogleAnalyticsCode' => 'Varchar',
     );
     private static $has_one   = array(
         'Logo' => 'Image',
@@ -56,7 +57,25 @@ class ThemeSiteConfigExtension extends DataExtension
                 new CheckboxField('RefreshIcon'));
         }
 
+        // Simple Google Analytics helper, disable if other extension is found
+        if (!$this->owner->hasExtension('GoogleConfig') && !$this->owner->hasExtension('ZenGoogleAnalytics')) {
+            $fields->addFieldToTab('Root.Main',
+                $ga = new TextField('GoogleAnalyticsCode'));
+            $ga->setAttribute('placeholder', 'UA-0000000-00');
+        }
+
         return $fields;
+    }
+
+    public function GoogleAnalyticsEnabled()
+    {
+        if (Director::isDev()) {
+            return false;
+        }
+        if ($this->owner->GoogleAnalyticsCode) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -97,7 +116,7 @@ class ThemeSiteConfigExtension extends DataExtension
         $img = $this->RandomBackgroundImage();
         if ($img) {
             $resizedImage = $img->SetWidth(1800);
-            if(!$resizedImage) {
+            if (!$resizedImage) {
                 $resizedImage = $img;
             }
             return "background-image:url('".$resizedImage->Link()."')";
@@ -168,7 +187,8 @@ class ThemeSiteConfigExtension extends DataExtension
             $options['cache_dir'] = TEMP_FOLDER;
             $parser               = new Less_Parser($options);
             try {
-                $parser->parseFile(Director::baseFolder().'/'.$themeDir.'/css/all.less','/' . $themeDir . '/css');
+                $parser->parseFile(Director::baseFolder().'/'.$themeDir.'/css/all.less',
+                    '/'.$themeDir.'/css');
                 $vars = array();
                 if ($this->owner->PrimaryColor) {
                     $vars['primary-color'] = $this->owner->PrimaryColor;

@@ -28,5 +28,6 @@
 		</div>
 		<% include Footer %>
 		$BetterNavigator
+		<% include GoogleAnalyticsSnippet %>
 	</body>
 </html>
