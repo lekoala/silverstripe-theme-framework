@@ -8,20 +8,57 @@
 class ThemePageControllerExtension extends Extension
 {
 
+    public function isAdminBackend()
+    {
+        return Controller::curr() instanceof LeftAndMain;
+    }
+
+    public static function config()
+    {
+        return Config::inst()->forClass(__CLASS__);
+    }
+
     public function onBeforeInit()
     {
         // Theme is not yet defined properly at this time
-        if (Director::isDev()) {
-            Requirements::javascript(THIRDPARTY_DIR.'/jquery/jquery.js');
-            Requirements::block(THIRDPARTY_DIR.'/jquery/jquery.min.js');
-        } else {
-            Requirements::block(THIRDPARTY_DIR.'/jquery/jquery.js');
-            Requirements::javascript(THIRDPARTY_DIR.'/jquery/jquery.min.js');
+
+        if ($this->isAdminBackend()) {
+            return;
+        }
+
+        $conf = self::config();
+        if ($conf->include_jquery) {
+            if (Director::isDev()) {
+                Requirements::javascript(THIRDPARTY_DIR.'/jquery/jquery.js');
+                Requirements::block(THIRDPARTY_DIR.'/jquery/jquery.min.js');
+            } else {
+                Requirements::block(THIRDPARTY_DIR.'/jquery/jquery.js');
+                Requirements::javascript(THIRDPARTY_DIR.'/jquery/jquery.min.js');
+            }
+        }
+        if ($conf->include_jquery_ui) {
+            if (Director::isDev()) {
+                Requirements::javascript(THIRDPARTY_DIR.'/jquery-ui/jquery-ui.js');
+                Requirements::block(THIRDPARTY_DIR.'/jquery-ui/jquery-ui.min.js');
+            } else {
+                Requirements::block(THIRDPARTY_DIR.'/jquery-ui/jquery-ui.js');
+                Requirements::javascript(THIRDPARTY_DIR.'/jquery-ui/jquery-ui.min.js');
+            }
+            if ($conf->jquery_ui_theme) {
+                Requirements::block(THIRDPARTY_DIR.'/jquery-ui-themes/smoothness/jquery-ui.css');
+                Requirements::css($conf->jquery_ui_theme);
+            } else {
+                Requirements::css(THIRDPARTY_DIR.'/jquery-ui-themes/smoothness/jquery-ui.css');
+            }
         }
     }
 
     public function onAfterInit()
     {
+        if ($this->isAdminBackend()) {
+            return;
+        }
+
         $themeDir = SSViewer::get_theme_folder();
         $config   = SiteConfig::current_site_config();
         if ($config->Theme) {

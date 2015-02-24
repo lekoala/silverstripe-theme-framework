@@ -10,3 +10,8 @@ SiteConfig:
 Controller:
   extensions:
     - ThemePageControllerExtension
+ThemePageControllerExtension:
+  include_jquery: true
+  include_jquery_ui: false
+  # if none is set, default smoothness will be used
+  jquery_ui_theme: null
