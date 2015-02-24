@@ -32,17 +32,8 @@ a.btn:after {
     padding-left: 10px;
 }
 
-// message animation @link http://coveloping.com/tools/css-animation-generator
-.message { 
-    -webkit-animation-duration: 1s; 
-    animation-duration: 1s; 
-    -webkit-animation-fill-mode: both; 
-    animation-fill-mode: both; 
-    -webkit-animation-timing-function: ease-out; 
-    animation-timing-function: ease-out; 
-	-webkit-animation-name: bounceIn; 
-    animation-name: bounceIn; 
-} 
+// message 
+// animation created with http://coveloping.com/tools/css-animation-generator
 
 @-webkit-keyframes bounceIn { 
     0% { 
@@ -84,8 +75,15 @@ a.btn:after {
     } 
 } 
 
-// message
 .message {
+	-webkit-animation-duration: 1s; 
+    animation-duration: 1s; 
+    -webkit-animation-fill-mode: both; 
+    animation-fill-mode: both; 
+    -webkit-animation-timing-function: ease-out; 
+    animation-timing-function: ease-out; 
+	-webkit-animation-name: bounceIn; 
+    animation-name: bounceIn; 
 	clear:both;
 	background-color: #eee;
 	padding:@base-line-height/4 @base-line-height/2;
