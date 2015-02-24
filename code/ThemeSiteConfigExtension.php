@@ -48,7 +48,7 @@ class ThemeSiteConfigExtension extends DataExtension
         $fields->addFieldToTab('Root.Theme',
             ImageUploadField::createForClass($this, 'BackgroundImages'));
 
-        if (Director::isDev()) {
+        if (Director::isDev() || Permission::check('ADMIN')) {
             $fields->addFieldToTab('Root.Theme',
                 new HeaderField('ThemeDevHeader', 'Dev tools'));
             $fields->addFieldToTab('Root.Theme',
