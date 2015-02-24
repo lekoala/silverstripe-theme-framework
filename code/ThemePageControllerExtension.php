@@ -22,8 +22,14 @@ class ThemePageControllerExtension extends Extension
 
     public function onAfterInit()
     {
-        $themeDir   = SSViewer::get_theme_folder();
-        $config     = SiteConfig::current_site_config();
+        $themeDir = SSViewer::get_theme_folder();
+        $config   = SiteConfig::current_site_config();
+        if ($config->Theme) {
+            $themeDir = THEMES_DIR.'/'.$config->Theme;
+
+            // Properly update theme if set in config to make themedCSS work properly
+            Config::inst()->update('SSViewer', 'theme', $config->Theme);
+        }
         $stylesPath = $config->StylesPath();
         $stylesFile = Director::baseFolder().$stylesPath;
 
