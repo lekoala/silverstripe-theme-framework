@@ -159,6 +159,45 @@ class ThemeSiteConfigExtension extends DataExtension
         return $path;
     }
 
+    public function compileStyles()
+    {
+        $destination = Director::baseFolder().$this->StylesPath();
+
+         if ($this->owner->Theme) {
+            $themeDir = 'themes/'.$this->owner->Theme;
+        } else {
+            $themeDir = SSViewer::get_theme_folder();
+        }
+        $options = array();
+        if (Director::isLive()) {
+            $options['compress'] = true;
+        }
+        if (Director::isDev()) {
+            $options['sourceMap'] = true;
+        }
+        $options['cache_dir'] = TEMP_FOLDER;
+        $parser               = new Less_Parser($options);
+        try {
+            $parser->parseFile(Director::baseFolder().'/'.$themeDir.'/css/all.less',
+                '/'.$themeDir.'/css');
+            $vars = array();
+            if ($this->owner->PrimaryColor) {
+                $vars['primary-color'] = $this->owner->PrimaryColor;
+            }
+            if ($this->owner->SecondaryColor) {
+                $vars['secondary-color'] = $this->owner->SecondaryColor;
+            }
+            if (!empty($vars)) {
+                $parser->ModifyVars($vars);
+            }
+            $css = $parser->getCss();
+            file_put_contents($destination, $css);
+        } catch (Exception $ex) {
+            SS_Log::log('Failed to create css files : '.$ex->getMessage(),
+                SS_Log::DEBUG);
+        }
+    }
+
     public function onAfterWrite()
     {
         parent::onAfterWrite();
@@ -169,42 +208,9 @@ class ThemeSiteConfigExtension extends DataExtension
         }
 
         // Create theme according to colors
-        $destination = Director::baseFolder().$this->StylesPath();
         if (!empty($_POST['RefreshTheme']) || $this->owner->isChanged('PrimaryColor')
             || $this->owner->isChanged('SecondaryColor')) {
-            if ($this->owner->Theme) {
-                $themeDir = 'themes/'.$this->owner->Theme;
-            } else {
-                $themeDir = SSViewer::get_theme_folder();
-            }
-            $options = array();
-            if (Director::isLive()) {
-                $options['compress'] = true;
-            }
-            if (Director::isDev()) {
-                $options['sourceMap'] = true;
-            }
-            $options['cache_dir'] = TEMP_FOLDER;
-            $parser               = new Less_Parser($options);
-            try {
-                $parser->parseFile(Director::baseFolder().'/'.$themeDir.'/css/all.less',
-                    '/'.$themeDir.'/css');
-                $vars = array();
-                if ($this->owner->PrimaryColor) {
-                    $vars['primary-color'] = $this->owner->PrimaryColor;
-                }
-                if ($this->owner->SecondaryColor) {
-                    $vars['secondary-color'] = $this->owner->SecondaryColor;
-                }
-                if (!empty($vars)) {
-                    $parser->ModifyVars($vars);
-                }
-                $css = $parser->getCss();
-                file_put_contents($destination, $css);
-            } catch (Exception $ex) {
-                SS_Log::log('Failed to create css files : '.$ex->getMessage(),
-                    SS_Log::DEBUG);
-            }
+            $this->compileStyles();
         }
 
         // Create favicon

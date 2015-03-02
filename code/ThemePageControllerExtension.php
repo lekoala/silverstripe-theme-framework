@@ -84,6 +84,22 @@ class ThemePageControllerExtension extends Extension
         $stylesPath = $config->StylesPath();
         $stylesFile = Director::baseFolder().$stylesPath;
 
+        // Refresh theme files if updated in dev
+        if(Director::isDev()) {
+            if(is_file($stylesFile)) {
+                $timeCompiled = filemtime($stylesFile);
+            }
+            else {
+                $timeCompiled = 0;
+            }
+            $timeOriginal = filemtime(Director::baseFolder() . '/' . $themeDir . '/css/all.css');
+
+            // We need to recompile the styles
+            if($timeOriginal > $timeCompiled) {
+                $config->compileStyles();
+            }
+        }
+
         if (is_file($stylesFile)) {
             // We use compiled file
             Requirements::css(trim($stylesPath, '/'));
