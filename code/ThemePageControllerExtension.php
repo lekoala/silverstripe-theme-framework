@@ -15,11 +15,20 @@ class ThemePageControllerExtension extends Extension
      */
     public function isAdminBackend()
     {
+        /* @var $owner Controller */
+        $owner = $this->owner;
+        if(strpos($owner->getRequest()->getURL(), 'admin/') === 0) {
+            return true;
+        }
+        // Because keep-alive pings done through ajax could trigger requirements loading
+        if(strpos($owner->getRequest()->getURL(), 'Security/ping') === 0) {
+            return true;
+        }
         if (
-            $this->owner instanceof LeftAndMain ||
-            $this->owner instanceof DevelopmentAdmin ||
-            $this->owner instanceof DatabaseAdmin ||
-            (class_exists('DevBuildController') && $this->owner instanceof DevBuildController)
+            $owner instanceof LeftAndMain ||
+            $owner instanceof DevelopmentAdmin ||
+            $owner instanceof DatabaseAdmin ||
+            (class_exists('DevBuildController') && $owner instanceof DevBuildController)
         ) {
             return true;
         }
