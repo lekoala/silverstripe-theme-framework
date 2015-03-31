@@ -3,4 +3,3 @@
 		© $SiteConfig.Title
 	</div>
 </footer>
-<% end_if %>
