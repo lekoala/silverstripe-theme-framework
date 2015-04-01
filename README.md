@@ -8,7 +8,7 @@ SiteConfig and Page extensions
 When adding this module, the ThemeSiteConfigExtension is activated on your SiteConfig.
 It will create a new theme tab where you can configure your theme.
 
-You can configure the primary and secondary colors of your theme and the logo/favicon.
+You can configure the base, primary and secondary colors of your theme and the logo/favicon.
 
 The ThemePageControllerExtension will make sure that:
 - You include jquery (and jquery ui if needed). It's always nice to have this loaded first to avoid any further inclusion which

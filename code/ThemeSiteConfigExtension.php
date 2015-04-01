@@ -8,6 +8,7 @@
 class ThemeSiteConfigExtension extends DataExtension
 {
     private static $db        = array(
+        'BaseColor' => 'DBColor',
         'PrimaryColor' => 'DBColor',
         'SecondaryColor' => 'DBColor',
         'GoogleAnalyticsCode' => 'Varchar',
@@ -19,6 +20,11 @@ class ThemeSiteConfigExtension extends DataExtension
     private static $many_many = array(
         'BackgroundImages' => 'Image'
     );
+    private static $defaults  = array(
+        'BaseColor' => '#ffffff',
+        'PrimaryColor' => '#284d6d',
+        'SecondaryColor' => '#44c8f4',
+    );
 
     public function updateCMSFields(FieldList $fields)
     {
@@ -29,6 +35,7 @@ class ThemeSiteConfigExtension extends DataExtension
                 '(Use default theme)'));
         $fields->addFieldToTab('Root.Theme', $themeDropdownField);
 
+        $fields->addFieldToTab('Root.Theme', new MiniColorsField('BaseColor'));
         $fields->addFieldToTab('Root.Theme', new MiniColorsField('PrimaryColor'));
         $fields->addFieldToTab('Root.Theme',
             new MiniColorsField('SecondaryColor'));
@@ -57,7 +64,7 @@ class ThemeSiteConfigExtension extends DataExtension
                 new CheckboxField('RefreshIcon'));
         }
 
-        // Simple Google Analytics helper, disable if other extension is found
+        // Simple Google Analytics helper, disable if other extension are found
         if (!$this->owner->hasExtension('GoogleConfig') && !$this->owner->hasExtension('ZenGoogleAnalytics')) {
             $fields->addFieldToTab('Root.Main',
                 $ga = new TextField('GoogleAnalyticsCode'));
@@ -67,6 +74,10 @@ class ThemeSiteConfigExtension extends DataExtension
         return $fields;
     }
 
+    /**
+     * Check if GoogleAnalytics is enabled
+     * @return boolean
+     */
     public function GoogleAnalyticsEnabled()
     {
         if (Director::isDev()) {
@@ -159,6 +170,9 @@ class ThemeSiteConfigExtension extends DataExtension
         return $path;
     }
 
+    /**
+     * Compile styles from theme/css/all.less to assets/Theme/styles.css
+     */
     public function compileStyles()
     {
         $destination = Director::baseFolder().$this->StylesPath();
@@ -181,6 +195,9 @@ class ThemeSiteConfigExtension extends DataExtension
             $parser->parseFile(Director::baseFolder().'/'.$themeDir.'/css/all.less',
                 '/'.$themeDir.'/css');
             $vars = array();
+            if ($this->owner->BaseColor) {
+                $vars['base-color'] = $this->owner->BaseColor;
+            }
             if ($this->owner->PrimaryColor) {
                 $vars['primary-color'] = $this->owner->PrimaryColor;
             }
@@ -215,7 +232,7 @@ class ThemeSiteConfigExtension extends DataExtension
 
         // Create theme according to colors
         if (!empty($_POST['RefreshTheme']) || $this->owner->isChanged('PrimaryColor')
-            || $this->owner->isChanged('SecondaryColor')) {
+            || $this->owner->isChanged('SecondaryColor') || $this->owner->isChanged('BaseColor')) {
             $this->compileStyles();
         }
 
