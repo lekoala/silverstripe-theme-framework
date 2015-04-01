@@ -163,7 +163,7 @@ class ThemeSiteConfigExtension extends DataExtension
     {
         $destination = Director::baseFolder().$this->StylesPath();
 
-         if ($this->owner->Theme) {
+        if ($this->owner->Theme) {
             $themeDir = 'themes/'.$this->owner->Theme;
         } else {
             $themeDir = SSViewer::get_theme_folder();
@@ -191,6 +191,12 @@ class ThemeSiteConfigExtension extends DataExtension
                 $parser->ModifyVars($vars);
             }
             $css = $parser->getCss();
+
+            $baseDir = Director::baseFolder().'/assets/Theme';
+            if (!is_dir($baseDir)) {
+                mkdir($baseDir, 0777, true);
+            }
+
             file_put_contents($destination, $css);
         } catch (Exception $ex) {
             SS_Log::log('Failed to create css files : '.$ex->getMessage(),
