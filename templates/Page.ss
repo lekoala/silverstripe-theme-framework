@@ -28,6 +28,12 @@
 		</div>
 		<% include Footer %>
 		$BetterNavigator
+		
+		<% if SiteConfig.GoogleAnalyticsEnabled %>
 		<% include GoogleAnalyticsSnippet %>
+		<% end_if %>
+		<% if OutdatedBrowserEnabled %>
+		<% include OutdatedBrowserSnippet %>
+		<% end_if %>
 	</body>
 </html>

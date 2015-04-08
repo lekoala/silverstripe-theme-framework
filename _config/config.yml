@@ -15,3 +15,10 @@ ThemePageControllerExtension:
   include_jquery_ui: false
   # if none is set, default smoothness will be used
   jquery_ui_theme: null
+  outdated_browser:
+    enabled: true
+    bg_color: '#222'
+    color: '#999'
+    lower_than: 'boxShadow'
+    
+  

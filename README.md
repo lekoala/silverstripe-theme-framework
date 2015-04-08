@@ -23,10 +23,16 @@ will be used by default if no compiled style is found.
 
 All compiled styles are stored in assets/Theme folder to avoid versioning compiled versions of your theme.
 
+Outdated browsers
+-------------
+
+This plugin is integrated and enabled by default with IE9 as a minimum
+https://github.com/burocratik/outdated-browser
+
 Icomoon
 -------------
 
-This module comes bundled with a all IcoMoon Free icons (490 icons). Feel free
+This module comes bundled with a all Fontawesome. Feel free
 to include your own set of icons created through the online app:
 https://icomoon.io/app/ 
 

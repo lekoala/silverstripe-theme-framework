@@ -17,11 +17,11 @@ class ThemePageControllerExtension extends Extension
     {
         /* @var $owner Controller */
         $owner = $this->owner;
-        if(strpos($owner->getRequest()->getURL(), 'admin/') === 0) {
+        if (strpos($owner->getRequest()->getURL(), 'admin/') === 0) {
             return true;
         }
         // Because keep-alive pings done through ajax could trigger requirements loading
-        if(strpos($owner->getRequest()->getURL(), 'Security/ping') === 0) {
+        if (strpos($owner->getRequest()->getURL(), 'Security/ping') === 0) {
             return true;
         }
         if (
@@ -50,6 +50,26 @@ class ThemePageControllerExtension extends Extension
         }
 
         $conf = self::config();
+
+        $outdated = $conf->outdated_browser;
+        if ($outdated && $outdated['enabled']) {
+            if (Director::isDev()) {
+                Requirements::javascript(THEME_FRAMEWORK_PATH.'/javascript/outdatedbrowser/outdatedbrowser.js');
+                Requirements::css(THEME_FRAMEWORK_PATH.'/javascript/outdatedbrowser/outdatedbrowser.css');
+            } else {
+                Requirements::javascript(THEME_FRAMEWORK_PATH.'/javascript/outdatedbrowser/outdatedbrowser.min.js');
+                Requirements::css(THEME_FRAMEWORK_PATH.'/javascript/outdatedbrowser/outdatedbrowser.min.css');
+            }
+            Requirements::javascriptTemplate(THEME_FRAMEWORK_PATH.'/javascript/outdated.js',
+                array(
+                'BgColor' => $outdated['bg_color'],
+                'Color' => $outdated['color'],
+                'LowerThan' => $outdated['lower_than'],
+//                'LowerThan' => 'IE12',
+                'Lang' => i18n::get_lang_from_locale(i18n::get_locale())
+            ));
+        }
+
         if ($conf->include_jquery) {
             if (Director::isDev()) {
                 Requirements::javascript(THIRDPARTY_DIR.'/jquery/jquery.js');
@@ -94,17 +114,20 @@ class ThemePageControllerExtension extends Extension
         $stylesFile = Director::baseFolder().$stylesPath;
 
         // Refresh theme files if updated in dev
-        if(Director::isDev()) {
-            if(is_file($stylesFile)) {
+        if (Director::isDev()) {
+            if (is_file($stylesFile)) {
                 $timeCompiled = filemtime($stylesFile);
-            }
-            else {
+            } else {
                 $timeCompiled = 0;
             }
-            $timeOriginal = filemtime(Director::baseFolder() . '/' . $themeDir . '/css/all.css');
+            $baseCss = Director::baseFolder().'/'.$themeDir.'/css/all.css';
+            if (!is_file($baseCss)) {
+                return;
+            }
+            $timeOriginal = filemtime($baseCss);
 
             // We need to recompile the styles
-            if($timeOriginal > $timeCompiled) {
+            if ($timeOriginal > $timeCompiled) {
                 $config->compileStyles();
             }
         }
