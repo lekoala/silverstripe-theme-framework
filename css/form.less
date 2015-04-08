@@ -6,7 +6,7 @@
 //////////
 
 // button
-a.btn, button, input[type="submit"], .Actions .action {
+a.btn, form button, input[type="submit"], .Actions .action {
     background: @link-color;
     color: #fff;
     display: inline-block;
@@ -20,7 +20,7 @@ a.btn, button, input[type="submit"], .Actions .action {
     margin-right: @base-line-height/2;
     float: left;
 }
-a.btn:hover, button, input[type="submit"]:hover, .Actions .action:hover {
+a.btn:hover, form button, input[type="submit"]:hover, .Actions .action:hover {
     background:@hover-color;
     color: #fff;
 }
@@ -75,9 +75,9 @@ a.btn:after {
     } 
 } 
 
-.message {
-	-webkit-animation-duration: 1s; 
-    animation-duration: 1s; 
+form .message {
+	-webkit-animation-duration: 0.5s; 
+    animation-duration: 0.5s; 
     -webkit-animation-fill-mode: both; 
     animation-fill-mode: both; 
     -webkit-animation-timing-function: ease-out; 

@@ -7,6 +7,17 @@
  */
 class ThemePageControllerExtension extends Extension
 {
+    // Base silverstripe message types
+    const MESSAGE_GOOD    = 'good';
+    const MESSAGE_BAD     = 'bad';
+    const MESSAGE_WARNING = 'warning';
+    const MESSAGE_INFO    = 'info';
+    // Base Noty types
+    const NOTY_SUCCESS    = 'success';
+    const NOTY_ERROR      = 'error';
+    const NOTY_ALERT      = 'alert';
+    const NOTY_INFO       = 'information';
+    const NOTY_CONFIRM    = 'confirm';
 
     /**
      * Helper to detect if we are in admin or development admin
@@ -95,8 +106,96 @@ class ThemePageControllerExtension extends Extension
             }
         }
 
+
+        $noty = $conf->noty;
+        if ($noty && $noty['enabled']) {
+            if (Director::isDev()) {
+                Requirements::javascript(THEME_FRAMEWORK_PATH.'/javascript/noty/packaged/jquery.noty.packaged.js');
+            } else {
+                Requirements::javascript(THEME_FRAMEWORK_PATH.'/javascript/noty/packaged/jquery.noty.packaged.min.js');
+            }
+
+            $theme  = $noty['theme'];
+            $layout = $noty['layout'];
+            Requirements::css(THEME_FRAMEWORK_PATH.'/javascript/noty/themes/'.$theme.'.css');
+
+            Requirements::customScript(<<<JS
+jQuery.extend(jQuery.noty.defaults,{
+  theme: '$theme',
+  layout: '$layout',
+  closeWith: ['click','button']
+});
+JS
+            );
+            // Flash messages
+            if ($this->owner->hasMethod('SessionMessage') && $this->owner->SessionMessage(false)) {
+                $message = $this->owner->SessionMessage();
+
+                $content = Convert::raw2js($message->Content);
+                $type    = Convert::raw2js($message->Type);
+
+                // Convert default Silverstripe types
+                switch ($type) {
+                    case self::MESSAGE_BAD:
+                        $type = self::NOTY_ERROR;
+                        break;
+                    case self::MESSAGE_GOOD:
+                        $type = self::NOTY_SUCCESS;
+                        break;
+                    case self::MESSAGE_WARNING:
+                        $type = self::NOTY_ALERT;
+                        break;
+                    case self::MESSAGE_INFO:
+                        $type = self::NOTY_INFO;
+                        break;
+                }
+
+                Requirements::customScript(<<<JS
+noty({
+  text: '$content',
+  type: '$type',
+  timeout: false
+});
+JS
+                );
+            }
+        }
+
         // Forcing js to bottom allow to put some scripts tags in the head if we want to
         Requirements::set_force_js_to_bottom(true);
+    }
+
+    /**
+     * Set a session message that will be displayed by messenger on the next load
+     * (useful after a redirect)
+     *
+     * @param string $message
+     * @param string $type
+     */
+    public static function SetSessionMessage($message, $type = 'good')
+    {
+        Session::set('SessionMessage',
+            array(
+            'Type' => $type,
+            'Content' => $message
+        ));
+    }
+
+    /**
+     * Get and clear session message
+     * @param bool $clear
+     * @return \ArrayData|boolean
+     */
+    public static function SessionMessage($clear = true)
+    {
+        $msg = Session::get('SessionMessage');
+        if (!$msg) {
+            return false;
+        }
+        if ($clear) {
+            Session::clear('SessionMessage');
+        }
+        return new ArrayData($msg);
     }
 
     public function onAfterInit()

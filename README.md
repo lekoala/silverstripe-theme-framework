@@ -32,6 +32,14 @@ You can define the fonts of your choice or disabling this setting
 	SiteConfig:
 	  google_fonts: 'Open+Sans:400italic,400,600&subset=latin,latin-ext'
 
+Noty
+-------------
+
+The theme framework comes with a notification system that use Noty
+https://github.com/needim/noty
+
+Messages can also be pulled from the session by using SetSessionMessage method on the controller
+
 Outdated browsers
 -------------
 
