@@ -18,6 +18,11 @@ class ThemePageControllerExtension extends Extension
     const NOTY_ALERT      = 'alert';
     const NOTY_INFO       = 'information';
     const NOTY_CONFIRM    = 'confirm';
+    // Uikit notify types
+    const NOTIFY_SUCCESS = 'success';
+    const NOTIFY_INFO = 'info';
+    const NOTIFY_DANGER = 'danger';
+    const NOTIFY_WARNING = 'warning';
 
     /**
      * @config
@@ -148,12 +153,13 @@ class ThemePageControllerExtension extends Extension
             if ($uikit['theme']) {
                 $uikitTheme .= '.'.$uikit['theme'];
             }
+            $uikitComponents = $uikit['components'];
             if (Director::isDev()) {
                 Requirements::javascript(THEME_FRAMEWORK_PATH.'/uikit/js/uikit.js');
                 if ($uikit['theme_enabled']) {
                     Requirements::css(THEME_FRAMEWORK_PATH.'/uikit/css/'.$uikitTheme.'.css');
                 }
-                foreach ($uikit['components'] as $component) {
+                foreach ($uikitComponents as $component) {
                     Requirements::javascript(THEME_FRAMEWORK_PATH.'/uikit/js/components/'.$component.'.js');
                     if ($uikit['theme_enabled']) {
                         $componentTheme = '';
@@ -168,7 +174,7 @@ class ThemePageControllerExtension extends Extension
                 if ($uikit['theme_enabled']) {
                     Requirements::css(THEME_FRAMEWORK_PATH.'/uikit/css/'.$uikitTheme.'.min.css');
                 }
-                foreach ($uikit['components'] as $component) {
+                foreach ($uikitComponents as $component) {
                     Requirements::javascript(THEME_FRAMEWORK_PATH.'/uikit/js/components/'.$component.'.min.js');
                     if ($uikit['theme_enabled']) {
                         $componentTheme = '';
@@ -177,6 +183,40 @@ class ThemePageControllerExtension extends Extension
                         }
                         Requirements::css(THEME_FRAMEWORK_PATH.'/uikit/css/components/'.$component.$componentTheme.'.min.css');
                     }
+                }
+            }
+
+            // If we loaded notify
+            if (in_array('notify', $uikitComponents)) {
+                if ($this->owner->hasMethod('SessionMessage') && $this->owner->SessionMessage(false)) {
+                    $message = $this->owner->SessionMessage();
+
+                    $content = Convert::raw2js($message->Content);
+                    $type    = Convert::raw2js($message->Type);
+
+                    // Convert default Silverstripe types
+                    switch ($type) {
+                        case self::MESSAGE_BAD:
+                            $type = self::NOTIFY_DANGER;
+                            break;
+                        case self::MESSAGE_GOOD:
+                            $type = self::NOTIFY_SUCCESS;
+                            break;
+                        case self::MESSAGE_WARNING:
+                            $type = self::NOTIFY_WARNING;
+                            break;
+                        case self::MESSAGE_INFO:
+                            $type = self::NOTIFY_INFO;
+                            break;
+                    }
+
+                    Requirements::customScript(<<<JS
+UIkit.notify('$content',{
+  status: '$type',
+  timeout: 0
+});
+JS
+                    );
                 }
             }
         }
@@ -322,5 +362,4 @@ JS
         }
         return new ArrayData($msg);
     }
-
 }

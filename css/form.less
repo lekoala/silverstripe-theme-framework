@@ -23,11 +23,12 @@ a.btn, form button, input[type="submit"], .Actions .action {
 a.btn:hover, form button, input[type="submit"]:hover, .Actions .action:hover {
     background:@hover-color;
     color: #fff;
+	text-decoration: none;
 }
 a.btn {
     margin-bottom: @base-line-height/2;
 }
-a.btn:after {
+a.btn.arrow:after {
     content: '\2192';
     padding-left: 10px;
 }
