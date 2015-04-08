@@ -8,10 +8,16 @@
 		<% base_tag %>
 		<title><% if Title != Home %>$Title | <% end_if %>$SiteConfig.Title<% if SiteConfig.Tagline %> - $SiteConfig.Tagline<% end_if %></title>
 
+		<meta property="og:image" content="{$SiteConfig.Logo.AbsoluteURL}"/>
+		<meta property="og:title" content="$Title"/>
+		<meta property="og:site_name" content="$SiteConfig.Title"/>
+
 		$MetaTags(false)
 
 		<% if SiteConfig.IconID %>
 		<link rel="shortcut icon" href="$SiteConfig.FaviconPath" />
+		<% else %>
+		<link rel="shortcut icon" href="$ThemeDir/images/favicon.ico" />
 		<% end_if %>
 		<% if RssLink %>
 		<link href="$RssLink" rel="alternate" type="application/rss+xml" title="$RssTitle" />
@@ -28,7 +34,7 @@
 		</div>
 		<% include Footer %>
 		$BetterNavigator
-		
+
 		<% if SiteConfig.GoogleAnalyticsEnabled %>
 		<% include GoogleAnalyticsSnippet %>
 		<% end_if %>
