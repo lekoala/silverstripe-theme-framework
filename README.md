@@ -23,6 +23,19 @@ will be used by default if no compiled style is found.
 
 All compiled styles are stored in assets/Theme folder to avoid versioning compiled versions of your theme.
 
+Ui Kit
+-------------
+
+For webapps, I recommend using the Ui Kit framework to get most of what you need
+http://getuikit.com/
+
+To enable, simply use the following yml config:
+
+	ThemePageControllerExtension:
+	  uikit:
+		enabled: true
+		theme: 'almost-flat'
+
 Google Fonts
 -------------
 

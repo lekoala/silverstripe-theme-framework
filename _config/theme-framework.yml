@@ -16,6 +16,9 @@ ThemePageControllerExtension:
   include_jquery_ui: false
   # if none is set, default smoothness will be used
   jquery_ui_theme: null
+  uikit:
+    enabled: false
+    theme: 'almost-flat'
   noty:
     enabled: true
     theme: 'relax'

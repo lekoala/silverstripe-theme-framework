@@ -20,6 +20,42 @@ class ThemePageControllerExtension extends Extension
     const NOTY_CONFIRM    = 'confirm';
 
     /**
+     * @config
+     * @var boolean
+     */
+    private static $include_jquery;
+
+    /**
+     * @config
+     * @var boolean
+     */
+    private static $include_jquery_ui;
+
+    /**
+     * @config
+     * @var string
+     */
+    private static $jquery_ui_theme;
+
+    /**
+     * @config
+     * @var array
+     */
+    private static $uikit;
+
+    /**
+     * @config
+     * @var array
+     */
+    private static $noty;
+
+    /**
+     * @config
+     * @var array
+     */
+    private static $outdated_browser;
+
+    /**
      * Helper to detect if we are in admin or development admin
      * 
      * @return boolean
@@ -60,7 +96,7 @@ class ThemePageControllerExtension extends Extension
             return;
         }
 
-        $conf = self::config();
+        $conf = $this->config();
 
         $outdated = $conf->outdated_browser;
         if ($outdated && $outdated['enabled']) {
@@ -106,6 +142,20 @@ class ThemePageControllerExtension extends Extension
             }
         }
 
+        $uikit = $conf->uikit;
+        if ($uikit && $uikit['enabled']) {
+            $uikitTheme = 'uikit';
+            if ($uikit['theme']) {
+                $uikitTheme .= '.'.$uikit['theme'];
+            }
+            if (Director::isDev()) {
+                Requirements::javascript(THEME_FRAMEWORK_PATH.'/uikit/js/uikit.js');
+                Requirements::css(THEME_FRAMEWORK_PATH.'/uikit/css/'.$uikitTheme.'.css');
+            } else {
+                Requirements::javascript(THEME_FRAMEWORK_PATH.'/uikit/js/uikit.min.js');
+                Requirements::css(THEME_FRAMEWORK_PATH.'/uikit/css/'.$uikitTheme.'.min.css');
+            }
+        }
 
         $noty = $conf->noty;
         if ($noty && $noty['enabled']) {
@@ -165,6 +215,57 @@ JS
         Requirements::set_force_js_to_bottom(true);
     }
 
+    public function onAfterInit()
+    {
+        if ($this->isAdminBackend()) {
+            return;
+        }
+
+        $themeDir = SSViewer::get_theme_folder();
+        $config   = SiteConfig::current_site_config();
+        if ($config->Theme) {
+            $themeDir = THEMES_DIR.'/'.$config->Theme;
+
+            // Properly update theme if set in config to make themedCSS work properly
+            Config::inst()->update('SSViewer', 'theme', $config->Theme);
+        }
+        $stylesPath = $config->StylesPath();
+        $stylesFile = Director::baseFolder().$stylesPath;
+
+        $disabled = false;
+        if (defined('THEME_FRAMEWORK_DISABLE_COMPILE')) {
+            $disabled = true;
+        }
+
+        // Refresh theme files if updated in dev
+        if (Director::isDev() && !$disabled) {
+            if (is_file($stylesFile)) {
+                $timeCompiled = filemtime($stylesFile);
+            } else {
+                $timeCompiled = 0;
+            }
+            $baseCss = Director::baseFolder().'/'.$themeDir.'/css/all.css';
+            if (!is_file($baseCss)) {
+                return;
+            }
+            $timeOriginal = filemtime($baseCss);
+
+            // We need to recompile the styles
+            if ($timeOriginal > $timeCompiled) {
+                $config->compileStyles();
+            }
+        }
+
+        if (!$disabled && is_file($stylesFile)) {
+            // We use compiled file
+            Requirements::css(trim($stylesPath, '/'));
+        } else {
+            // We use theme file
+            Requirements::themedCSS('all');
+        }
+        Requirements::javascript($themeDir.'/javascript/init.js');
+    }
+
     /**
      * Set a session message that will be displayed by messenger on the next load
      * (useful after a redirect)
@@ -196,51 +297,5 @@ JS
             Session::clear('SessionMessage');
         }
         return new ArrayData($msg);
-    }
-
-    public function onAfterInit()
-    {
-        if ($this->isAdminBackend()) {
-            return;
-        }
-
-        $themeDir = SSViewer::get_theme_folder();
-        $config   = SiteConfig::current_site_config();
-        if ($config->Theme) {
-            $themeDir = THEMES_DIR.'/'.$config->Theme;
-
-            // Properly update theme if set in config to make themedCSS work properly
-            Config::inst()->update('SSViewer', 'theme', $config->Theme);
-        }
-        $stylesPath = $config->StylesPath();
-        $stylesFile = Director::baseFolder().$stylesPath;
-
-        // Refresh theme files if updated in dev
-        if (Director::isDev()) {
-            if (is_file($stylesFile)) {
-                $timeCompiled = filemtime($stylesFile);
-            } else {
-                $timeCompiled = 0;
-            }
-            $baseCss = Director::baseFolder().'/'.$themeDir.'/css/all.css';
-            if (!is_file($baseCss)) {
-                return;
-            }
-            $timeOriginal = filemtime($baseCss);
-
-            // We need to recompile the styles
-            if ($timeOriginal > $timeCompiled) {
-                $config->compileStyles();
-            }
-        }
-
-        if (is_file($stylesFile)) {
-            // We use compiled file
-            Requirements::css(trim($stylesPath, '/'));
-        } else {
-            // We use theme file
-            Requirements::themedCSS('all');
-        }
-        Requirements::javascript($themeDir.'/javascript/init.js');
     }
 }
