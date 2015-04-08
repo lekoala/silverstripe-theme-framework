@@ -54,13 +54,13 @@ class ThemePageControllerExtension extends Extension
         $outdated = $conf->outdated_browser;
         if ($outdated && $outdated['enabled']) {
             if (Director::isDev()) {
-                Requirements::javascript(THEME_FRAMEWORK_PATH.'/javascript/outdatedbrowser/outdatedbrowser.js');
+                ThemeHeadRequirements::javascript(THEME_FRAMEWORK_PATH.'/javascript/outdatedbrowser/outdatedbrowser.js');
                 Requirements::css(THEME_FRAMEWORK_PATH.'/javascript/outdatedbrowser/outdatedbrowser.css');
             } else {
-                Requirements::javascript(THEME_FRAMEWORK_PATH.'/javascript/outdatedbrowser/outdatedbrowser.min.js');
+                ThemeHeadRequirements::javascript(THEME_FRAMEWORK_PATH.'/javascript/outdatedbrowser/outdatedbrowser.min.js');
                 Requirements::css(THEME_FRAMEWORK_PATH.'/javascript/outdatedbrowser/outdatedbrowser.min.css');
             }
-            Requirements::javascriptTemplate(THEME_FRAMEWORK_PATH.'/javascript/outdated.js',
+            ThemeHeadRequirements::javascriptTemplate(THEME_FRAMEWORK_PATH.'/javascript/outdated.js',
                 array(
                 'BgColor' => $outdated['bg_color'],
                 'Color' => $outdated['color'],
@@ -94,6 +94,9 @@ class ThemePageControllerExtension extends Extension
                 Requirements::css(THIRDPARTY_DIR.'/jquery-ui-themes/smoothness/jquery-ui.css');
             }
         }
+
+        // Forcing js to bottom allow to put some scripts tags in the head if we want to
+        Requirements::set_force_js_to_bottom(true);
     }
 
     public function onAfterInit()

@@ -221,6 +221,10 @@ class ThemeSiteConfigExtension extends DataExtension
         }
     }
 
+    public function HeadScripts() {
+        return ThemeHeadRequirements::output();
+    }
+
     public function onAfterWrite()
     {
         parent::onAfterWrite();

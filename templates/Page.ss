@@ -12,6 +12,7 @@
 		<meta property="og:title" content="$Title"/>
 		<meta property="og:site_name" content="$SiteConfig.Title"/>
 
+		$SiteConfig.HeadScripts
 		$MetaTags(false)
 
 		<% if SiteConfig.IconID %>
