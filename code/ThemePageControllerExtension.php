@@ -123,28 +123,10 @@ class ThemePageControllerExtension extends Extension
         }
 
         if ($conf->include_jquery) {
-            if (Director::isDev()) {
-                Requirements::javascript(THIRDPARTY_DIR.'/jquery/jquery.js');
-                Requirements::block(THIRDPARTY_DIR.'/jquery/jquery.min.js');
-            } else {
-                Requirements::block(THIRDPARTY_DIR.'/jquery/jquery.js');
-                Requirements::javascript(THIRDPARTY_DIR.'/jquery/jquery.min.js');
-            }
+            FormExtraJquery::include_jquery();
         }
         if ($conf->include_jquery_ui) {
-            if (Director::isDev()) {
-                Requirements::javascript(THIRDPARTY_DIR.'/jquery-ui/jquery-ui.js');
-                Requirements::block(THIRDPARTY_DIR.'/jquery-ui/jquery-ui.min.js');
-            } else {
-                Requirements::block(THIRDPARTY_DIR.'/jquery-ui/jquery-ui.js');
-                Requirements::javascript(THIRDPARTY_DIR.'/jquery-ui/jquery-ui.min.js');
-            }
-            if ($conf->jquery_ui_theme) {
-                Requirements::block(THIRDPARTY_DIR.'/jquery-ui-themes/smoothness/jquery-ui.css');
-                Requirements::css($conf->jquery_ui_theme);
-            } else {
-                Requirements::css(THIRDPARTY_DIR.'/jquery-ui-themes/smoothness/jquery-ui.css');
-            }
+            FormExtraJquery::include_jquery_ui();
         }
 
         $uikit = $conf->uikit;
