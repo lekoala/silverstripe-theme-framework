@@ -20,6 +20,7 @@ ThemePageControllerExtension:
     enabled: false
     theme_enabled: false
     theme: 'almost-flat'
+    components: []
   noty:
     enabled: true
     theme: 'relax'

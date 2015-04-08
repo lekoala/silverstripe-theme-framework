@@ -153,10 +153,30 @@ class ThemePageControllerExtension extends Extension
                 if ($uikit['theme_enabled']) {
                     Requirements::css(THEME_FRAMEWORK_PATH.'/uikit/css/'.$uikitTheme.'.css');
                 }
+                foreach ($uikit['components'] as $component) {
+                    Requirements::javascript(THEME_FRAMEWORK_PATH.'/uikit/js/components/'.$component.'.js');
+                    if ($uikit['theme_enabled']) {
+                        $componentTheme = '';
+                        if ($uikit['theme']) {
+                            $componentTheme = '.'.$uikit['theme'];
+                        }
+                        Requirements::css(THEME_FRAMEWORK_PATH.'/uikit/css/components/'.$component.$componentTheme.'.css');
+                    }
+                }
             } else {
                 Requirements::javascript(THEME_FRAMEWORK_PATH.'/uikit/js/uikit.min.js');
                 if ($uikit['theme_enabled']) {
                     Requirements::css(THEME_FRAMEWORK_PATH.'/uikit/css/'.$uikitTheme.'.min.css');
+                }
+                foreach ($uikit['components'] as $component) {
+                    Requirements::javascript(THEME_FRAMEWORK_PATH.'/uikit/js/components/'.$component.'.min.js');
+                    if ($uikit['theme_enabled']) {
+                        $componentTheme = '';
+                        if ($uikit['theme']) {
+                            $componentTheme = '.'.$uikit['theme'];
+                        }
+                        Requirements::css(THEME_FRAMEWORK_PATH.'/uikit/css/components/'.$component.$componentTheme.'.min.css');
+                    }
                 }
             }
         }
