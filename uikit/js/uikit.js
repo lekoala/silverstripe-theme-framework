@@ -2987,7 +2987,7 @@
                 if ($this.switcher && $this.switcher.animating) {
                     return;
                 }
-
+				
                 var current = $this.find($this.options.target).not(this);
 
                 current.removeClass("uk-active").blur();
@@ -3033,7 +3033,7 @@
             // init UIkit components
             if (this.options.connect) {
                 this.switcher = UI.switcher(this.element, {
-                    "toggle"    : ">li:not(.uk-tab-responsive)",
+                    "toggle"    : "li:not(.uk-tab-responsive)",
                     "connect"   : this.options.connect,
                     "active"    : this.options.active,
                     "animation" : this.options.animation,

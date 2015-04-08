@@ -25,7 +25,11 @@
 		color:@base-color;
 		background:@secondary-color;
 	}
-
+	
+	.margin {
+		margin:@blh/2 0;
+	}
+	
 	.no-margin-top {
 		margin-top:0 !important;
 	}
@@ -314,10 +318,13 @@
 	.leaflet-popup-content p {
 		color:#777;
 	}
+	
 }
 
-.uk-nav, .uk-subnav {
-	a:hover {
+/* uikit compatibility */
+
+.uk-nav, .uk-subnav, .uk-tab {
+	a, a:hover {
 		text-decoration:none !important;
     }
 }
@@ -325,4 +332,7 @@
 	.uk-active a {
 		color:#fff;
 	}
+}
+ul.uk-tab {
+	margin-bottom: 0;
 }
