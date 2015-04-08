@@ -34,7 +34,18 @@ To enable, simply use the following yml config:
 	ThemePageControllerExtension:
 	  uikit:
 		enabled: true
+        theme_enabled: false
 		theme: 'almost-flat'
+
+You can choose to use a already compiled theme or use the less files. It is useful to
+use the less files if you want to overwrite variables based on your own color scheme.
+
+NOTE: don't forget that less variables are lazy evaluated, meaning that you can define
+variables AFTER importing the uikit.less
+
+NOTE: if you choose to import less files, you can import any of the base themes.
+For the icons, to avoid messing with paths, it's easier to copy the "fonts" directory
+right inside your theme folder
 
 Google Fonts
 -------------

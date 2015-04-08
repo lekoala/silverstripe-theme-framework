@@ -18,6 +18,7 @@ ThemePageControllerExtension:
   jquery_ui_theme: null
   uikit:
     enabled: false
+    theme_enabled: false
     theme: 'almost-flat'
   noty:
     enabled: true

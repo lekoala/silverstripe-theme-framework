@@ -150,10 +150,14 @@ class ThemePageControllerExtension extends Extension
             }
             if (Director::isDev()) {
                 Requirements::javascript(THEME_FRAMEWORK_PATH.'/uikit/js/uikit.js');
-                Requirements::css(THEME_FRAMEWORK_PATH.'/uikit/css/'.$uikitTheme.'.css');
+                if ($uikit['theme_enabled']) {
+                    Requirements::css(THEME_FRAMEWORK_PATH.'/uikit/css/'.$uikitTheme.'.css');
+                }
             } else {
                 Requirements::javascript(THEME_FRAMEWORK_PATH.'/uikit/js/uikit.min.js');
-                Requirements::css(THEME_FRAMEWORK_PATH.'/uikit/css/'.$uikitTheme.'.min.css');
+                if ($uikit['theme_enabled']) {
+                    Requirements::css(THEME_FRAMEWORK_PATH.'/uikit/css/'.$uikitTheme.'.min.css');
+                }
             }
         }
 
@@ -297,5 +301,22 @@ JS
             Session::clear('SessionMessage');
         }
         return new ArrayData($msg);
+    }
+
+    /**
+     * Return "link", "current" or section depending on if this page is the current page, or not on the current page but
+     * in the current section.
+     *
+     * @return string
+     */
+    public function UKLinkingMode()
+    {
+        if ($this->isCurrent()) {
+            return 'uk-active';
+        } elseif ($this->isSection()) {
+            return 'uk-parent';
+        } else {
+            return 'uk-link';
+        }
     }
 }
