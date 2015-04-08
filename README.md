@@ -23,6 +23,15 @@ will be used by default if no compiled style is found.
 
 All compiled styles are stored in assets/Theme folder to avoid versioning compiled versions of your theme.
 
+Google Fonts
+-------------
+
+By default the theme framework will load Open Sans as the default font.
+You can define the fonts of your choice or disabling this setting
+
+	SiteConfig:
+	  google_fonts: 'Open+Sans:400italic,400,600&subset=latin,latin-ext'
+
 Outdated browsers
 -------------
 

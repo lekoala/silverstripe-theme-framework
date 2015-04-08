@@ -27,6 +27,10 @@
 		<!--[if lt IE 9]>
 		<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
+
+		<% if SiteConfig.GoogleFonts %>
+		<link href='//fonts.googleapis.com/css?family={$SiteConfig.GoogleFonts}' rel='stylesheet' type='text/css'>
+		<% end_if %>
 	</head>
 	<body id="$ClassName" class="typography" style="$SiteConfig.BackgroundImageStyles">
 		<% include Header %>
