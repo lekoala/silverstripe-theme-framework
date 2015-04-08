@@ -8,6 +8,9 @@ SiteConfig:
   google_fonts: 'Open+Sans:400italic,400,600&subset=latin,latin-ext'
   extensions: 
     - ThemeSiteConfigExtension
+SiteTree:
+  extensions:
+    - ThemeSiteTreeExtension
 Controller:
   extensions:
     - ThemePageControllerExtension
