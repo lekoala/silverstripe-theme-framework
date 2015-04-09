@@ -6,7 +6,7 @@
 //////////
 
 // button
-a.btn, form button, input[type="submit"], .Actions .action {
+a.btn, .inactive-btn, form button, input[type="submit"], .Actions .action {
     background: @link-color;
     color: #fff;
     display: inline-block;
@@ -18,7 +18,11 @@ a.btn, form button, input[type="submit"], .Actions .action {
     letter-spacing: 1px;
     border: none;
     margin-right: @base-line-height/2;
-    float: left;
+	cursor:pointer;
+}
+.inactive-btn {
+    background:@light-gray !important;
+    color:@medium-gray !important;
 }
 a.btn:hover, form button, input[type="submit"]:hover, .Actions .action:hover {
     background:@hover-color;
@@ -76,7 +80,7 @@ a.btn.arrow:after {
     } 
 } 
 
-form .message {
+form .message, .ss-message {
 	-webkit-animation-duration: 0.5s; 
     animation-duration: 0.5s; 
     -webkit-animation-fill-mode: both; 
@@ -224,6 +228,10 @@ form {
 	}
 	.Actions {
 		margin-bottom: @base-line-height;
+		
+		input, button, a {
+			float:left;
+		}
 	}
 
 	input.action[class] {
