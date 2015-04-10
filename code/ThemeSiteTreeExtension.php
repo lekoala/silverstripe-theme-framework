@@ -21,7 +21,7 @@ class ThemeSiteTreeExtension extends DataExtension
         } elseif ($this->owner->isSection()) {
             return 'uk-parent';
         } else {
-            return 'uk-link';
+            return '';
         }
     }
 }
