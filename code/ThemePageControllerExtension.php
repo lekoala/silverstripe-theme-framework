@@ -283,8 +283,14 @@ JS
             $disabled = true;
         }
 
+        // Refresh theme also on flush
+        $dev = Director::isDev();
+        if(filter_input(INPUT_GET, 'flush') && Permission::check('ADMIN')) {
+            $dev = true;
+        }
+
         // Refresh theme files if updated in dev
-        if (Director::isDev() && !$disabled) {
+        if ($dev && !$disabled) {
             if (is_file($stylesFile)) {
                 $timeCompiled = filemtime($stylesFile);
             } else {
