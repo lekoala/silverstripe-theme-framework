@@ -26,6 +26,11 @@ a.btn, .inactive-btn, label.btn, form button, input[type="submit"], .Actions .ac
 		color: #fff;
 		text-decoration: none;
 	}
+	
+	&.btn-big {
+		font-size:1.2em;
+		padding:@base-line-height/4 @base-line-height;
+	}
 }
 .inactive-btn {
     background:@light-gray !important;
@@ -244,11 +249,20 @@ form {
         border-color: darken(@bad-color,15%);
 	}
 	.Actions {
+		clear:both;
+		margin-top: @base-line-height;
 		margin-bottom: @base-line-height;
 		.clearfix();
 
 		input, button, a {
 			float:left;
+		}
+	}
+	&.centered-actions .Actions {
+		text-align:center;
+		
+		input, button, a {
+			float:none;
 		}
 	}
 
@@ -352,7 +366,7 @@ form {
 
 ul.sp-restrictions {
 	padding-top:5px;
-	
+
 	li {
 		color:#666;
 		font-size:11px;
