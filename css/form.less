@@ -235,11 +235,17 @@ form {
 		padding: 0;
 	}
 	.description {
-		color:#ccc;
+		color:@base-color - #666;
 		display:inline-block;
 		padding-top:@base-line-height/4;
 		padding-bottom:@base-line-height/4;
 		font-size:0.9em;
+	}
+	.checkbox, .radio {
+		.description {
+			clear:both;
+			display:block;
+		}
 	}
 	.checkbox label.right,.radio label.right {
 		float: left;
