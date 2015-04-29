@@ -206,7 +206,7 @@ form {
 	input.text,textarea,.textajaxuniquetext,select,.select2-choices{
 		width: 100%;
 		max-width: @base-line-height*20;
-		padding: 0 8px;
+		padding: @base-line-height/4 @base-line-height/2;
 		height:@base-line-height * 1.5;
 		.box-sizing();       
 		border: 1px solid #ccc;
@@ -361,7 +361,9 @@ form {
 	.ss-uploadfield .middleColumn {
 		min-width: 200px !important;
 	}
-
+	input.sexy-password {
+		max-width:300px;
+	}
 }
 
 ul.sp-restrictions {
