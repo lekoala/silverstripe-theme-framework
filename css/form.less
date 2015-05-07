@@ -38,13 +38,13 @@ a.btn, span.btn, label.btn, form button, input[type="submit"], .Actions .action 
 			background : darken(@secondary-color,15%);
 		}
 	}
-	
+
 	&.btn-inactive {
 		background:@light-gray !important;
 		color:@medium-gray !important;
 	}
-	
-	&.btn-arrow {
+
+	&.btn-arrow:after {
 		content: '\2192';
 		padding-left: 10px;
 	}
@@ -281,38 +281,15 @@ form {
 	input.action[class] {
 		width: auto;
 	}
-	.Actions:after {
-		color: #B94A48;
-		display: inline-block;
-		font-weight: normal;
-		margin-top: 9px;
-	}
-	#MemberLoginForm_LoginForm {
-		.Actions:after {
-			display: none;
-		}
-	}
 	#Remember {
 		min-height: 20px;
 	}
 	#ForgotPassword {
 		clear: left;
 	}
-	#MemberLoginForm_LostPasswordForm {
-		.Actions:after {
-			display: none;
-		}
-	}
 	.FormHeading {
 		clear: both;
 		padding-top: 15px;
-	}
-	.Actions input.resetformaction,.Actions input.action-minor {
-		float: left;
-		background-color: #888;
-	}
-	.Actions input.resetformaction:hover,.Actions input.action-minor:hover {
-		background-color: #aaa;
 	}
 	.checkbox {
 		label.right {
@@ -375,6 +352,70 @@ form {
 	}
 	input.sexy-password {
 		max-width:300px;
+	}
+	.sexyoptionset {
+		.middleColumn {
+			padding:@blh/2 0;
+
+			ul {
+				margin:0;
+				padding:0;
+			}
+			label {
+				display:block;
+				cursor:pointer;
+			}
+			li {
+				clear:both;
+				padding:@blh/4;
+				margin-bottom:@blh/2;
+				display:block;
+
+				h1,h2,h3,h4 {
+					clear:none;
+				}
+
+				&:hover {
+					background:@very-light-gray;
+				}
+
+				&.checked {
+					.border-radius(@blh/4);
+					background:@primary-color;
+					color:@base-color;
+
+					h1,h2,h3,h4 {
+						color:@base-color;
+					}
+				}
+			}
+			input {
+				display:none;
+			}
+		}
+	}
+	&.form-steps {
+		.Actions {
+			background:@very-light-gray;
+			padding-top:@blh/2;
+			padding-left:@blh/2;
+			text-align:center;
+			.step-prev {
+				float:left;
+			}
+			.step-next {
+				float:right;
+			}
+			.step-next:after {
+				content: '\2192';
+			}
+			.step-prev:before {
+				content: '\2190';
+			}
+			.step-next-single {
+				float:none;
+			}
+		}
 	}
 }
 
