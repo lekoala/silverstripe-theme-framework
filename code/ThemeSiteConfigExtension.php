@@ -104,6 +104,16 @@ class ThemeSiteConfigExtension extends DataExtension
     {
         if (class_exists('Subsite') && Subsite::currentSubsiteID()) {
             $subsiteThemes = Subsite::config()->allowed_themes;
+            // Make sure set theme is allowed
+            $subsite = Subsite::currentSubsite();
+            if($subsite->Theme && !in_array($subsite->Theme, $subsiteThemes)) {
+                $subsiteThemes[] = $subsite->Theme;
+            }
+            // Make sure default theme is allowed
+            $theme = Config::inst()->get('SSViewer', 'theme');
+            if($theme && !in_array($theme, $subsiteThemes)) {
+                $subsiteThemes[] = $theme;
+            }
             return array_combine($subsiteThemes, $subsiteThemes);
         }
         $themes   = SSViewer::get_themes($baseDir);
