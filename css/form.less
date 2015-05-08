@@ -313,27 +313,10 @@ form {
 		padding:0;
 		border:0;
 	}
-	div.holder-required {
-
-	}
-	input:invalid,textarea:invalid {
-	}
-	.no-boxshadow input:invalid,.no-boxshadow textarea:invalid {
-		background-color: #f0dddd;
-	}
-	.ss-uploadfield-item-info {
-		button {
-			margin-top: 4px !important;
-			float: left;
-		}
-	}
-	.creditCardField input,input.currency,input.numeric {
+	CardField input,input.currency,input.numeric {
 		width: 100px;
 	}
-	#DMYDate-month,#DMYDate-day {
-		width: 25px;
-	}
-
+	// Autocomplete markers
 	input, textarea, select {
 		&.autocompleted {
 			background:darken(@good-color,10%);
@@ -342,15 +325,34 @@ form {
 			background: #fec;
 		}
 	}
+	// UploadField
+	.ss-uploadfield-item-info {
+		button {
+			margin-top: 4px !important;
+			float: left;
+		}
+	}
+	.ss-uploadfield .ss-uploadfield-item.ui-state-error .ss-uploadfield-item-info .ss-uploadfield-item-actions {
+		width:auto;
+	}
 	.ss-upload .ss-uploadfield-fromcomputer input {
 		visibility: hidden;
 	}
 	.ss-uploadfield .middleColumn {
 		min-width: 200px !important;
 	}
+	.ss-uploadfield .ss-uploadfield-files .ss-uploadfield-item-cancel button {
+		  text-indent: 0;
+		  padding:0 10px;
+		  width:auto;
+		  height:auto;
+		  .box-shadow(none);
+	}
+	// SexyPassword
 	input.sexy-password {
 		max-width:300px;
 	}
+	// SexyOptionset
 	.sexyoptionset {
 		.middleColumn {
 			padding:@blh/2 0;
@@ -392,6 +394,7 @@ form {
 			}
 		}
 	}
+	// Steps
 	&.form-steps {
 		.Actions {
 			background:@very-light-gray;
@@ -420,6 +423,7 @@ form {
 	}
 }
 
+// Sexy password restrictions
 ul.sp-restrictions {
 	padding-top:5px;
 
@@ -437,7 +441,6 @@ ul.sp-restrictions {
 }
 
 // Default SearchForm
-
 #SearchForm_SearchForm {
 	margin-top:@base-line-height/4;
 	margin-bottom:0;
@@ -452,7 +455,6 @@ ul.sp-restrictions {
 }
 
 // Parsley styles
-
 @-webkit-keyframes parsleyFadeIn { 
 	0% { opacity: 0; }
 	20% { opacity: 0; }
