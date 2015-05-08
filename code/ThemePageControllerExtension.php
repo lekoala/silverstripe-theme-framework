@@ -19,10 +19,10 @@ class ThemePageControllerExtension extends Extension
     const NOTY_INFO       = 'information';
     const NOTY_CONFIRM    = 'confirm';
     // Uikit notify types
-    const NOTIFY_SUCCESS = 'success';
-    const NOTIFY_INFO = 'info';
-    const NOTIFY_DANGER = 'danger';
-    const NOTIFY_WARNING = 'warning';
+    const NOTIFY_SUCCESS  = 'success';
+    const NOTIFY_INFO     = 'info';
+    const NOTIFY_DANGER   = 'danger';
+    const NOTIFY_WARNING  = 'warning';
 
     /**
      * @config
@@ -98,6 +98,21 @@ class ThemePageControllerExtension extends Extension
         // Theme is not yet defined properly at this time
 
         if ($this->isAdminBackend()) {
+            $member = Member::currentUser();
+
+            // Silverstripe does not redirect if invalid login to the /admin section so layout will be broken
+            if ($member && $member->ID) {
+                $access = Permission::checkMember($member, 'CMS_ACCESS_CMSMain');
+                if (!$access) {
+                    $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : Director::baseURL();
+                    Session::set("Security.Message.message", _t('Security.ALREADYLOGGEDIN'));
+                    Session::set("Security.Message.type", 'warning');
+                    Session::set("BackURL", $uri);
+                    Session::save();
+                    header('Location:' . Director::absoluteBaseURL() . '/Security/login' . "?BackURL=" . urlencode($uri));
+                    exit();
+                }
+            }
             return;
         }
 
@@ -285,7 +300,7 @@ JS
 
         // Refresh theme also on flush
         $dev = Director::isDev();
-        if(filter_input(INPUT_GET, 'flush') && Permission::check('ADMIN')) {
+        if (filter_input(INPUT_GET, 'flush') && Permission::check('ADMIN')) {
             $dev = true;
         }
 
