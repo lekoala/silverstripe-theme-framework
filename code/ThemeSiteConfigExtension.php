@@ -137,13 +137,6 @@ class ThemeSiteConfigExtension extends DataExtension
         return $fields;
     }
 
-    public function GoogleFonts()
-    {
-        if ($f = SiteConfig::config()->google_fonts) {
-            return $f;
-        }
-    }
-
     /**
      * Check if GoogleAnalytics is enabled
      * @return boolean
