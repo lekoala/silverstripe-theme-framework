@@ -7,8 +7,10 @@
  */
 class ThemeSiteConfigExtension extends DataExtension
 {
-    const BACKGROUND_SIZE_STRETCH = 'stretch';
-    const BACKGROUND_SIZE_REPEAT  = 'repeat';
+    const BACKGROUND_NO_REPEAT = 'no-repeat';
+    const BACKGROUND_REPEAT    = 'repeat';
+    const BACKGROUND_REPEAT_X  = 'repeat-x';
+    const BACKGROUND_REPEAT_Y  = 'repeat-y';
 
     private static $db               = array(
         'BaseColor' => 'DBColor',
@@ -18,7 +20,7 @@ class ThemeSiteConfigExtension extends DataExtension
         'HeaderFont' => 'Varchar(100)',
         'BodyFont' => 'Varchar(100)',
         'GoogleFonts' => 'Varchar(255)',
-        'BackgroundSize' => "Enum('stretch,repeat','stretch')",
+        'BackgroundRepeat' => "Enum('no-repeat,repeat,repeat-x,repeat-y','no-repeat')",
     );
     private static $has_one          = array(
         'Logo' => 'Image',
@@ -107,11 +109,13 @@ class ThemeSiteConfigExtension extends DataExtension
                     'Background Images')));
 
         $fields->addFieldToTab('Root.Theme',
-            new DropdownField('BackgroundSize',
-            _t('ThemeSiteConfigExtension.BackgroundSize', 'Background Size'),
+            new DropdownField('BackgroundRepeat',
+            _t('ThemeSiteConfigExtension.BackgroundRepeat', 'Background Repeat'),
             array(
-            self::BACKGROUND_SIZE_STRETCH => 'stretch',
-            self::BACKGROUND_SIZE_REPEAT => 'repeat'
+            self::BACKGROUND_NO_REPEAT => 'no repeat',
+            self::BACKGROUND_REPEAT => 'repeat',
+            self::BACKGROUND_REPEAT_X => 'repeat x',
+            self::BACKGROUND_REPEAT_Y => 'repeat y',
         )));
 
         if (Director::isDev() || Permission::check('ADMIN')) {
@@ -202,11 +206,20 @@ class ThemeSiteConfigExtension extends DataExtension
     {
         $img = $this->RandomBackgroundImage();
         if ($img) {
-            $resizedImage = $img->SetWidth(1800);
-            if (!$resizedImage) {
-                $resizedImage = $img;
+            $repeat       = 'background-size:cover';
+            $resizedImage = $img;
+            // If we use a pattern, repeat it accordingly
+            if ($this->owner->BackgroundRepeat !== self::BACKGROUND_NO_REPEAT) {
+                $repeat = 'background-size:initial;background-repeat:'.$this->owner->BackgroundRepeat;
             }
-            return "background-image:url('".$resizedImage->Link()."')";
+            // Or resize to a nice size and stretch
+            else {
+                $resizedImage = $img->SetWidth(1800);
+                if (!$resizedImage) {
+                    $resizedImage = $img;
+                }
+            }
+            return "background-image:url('".$resizedImage->Link()."');$repeat";
         }
     }
 

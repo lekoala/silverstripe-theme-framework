@@ -29,7 +29,7 @@
 		<![endif]-->
 
 		<% if SiteConfig.GoogleFonts %>
-		<link href='//fonts.googleapis.com/css?family={$SiteConfig.GoogleFonts}' rel='stylesheet' type='text/css'>
+		<link href='//fonts.googleapis.com/css?{$SiteConfig.GoogleFonts}' rel='stylesheet' type='text/css'>
 		<% end_if %>
 	</head>
 	<body id="$ClassName" class="typography" style="$SiteConfig.BackgroundImageStyles">
