@@ -7,23 +7,36 @@
  */
 class ThemeSiteConfigExtension extends DataExtension
 {
-    private static $db        = array(
+    const BACKGROUND_SIZE_STRETCH = 'stretch';
+    const BACKGROUND_SIZE_REPEAT  = 'repeat';
+
+    private static $db               = array(
         'BaseColor' => 'DBColor',
         'PrimaryColor' => 'DBColor',
         'SecondaryColor' => 'DBColor',
         'GoogleAnalyticsCode' => 'Varchar',
+        'HeaderFont' => 'Varchar(100)',
+        'BodyFont' => 'Varchar(100)',
+        'GoogleFonts' => 'Varchar(255)',
+        'BackgroundSize' => "Enum('stretch,repeat','stretch')",
     );
-    private static $has_one   = array(
+    private static $has_one          = array(
         'Logo' => 'Image',
         'Icon' => 'Image', // Will be converted to favicon
     );
-    private static $many_many = array(
+    private static $many_many        = array(
         'BackgroundImages' => 'Image'
     );
-    private static $defaults  = array(
+    private static $defaults         = array(
         'BaseColor' => '#ffffff',
         'PrimaryColor' => '#284d6d',
         'SecondaryColor' => '#44c8f4',
+        'HeaderFont' => "'Open Sans', Arial, Helvetica, sans-serif",
+        'BodyFont' => "'Open Sans', Arial, Helvetica, sans-serif",
+        'GoogleFonts' => "family=Open+Sans:400italic,400,600&subset=latin,latin-ext"
+    );
+    private static $styles_variables = array(
+        'BaseColor', 'PrimaryColor', 'SecondaryColor', 'HeaderFont', ' BodyFont'
     );
 
     public function updateCMSFields(FieldList $fields)
@@ -35,17 +48,53 @@ class ThemeSiteConfigExtension extends DataExtension
                 '(Use default theme)'));
         $fields->addFieldToTab('Root.Theme', $themeDropdownField);
 
-        $fields->addFieldToTab('Root.Theme', new MiniColorsField('BaseColor'));
-        $fields->addFieldToTab('Root.Theme', new MiniColorsField('PrimaryColor'));
+        // Colors
         $fields->addFieldToTab('Root.Theme',
-            new MiniColorsField('SecondaryColor'));
+            new HeaderField('ColorH',
+            _t('ThemeSiteConfigExtension.ColorH', 'Colors')));
         $fields->addFieldToTab('Root.Theme',
-            ImageUploadField::createForClass($this, 'Logo'));
+            new MiniColorsField('BaseColor',
+            _t('ThemeSiteConfigExtension.BaseColor', 'Base Color')));
         $fields->addFieldToTab('Root.Theme',
-            $icon = ImageUploadField::createForClass($this, 'Icon'));
+            new MiniColorsField('PrimaryColor',
+            _t('ThemeSiteConfigExtension.PrimaryColor', 'Primary Color')));
+        $fields->addFieldToTab('Root.Theme',
+            new MiniColorsField('SecondaryColor',
+            _t('ThemeSiteConfigExtension.SecondaryColor', 'Secondary Color')));
+
+        // Fonts
+        $fields->addFieldToTab('Root.Theme',
+            new HeaderField('FontsH',
+            _t('ThemeSiteConfigExtension.FontsH', 'Fonts')));
+        $fields->addFieldToTab('Root.Theme',
+            $hf = new TextField('HeaderFont',
+            _t('ThemeSiteConfigExtension.HeaderFont', 'Header Font')));
+        $fields->addFieldToTab('Root.Theme',
+            $bf = new TextField('BodyFont',
+            _t('ThemeSiteConfigExtension.BodyFont', 'Body Font')));
+        $fields->addFieldToTab('Root.Theme',
+            $gf = new TextField('GoogleFonts',
+            _t('ThemeSiteConfigExtension.GoogleFonts', 'Google Fonts')));
+
+
+        $hf->setAttribute('placeholder', 'Arial, Helvetica, sans-serif');
+        $bf->setAttribute('placeholder', 'Arial, Helvetica, sans-serif');
+        $gf->setAttribute('placeholder',
+            'family=Open+Sans:400italic,400,600&subset=latin,latin-ext');
+
+        // Images
+        $fields->addFieldToTab('Root.Theme',
+            new HeaderField('ImagesH',
+            _t('ThemeSiteConfigExtension.ImagesH', 'Images')));
+        $fields->addFieldToTab('Root.Theme',
+            ImageUploadField::createForClass($this, 'Logo',
+                _t('ThemeSiteConfigExtension.Logo', 'Logo')));
+        $fields->addFieldToTab('Root.Theme',
+            $icon = ImageUploadField::createForClass($this, 'Icon',
+                _t('ThemeSiteConfigExtension.Icon', 'Icon')));
 
         if (is_file(Director::baseFolder().$this->FaviconPath())) {
-            $icon->setDescription(_t('ThemeSiteConfigExtension.Favicon',
+            $icon->setDescription(_t('ThemeSiteConfigExtension.FaviconPreview',
                     'Favicon preview').' <img src="'.$this->FaviconPath().'" alt="Favicon" />');
         } else {
             $icon->setDescription(_t('ThemeSiteConfigExtension.NoFavicon',
@@ -53,7 +102,17 @@ class ThemeSiteConfigExtension extends DataExtension
         }
 
         $fields->addFieldToTab('Root.Theme',
-            ImageUploadField::createForClass($this, 'BackgroundImages'));
+            ImageUploadField::createForClass($this, 'BackgroundImages',
+                _t('ThemeSiteConfigExtension.BackgroundImages',
+                    'Background Images')));
+
+        $fields->addFieldToTab('Root.Theme',
+            new DropdownField('BackgroundSize',
+            _t('ThemeSiteConfigExtension.BackgroundSize', 'Background Size'),
+            array(
+            self::BACKGROUND_SIZE_STRETCH => 'stretch',
+            self::BACKGROUND_SIZE_REPEAT => 'repeat'
+        )));
 
         if (Director::isDev() || Permission::check('ADMIN')) {
             $fields->addFieldToTab('Root.Theme',
@@ -74,8 +133,9 @@ class ThemeSiteConfigExtension extends DataExtension
         return $fields;
     }
 
-    public function GoogleFonts() {
-        if($f = SiteConfig::config()->google_fonts) {
+    public function GoogleFonts()
+    {
+        if ($f = SiteConfig::config()->google_fonts) {
             return $f;
         }
     }
@@ -105,13 +165,13 @@ class ThemeSiteConfigExtension extends DataExtension
         if (class_exists('Subsite') && Subsite::currentSubsiteID()) {
             $subsiteThemes = Subsite::config()->allowed_themes;
             // Make sure set theme is allowed
-            $subsite = Subsite::currentSubsite();
-            if($subsite->Theme && !in_array($subsite->Theme, $subsiteThemes)) {
+            $subsite       = Subsite::currentSubsite();
+            if ($subsite->Theme && !in_array($subsite->Theme, $subsiteThemes)) {
                 $subsiteThemes[] = $subsite->Theme;
             }
             // Make sure default theme is allowed
             $theme = Config::inst()->get('SSViewer', 'theme');
-            if($theme && !in_array($theme, $subsiteThemes)) {
+            if ($theme && !in_array($theme, $subsiteThemes)) {
                 $subsiteThemes[] = $theme;
             }
             return array_combine($subsiteThemes, $subsiteThemes);
@@ -211,14 +271,13 @@ class ThemeSiteConfigExtension extends DataExtension
             $parser->parseFile(Director::baseFolder().'/'.$themeDir.'/css/all.less',
                 '/'.$themeDir.'/css');
             $vars = array();
-            if ($this->owner->BaseColor) {
-                $vars['base-color'] = $this->owner->BaseColor;
-            }
-            if ($this->owner->PrimaryColor) {
-                $vars['primary-color'] = $this->owner->PrimaryColor;
-            }
-            if ($this->owner->SecondaryColor) {
-                $vars['secondary-color'] = $this->owner->SecondaryColor;
+
+            foreach (self::$styles_variables as $var) {
+                if ($this->owner->$var) {
+                    $less_var        = strtolower(preg_replace('/([a-z])([A-Z])/',
+                            '$1-$2', $var));
+                    $vars[$less_var] = $this->owner->$var;
+                }
             }
             if (!empty($vars)) {
                 $parser->ModifyVars($vars);
@@ -237,7 +296,8 @@ class ThemeSiteConfigExtension extends DataExtension
         }
     }
 
-    public function HeadScripts() {
+    public function HeadScripts()
+    {
         return ThemeHeadRequirements::output();
     }
 
@@ -250,9 +310,16 @@ class ThemeSiteConfigExtension extends DataExtension
             mkdir($baseDir, 0777, true);
         }
 
+        $changes       = array_keys($this->owner->getChangedFields(false, 1));
+        $shouldCompile = false;
+        foreach ($changes as $change) {
+            if (in_array($change, self::$styles_variables)) {
+                $shouldCompile = true;
+            }
+        }
+
         // Create theme according to colors
-        if (!empty($_POST['RefreshTheme']) || $this->owner->isChanged('PrimaryColor')
-            || $this->owner->isChanged('SecondaryColor') || $this->owner->isChanged('BaseColor')) {
+        if (!empty($_POST['RefreshTheme']) || $shouldCompile) {
             $this->compileStyles();
         }
 
