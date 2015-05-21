@@ -140,8 +140,6 @@ form {
 		margin-bottom:@base-line-height /4*3;
 		clear:both;
 	}
-	.middleColumn.fieldgroup {
-	}
 	.fieldgroup-field {
 		display:inline-block;
 		width:auto;
@@ -204,6 +202,15 @@ form {
 			margin-bottom:0;
 		}
     }
+	.field.inline {
+		label.left {
+			display:inline-block;
+			margin-right: @base-line-height / 2;
+		}
+		.middleColumn {
+			display:inline-block;
+		}
+	}
     input.holder-required {
         border: 1px solid #cf0000;
     }
@@ -398,6 +405,12 @@ form {
 			input {
 				display:none;
 			}
+		}
+	}
+	// AppendGrid
+	.appendgrid {
+		table {
+			margin-bottom:0;
 		}
 	}
 	// Steps
