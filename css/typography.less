@@ -6,6 +6,16 @@
 ////////////////
 
 .typography {
+	code {
+		display:block;
+		white-space: -moz-pre-wrap;
+		white-space: -pre-wrap;
+		white-space: -o-pre-wrap;
+		white-space: pre-wrap; 
+		word-wrap: break-word; /* Internet Explorer 5.5+ */  
+		padding:@blh/4;
+	}
+
 	.left {
 		text-align: left;
 	}
@@ -15,21 +25,21 @@
 	.right {
 		text-align: right;
 	}
-	
+
 	.primary-bg-color {
 		color:@base-color;
 		background:@primary-color;
 	}
-	
+
 	.secondary-bg-color {
 		color:@base-color;
 		background:@secondary-color;
 	}
-	
+
 	.margin {
 		margin:@blh/2 0;
 	}
-	
+
 	.no-margin-top {
 		margin-top:0 !important;
 	}
@@ -322,7 +332,7 @@
 	.leaflet-popup-content p {
 		color:#777;
 	}
-	
+
 }
 
 /* jquery ui compatibility */
@@ -330,7 +340,7 @@
 .typography .ui-datepicker-calendar {
 	margin:0;
 	padding:0;
-	
+
 	th, td {
 		padding:0;
 		text-align:center;
@@ -353,7 +363,7 @@ nav.uk-navbar a {
 }
 a.uk-badge {
 	color:#fff;
-	
+
 	&:hover {
 		color:#ccc;
 		text-decoration:none !important;
