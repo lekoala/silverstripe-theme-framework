@@ -146,6 +146,9 @@ form {
 		margin-right:16px;
 		margin-bottom:@base-line-height /4*3;
 	}
+	.fieldgroup-field.last {
+		margin-right:0;
+	}
 	.col-left, .col-right {
 		width:50%;
 		float:left;
@@ -177,13 +180,11 @@ form {
             }
         }
     }
-    .required {
-        label.left:after {
-            color: darken(@bad-color,25%);
-            content: "*";
-            font-weight: normal;
-            padding-left: 3px;
-        }
+    .required label.left:after, .checkbox.required label:after {
+		color: darken(@bad-color,25%);
+		content: "*";
+		font-weight: normal;
+		padding-left: 3px;
     }
     div.checkbox:after {
         content: ".";
@@ -438,6 +439,13 @@ form {
 			.step-next-single {
 				float:none;
 			}
+		}
+	}
+	// Centered
+	&.centered-form {
+		fieldset {
+			margin:0 auto;
+			max-width:500px;
 		}
 	}
 }
