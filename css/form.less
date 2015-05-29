@@ -21,6 +21,7 @@ a.btn, span.btn, label.btn, form button, input[type="submit"], .Actions .action 
     border: none;
     margin-right: @base-line-height/2;
 	cursor:pointer;
+	max-width:100%;
 
 	&:hover, &.current {
 		background:@hover-color;
@@ -141,10 +142,16 @@ form {
 		clear:both;
 	}
 	.fieldgroup-field {
+		.box-sizing();
 		display:inline-block;
 		width:auto;
+		max-width:100%;
 		margin-right:16px;
 		margin-bottom:@base-line-height /4*3;
+
+		@media @smartphone {
+			margin-right:0;
+		}
 	}
 	.col-left, .col-right {
 		width:50%;
@@ -279,6 +286,7 @@ form {
 
 		input, button, a {
 			float:left;
+			white-space: normal;
 		}
 	}
 	&.centered-actions .Actions {
@@ -286,11 +294,9 @@ form {
 
 		input, button, a {
 			float:none;
+			margin-left:@base-line-height/4;
+			margin-right:@base-line-height/4;
 		}
-	}
-
-	input.action[class] {
-		width: auto;
 	}
 	#Remember {
 		min-height: 20px;
@@ -339,27 +345,36 @@ form {
 		}
 	}
 	// UploadField
-	.ss-uploadfield-item-info {
-		button {
-			margin-top: 4px !important;
-			float: left;
+	.ss-uploadfield {
+		.ss-uploadfield-item .ss-uploadfield-item-info {
+			button {
+				margin-top: 4px !important;
+				float: left;
+			}
+
+			@media @smartphone {
+				padding-top:10px;
+				margin-left:0;
+				clear:both;
+			}
 		}
-	}
-	.ss-uploadfield .ss-uploadfield-item.ui-state-error .ss-uploadfield-item-info .ss-uploadfield-item-actions {
-		width:auto;
-	}
-	.ss-upload .ss-uploadfield-fromcomputer input {
-		visibility: hidden;
-	}
-	.ss-uploadfield .middleColumn {
-		min-width: 200px !important;
-	}
-	.ss-uploadfield .ss-uploadfield-files .ss-uploadfield-item-cancel button {
-		text-indent: 0;
-		padding:0 10px;
-		width:auto;
-		height:auto;
-		.box-shadow(none);
+		.ss-uploadfield-item.ui-state-error .ss-uploadfield-item-info .ss-uploadfield-item-actions {
+			width:auto;
+		}
+		.ss-uploadfield-fromcomputer input {
+			visibility:hidden;
+			display:none;
+		}
+		.middleColumn {
+			min-width: 200px !important;
+		}
+		.ss-uploadfield-files .ss-uploadfield-item-cancel button {
+			text-indent: 0;
+			padding:0 10px;
+			width:auto;
+			height:auto;
+			.box-shadow(none);
+		}
 	}
 	// SexyPassword
 	input.sexy-password {
