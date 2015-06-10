@@ -38,7 +38,7 @@ class ThemeSiteConfigExtension extends DataExtension
         'GoogleFonts' => "family=Open+Sans:400italic,400,600&subset=latin,latin-ext"
     );
     private static $styles_variables = array(
-        'BaseColor', 'PrimaryColor', 'SecondaryColor', 'HeaderFont', ' BodyFont'
+        'BaseColor', 'PrimaryColor', 'SecondaryColor', 'HeaderFont', 'BodyFont'
     );
 
     public function updateCMSFields(FieldList $fields)
