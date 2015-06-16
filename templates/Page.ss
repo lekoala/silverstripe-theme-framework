@@ -8,8 +8,8 @@
 		<% base_tag %>
 		<title><% if Title != Home %>$Title | <% end_if %>$SiteConfig.Title<% if SiteConfig.Tagline %> - $SiteConfig.Tagline<% end_if %></title>
 
-		<meta property="og:image" content="{$SiteConfig.Logo.AbsoluteURL}"/>
-		<meta property="og:title" content="$Title"/>
+		<meta property="og:image" content="$OpenGraphImage"/>
+		<meta property="og:title" content="$OpenGraphTitle"/>
 		<meta property="og:site_name" content="$SiteConfig.Title"/>
 
 		$SiteConfig.HeadScripts

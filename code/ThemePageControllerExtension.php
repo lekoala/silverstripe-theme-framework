@@ -93,6 +93,27 @@ class ThemePageControllerExtension extends Extension
         return Config::inst()->forClass(__CLASS__);
     }
 
+    public function OpenGraphImage()
+    {
+        $image = null;
+        $conf = SiteConfig::current_site_config();
+        if ($conf->LogoID) {
+            $image = $conf->Logo()->AbsoluteURL;
+        }
+        $this->owner->extend('updateOpenGraphImage', $image);
+        return $image;
+    }
+
+    public function OpenGraphTitle()
+    {
+        $title = null;
+        if ($this->owner->data()) {
+            $title = $this->owner->data()->Title;
+        }
+        $this->owner->extend('updateOpenGraphTitle', $title);
+        return $title;
+    }
+
     public function onBeforeInit()
     {
         // Theme is not yet defined properly at this time
@@ -104,12 +125,14 @@ class ThemePageControllerExtension extends Extension
             if ($member && $member->ID) {
                 $access = Permission::checkMember($member, 'CMS_ACCESS_CMSMain');
                 if (!$access) {
-                    $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : Director::baseURL();
-                    Session::set("Security.Message.message", _t('Security.ALREADYLOGGEDIN'));
+                    $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI']
+                            : Director::baseURL();
+                    Session::set("Security.Message.message",
+                        _t('Security.ALREADYLOGGEDIN'));
                     Session::set("Security.Message.type", 'warning');
                     Session::set("BackURL", $uri);
                     Session::save();
-                    header('Location:' . Director::absoluteBaseURL() . '/Security/login' . "?BackURL=" . urlencode($uri));
+                    header('Location:'.Director::absoluteBaseURL().'/Security/login'."?BackURL=".urlencode($uri));
                     exit();
                 }
             }
