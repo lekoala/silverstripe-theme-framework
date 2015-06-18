@@ -183,6 +183,9 @@ form {
     label {
 		margin-bottom:@base-line-height/4;
     }
+	label.right {
+		float:right;
+	}
     label.left {
         display: block;
         font-weight: bold;
@@ -245,10 +248,13 @@ form {
 		color:#333;
 		.border-radius(6px);
 	}
-
 	.input-wrapper input:focus, input.text:focus,textarea:focus,select:focus {
 		outline:none;
 		background-color: #eee;
+	}
+	label.right input {
+		width:auto;
+		margin-left:@base-line-height/4;
 	}
 	input[disabled],textarea[disabled] {
 		background-color: #f7f7f7;
@@ -434,6 +440,10 @@ form {
 	.appendgrid {
 		table {
 			margin-bottom:0;
+		}
+		.appendGridTotalRow {
+			background:#fff;
+			padding:0.5em;
 		}
 	}
 	// Steps
