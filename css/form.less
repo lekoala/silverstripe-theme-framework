@@ -177,6 +177,9 @@ form {
 	.col-right {
 		padding-left:@blh/2;
 	}
+	.col-center {
+		text-align:center;
+	}
     label {
 		margin-bottom:@base-line-height/4;
     }
@@ -256,7 +259,7 @@ form {
 		height:auto;
 	}
 	.field .checkbox, .field .radio {
-		float: left;
+		//float: left;
 		width: @base-line-height/2;
 		height: @base-line-height/2;
 		margin-right: @base-line-height/4;
@@ -276,9 +279,9 @@ form {
 			display:block;
 		}
 	}
-	.checkbox label.right,.radio label.right {
+	/*.checkbox label.right,.radio label.right {
 		float: left;
-	}
+	}*/
 	input.bad {
         background-color: @bad-color;
         border-color: darken(@bad-color,15%);
