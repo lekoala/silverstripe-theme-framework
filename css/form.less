@@ -265,7 +265,6 @@ form {
 		height:auto;
 	}
 	.field .checkbox, .field .radio {
-		//float: left;
 		width: @base-line-height/2;
 		height: @base-line-height/2;
 		margin-right: @base-line-height/4;
@@ -279,15 +278,15 @@ form {
 		padding-bottom:@base-line-height/4;
 		font-size:0.9em;
 	}
-	.checkbox, .radio {
+	.checkbox, .radio, .optionset {
 		.description {
 			clear:both;
 			display:block;
 		}
+		label {
+			float:none;
+		}
 	}
-	/*.checkbox label.right,.radio label.right {
-		float: left;
-	}*/
 	input.bad {
         background-color: @bad-color;
         border-color: darken(@bad-color,15%);
@@ -329,6 +328,7 @@ form {
 	}
 	.checkboxset ul,.optionset ul {
 		margin: 0;
+		padding: 0;
 	}
 	.checkboxset li,.optionset li {
 		margin-bottom: 5px;
