@@ -60,6 +60,8 @@ class ThemePageControllerExtension extends Extension
      */
     private static $outdated_browser;
 
+    protected $sessionMessage;
+
     /**
      * Helper to detect if we are in admin or development admin
      * 
@@ -209,7 +211,7 @@ class ThemePageControllerExtension extends Extension
             // If we loaded notify
             if (in_array('notify', $uikitComponents)) {
                 if ($this->owner->hasMethod('SessionMessage') && $this->owner->SessionMessage(false)) {
-                    $message = $this->owner->SessionMessage();
+                    $this->sessionMessage = $message = $this->owner->SessionMessage();
 
                     $content = Convert::raw2js($message->Content);
                     $type    = Convert::raw2js($message->Type);
@@ -263,7 +265,7 @@ JS
             );
             // Flash messages
             if ($this->owner->hasMethod('SessionMessage') && $this->owner->SessionMessage(false)) {
-                $message = $this->owner->SessionMessage();
+                $this->sessionMessage = $message = $this->owner->SessionMessage();
 
                 $content = Convert::raw2js($message->Content);
                 $type    = Convert::raw2js($message->Type);
@@ -299,12 +301,21 @@ JS
         Requirements::set_force_js_to_bottom(true);
     }
 
+    public function afterCallActionHandler() {
+        $redirected = $this->owner->redirectedTo();
+
+        // If there was a redirection, we should restore the message otherwise the user will never see it
+        if($redirected && $this->sessionMessage) {
+            $this->SetSessionMessage($this->sessionMessage->Content,$this->sessionMessage->Type);
+        }
+    }
+
     public function onAfterInit()
     {
         if ($this->isAdminBackend()) {
             return;
         }
-
+        
         $themeDir = SSViewer::get_theme_folder();
         $config   = SiteConfig::current_site_config();
         if ($config->Theme) {
