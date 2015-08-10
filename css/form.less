@@ -189,6 +189,7 @@ form {
     label.left {
         display: block;
         font-weight: bold;
+		max-width: @base-line-height*20;
     }
     .date {
         .middleColumn {
@@ -247,6 +248,11 @@ form {
 		border: 1px solid #ccc;
 		color:#333;
 		.border-radius(6px);
+	}
+	.col-left, .col-right {
+		label.left, .input-wrapper input, input.text,textarea,select,.select2-choices{
+			max-width:100%;
+		}
 	}
 	.input-wrapper input:focus, input.text:focus,textarea:focus,select:focus {
 		outline:none;
