@@ -437,13 +437,30 @@ form {
 		}
 	}
 	// AppendGrid
-	.appendgrid {
+	div.appendgrid {
+		table.head, table.body, table.foot {
+			width:100%;
+		}
 		table {
 			margin-bottom:0;
+			
+			td {
+				padding:0.2em;
+			}
 		}
 		.appendGridTotalRow {
 			background:#fff;
 			padding:0.5em;
+		}
+		tfoot button {
+			margin:0.5em;
+		}
+		.appendgrid-sub-field {
+			margin:0.2em;
+		}
+		input, select {
+			height:30px;
+			padding:2px 4px;
 		}
 	}
 	// Steps
