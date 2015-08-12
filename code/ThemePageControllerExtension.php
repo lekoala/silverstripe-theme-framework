@@ -151,7 +151,7 @@ class ThemePageControllerExtension extends Extension
         $conf = $this->config();
 
         if($iframe = $request->getVar('iframe')) {
-            if(!$iframe) {
+            if(!$iframe || $iframe == 'disabled') {
                 Cookie::force_expiry('iframe');
             }
             else {
