@@ -120,11 +120,13 @@ class ThemePageControllerExtension extends Extension
     {
         // Theme is not yet defined properly at this time
 
-        $url = $this->owner->getRequest()->getURL();
+        /* @var $request SS_HttpRequest */
+        $request = $this->owner->getRequest();
+        $url = $request->getURL();
         if (strpos($url, 'dev/build') === 0) {
             return;
         }
-        
+
         if ($this->isAdminBackend()) {
             $member = Member::currentUser();
 
@@ -147,6 +149,15 @@ class ThemePageControllerExtension extends Extension
         }
 
         $conf = $this->config();
+
+        if($iframe = $request->getVar('iframe')) {
+            if(!$iframe) {
+                Cookie::force_expiry('iframe');
+            }
+            else {
+                Cookie::set('iframe', true);
+            }
+        }
 
         $outdated = $conf->outdated_browser;
         if ($outdated && $outdated['enabled']) {
@@ -315,6 +326,10 @@ JS
             $this->SetSessionMessage($this->sessionMessage->Content,
                 $this->sessionMessage->Type);
         }
+    }
+
+    public function IframeLayout() {
+        return Cookie::get('iframe') && $this->config()->allow_iframe_mode;
     }
 
     public function onAfterInit()

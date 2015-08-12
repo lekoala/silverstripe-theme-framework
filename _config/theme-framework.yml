@@ -14,6 +14,7 @@ Controller:
   extensions:
     - ThemePageControllerExtension
 ThemePageControllerExtension:
+  allow_iframe_mode: true
   include_jquery: true
   include_jquery_ui: false
   uikit:

@@ -32,14 +32,17 @@
 		<link href='//fonts.googleapis.com/css?{$SiteConfig.GoogleFonts}' rel='stylesheet' type='text/css'>
 		<% end_if %>
 	</head>
-	<body id="$ClassName" class="typography" style="$SiteConfig.BackgroundImageStyles">
+	<body id="$ClassName" class="typography <% if IframeLayout %>iframe<% end_if %>" style="$SiteConfig.BackgroundImageStyles">
+		<% if not IframeLayout %>
 		<% include Header %>
+		<% end_if %>
 		<div id="main">
 			$Layout
 		</div>
+		<% if not IframeLayout %>
 		<% include Footer %>
 		$BetterNavigator
-
+		<% end_if %>
 		<% if SiteConfig.GoogleAnalyticsEnabled %>
 		<% include GoogleAnalyticsSnippet %>
 		<% end_if %>
