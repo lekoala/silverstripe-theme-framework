@@ -603,3 +603,11 @@ form {
 		}
 	}
 }
+
+// Avoid jquery ui widgets to be different
+form {
+	.ui-widget, .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+		font-family:@body-font;
+		font-size:inherit;
+	}
+}
