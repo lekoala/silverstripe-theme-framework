@@ -355,6 +355,16 @@ form {
 	CardField input,input.currency,input.numeric {
 		width: 100px;
 	}
+	
+	.full-width {
+		label.left {
+			max-width: 100%;
+		}
+		.input-wrapper input, input.text,textarea,select,.select2-choices{
+			max-width:100%;
+		}
+	}
+	
 	// Autocomplete markers
 	input, textarea, select {
 		&.autocompleted {
