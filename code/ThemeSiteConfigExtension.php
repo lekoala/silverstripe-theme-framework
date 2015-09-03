@@ -41,6 +41,24 @@ class ThemeSiteConfigExtension extends DataExtension
         'BaseColor', 'PrimaryColor', 'SecondaryColor', 'HeaderFont', 'BodyFont'
     );
 
+    /**
+     * @var Image
+     */
+    protected static $background_image        = null;
+    protected static $background_image_repeat = null;
+
+    public static function getBackgroundImage()
+    {
+        return self::$background_image;
+    }
+
+    public static function setBackgroundImage(Image $background_image,
+                                              $repeat = null)
+    {
+        self::$background_image        = $background_image;
+        self::$background_image_repeat = $repeat;
+    }
+
     public function updateCMSFields(FieldList $fields)
     {
         $fields->removeByName('Theme');
@@ -197,7 +215,13 @@ class ThemeSiteConfigExtension extends DataExtension
      */
     public function BackgroundImageStyles()
     {
-        $img = $this->RandomBackgroundImage();
+        if (self::$background_image) {
+            $img                           = self::$background_image;
+            $this->owner->BackgroundRepeat = self::$background_image_repeat ? self::$background_image_repeat
+                    : self::BACKGROUND_NO_REPEAT;
+        } else {
+            $img = $this->RandomBackgroundImage();
+        }
         if ($img) {
             $repeat       = 'background-size:cover';
             $resizedImage = $img;
