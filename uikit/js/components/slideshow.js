@@ -1,4 +1,4 @@
-/*! UIkit 2.21.0 | http://www.getuikit.com | (c) 2014 YOOtheme | MIT License */
+/*! UIkit 2.22.0 | http://www.getuikit.com | (c) 2014 YOOtheme | MIT License */
 (function(addon) {
 
     var component;
@@ -40,7 +40,7 @@
                 'uk-animation-top-center',
                 '', // middle-center
                 'uk-animation-bottom-right'
-            ],
+            ]
         },
 
         current  : false,
@@ -57,7 +57,7 @@
                     var slideshow = UI.$(this);
 
                     if (!slideshow.data("slideshow")) {
-                        var obj = UI.slideshow(slideshow, UI.Utils.options(slideshow.attr("data-uk-slideshow")));
+                        UI.slideshow(slideshow, UI.Utils.options(slideshow.attr("data-uk-slideshow")));
                     }
                 });
             });
@@ -257,7 +257,7 @@
 
             if (this.container.hasClass('uk-slideshow-fullscreen')) return;
 
-            var $this = this, height = this.options.height;
+            var height = this.options.height;
 
             if (this.options.height === 'auto') {
 

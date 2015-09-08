@@ -1,4 +1,4 @@
-/*! UIkit 2.21.0 | http://www.getuikit.com | (c) 2014 YOOtheme | MIT License */
+/*! UIkit 2.22.0 | http://www.getuikit.com | (c) 2014 YOOtheme | MIT License */
 (function(addon) {
 
     var component;
@@ -45,7 +45,7 @@
                     var ele = UI.$(this);
 
                     if(!ele.data("slideset")) {
-                        var plugin = UI.slideset(ele, UI.Utils.options(ele.attr("data-uk-slideset")));
+                        UI.slideset(ele, UI.Utils.options(ele.attr("data-uk-slideset")));
                     }
                 });
             });
@@ -140,7 +140,7 @@
 
         updateSets: function(animate, force) {
 
-            var $this = this, visible = this.visible, i;
+            var visible = this.visible, i;
 
             this.visible  = this.getVisibleOnCurrenBreakpoint();
 
@@ -296,8 +296,7 @@
 
         _getAnimation: function() {
 
-            var $this     = this,
-                animation = Animations[this.options.animation] || Animations.none;
+            var animation = Animations[this.options.animation] || Animations.none;
 
             if (!UI.support.animation) {
                 animation = Animations.none;
