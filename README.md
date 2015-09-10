@@ -23,6 +23,10 @@ will be used by default if no compiled style is found.
 
 All compiled styles are stored in assets/Theme folder to avoid versioning compiled versions of your theme.
 
+You can disable auto compile (which is slow if you are developing locally) by defining the following constant:
+
+	define('THEME_FRAMEWORK_DISABLE_COMPILE',true);
+
 Ui Kit
 -------------
 
