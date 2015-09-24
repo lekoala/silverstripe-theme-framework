@@ -132,7 +132,7 @@ class ThemePageControllerExtension extends Extension
 
             // Silverstripe does not redirect if invalid login to the /admin section so layout will be broken
             if ($member && $member->ID) {
-                $access = Permission::checkMember($member, 'CMS_ACCESS_CMSMain');
+                $access = Permission::checkMember($member, 'CMS_ACCESS');
                 if (!$access) {
                     $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI']
                             : Director::baseURL();
