@@ -335,6 +335,9 @@ JS
     }
 
     public function IframeLayout() {
+        if($this->owner->in_iframe) {
+            return true;
+        }
         return Cookie::get('iframe') && $this->config()->allow_iframe_mode;
     }
 
