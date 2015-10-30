@@ -301,7 +301,7 @@ form {
 	}
 	.Actions {
 		clear:both;
-		margin-top: @base-line-height;
+		margin-top: @base-line-height/2;
 		margin-bottom: @base-line-height;
 		.clearfix();
 
@@ -322,8 +322,19 @@ form {
 	#Remember {
 		min-height: 20px;
 	}
-	#ForgotPassword {
+	.Actions p {
 		clear: left;
+		display: block;
+		margin-bottom:10px;
+		
+		a {
+			float:none;
+			
+			i {
+				text-align:center;
+				width:18px;
+			}
+		}
 	}
 	.FormHeading {
 		clear: both;
