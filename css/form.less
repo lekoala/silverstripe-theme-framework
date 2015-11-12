@@ -64,43 +64,25 @@ a.btn, span.btn, label.btn, form button, input[type="submit"], .Actions .action 
 // message 
 // animation created with http://coveloping.com/tools/css-animation-generator
 
-@-webkit-keyframes bounceIn { 
+@-webkit-keyframes fadeInUp { 
     0% { 
         opacity: 0; 
-        -webkit-transform: scale(.3); 
+        -webkit-transform: translateY(20px); 
     } 
-
-    50% { 
-        opacity: 1; 
-        -webkit-transform: scale(1.05); 
-    } 
-
-    70% { 
-        -webkit-transform: scale(.9); 
-    } 
-
     100% { 
-		-webkit-transform: scale(1); 
+        opacity: 1; 
+        -webkit-transform: translateY(0); 
     } 
 } 
 
-@keyframes bounceIn { 
+@keyframes fadeInUp { 
     0% { 
         opacity: 0; 
-        transform: scale(.3); 
+        transform: translateY(20px); 
     } 
-
-    50% { 
-        opacity: 1; 
-        transform: scale(1.05); 
-    } 
-
-    70% { 
-        transform: scale(.9); 
-    } 
-
     100% { 
-        transform: scale(1); 
+        opacity: 1; 
+        transform: translateY(0); 
     } 
 } 
 
@@ -111,8 +93,8 @@ form .message, .message {
     animation-fill-mode: both; 
     -webkit-animation-timing-function: ease-out; 
     animation-timing-function: ease-out; 
-	-webkit-animation-name: bounceIn; 
-    animation-name: bounceIn; 
+	-webkit-animation-name: fadeInUp; 
+    animation-name: fadeInUp; 
 	clear:both;
 	background-color: @light-gray;
 	padding:@base-line-height/4 @base-line-height/2;
@@ -326,10 +308,10 @@ form {
 		clear: left;
 		display: block;
 		margin-bottom:10px;
-		
+
 		a {
 			float:none;
-			
+
 			i {
 				text-align:center;
 				width:18px;
