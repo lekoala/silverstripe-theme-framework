@@ -194,7 +194,9 @@ class ThemeSiteConfigExtension extends DataExtension
         $themes   = SSViewer::get_themes($baseDir);
         $disabled = (array) $this->owner->config()->disabled_themes;
         foreach ($disabled as $theme) {
-            if (isset($themes[$theme])) unset($themes[$theme]);
+            if (isset($themes[$theme])) {
+                unset($themes[$theme]);
+            }
         }
         return $themes;
     }
