@@ -132,11 +132,11 @@ class ThemePageControllerExtension extends Extension
 
             // Silverstripe does not redirect if invalid login to the /admin section so layout will be broken
             if ($member && $member->ID) {
-                if(class_exists('Subsite')) {
+                if (class_exists('Subsite')) {
                     Subsite::$disable_subsite_filter = true;
                 }
                 $access = Permission::checkMember($member, 'CMS_ACCESS');
-                  if(class_exists('Subsite')) {
+                if (class_exists('Subsite')) {
                     Subsite::$disable_subsite_filter = false;
                 }
                 if (!$access) {
@@ -156,11 +156,10 @@ class ThemePageControllerExtension extends Extension
 
         $conf = $this->config();
 
-        if($iframe = $request->getVar('iframe')) {
-            if(!$iframe || $iframe == 'disabled') {
+        if ($iframe = $request->getVar('iframe')) {
+            if (!$iframe || $iframe == 'disabled') {
                 Cookie::force_expiry('iframe');
-            }
-            else {
+            } else {
                 Cookie::set('iframe', true);
             }
         }
@@ -334,8 +333,9 @@ JS
         }
     }
 
-    public function IframeLayout() {
-        if($this->owner->in_iframe) {
+    public function IframeLayout()
+    {
+        if ($this->owner->in_iframe) {
             return true;
         }
         return Cookie::get('iframe') && $this->config()->allow_iframe_mode;

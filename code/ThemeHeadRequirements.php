@@ -102,8 +102,11 @@ class ThemeHeadRequirements
      */
     public static function customScript($script, $uniquenessID = null)
     {
-        if ($uniquenessID) self::$customScript[$uniquenessID] = $script;
-        else self::$customScript[]              = $script;
+        if ($uniquenessID) {
+            self::$customScript[$uniquenessID] = $script;
+        } else {
+            self::$customScript[]              = $script;
+        }
 
         $script .= "\n";
     }
