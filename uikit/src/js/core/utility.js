@@ -7,7 +7,8 @@
     UI.component('stackMargin', {
 
         defaults: {
-            'cls': 'uk-margin-small-top'
+            cls: 'uk-margin-small-top',
+            rowfirst: false
         },
 
         boot: function() {
@@ -17,10 +18,10 @@
 
                 UI.$("[data-uk-margin]", context).each(function() {
 
-                    var ele = UI.$(this), obj;
+                    var ele = UI.$(this);
 
                     if (!ele.data("stackMargin")) {
-                        obj = UI.stackMargin(ele, UI.Utils.options(ele.attr("data-uk-margin")));
+                        UI.stackMargin(ele, UI.Utils.options(ele.attr("data-uk-margin")));
                     }
                 });
             });
@@ -29,8 +30,6 @@
         init: function() {
 
             var $this = this;
-
-            this.columns = [];
 
             UI.$win.on('resize orientationchange', (function() {
 
@@ -59,17 +58,26 @@
 
         process: function() {
 
-            this.columns = this.element.children();
+            var $this = this, columns = this.element.children();
 
-            UI.Utils.stackMargin(this.columns, this.options);
+            UI.Utils.stackMargin(columns, this.options);
 
-            return this;
-        },
+            if (!this.options.rowfirst) {
+                return this;
+            }
 
-        revert: function() {
-            this.columns.removeClass(this.options.cls);
+            // Mark first column elements
+            var pos_cache = columns.removeClass(this.options.rowfirst).filter(':visible').first().position();
+
+            if (pos_cache) {
+                columns.each(function() {
+                    UI.$(this)[UI.$(this).position().left == pos_cache.left ? 'addClass':'removeClass']($this.options.rowfirst);
+                });
+            }
+
             return this;
         }
+
     });
 
 
@@ -102,7 +110,7 @@
 
                         var ele = UI.$(this), obj;
 
-                        if (!ele.data("responsiveIframe")) {
+                        if (!ele.data("responsiveElement")) {
                             obj = UI.responsiveElement(ele, {});
                         }
                     });
@@ -159,7 +167,7 @@
             firstvisible = elements.filter(":visible:first"),
             offset       = firstvisible.length ? (firstvisible.position().top + firstvisible.outerHeight()) - 1 : false; // (-1): weird firefox bug when parent container is display:flex
 
-        if (offset === false) return;
+        if (offset === false || elements.length == 1) return;
 
         elements.each(function() {
 

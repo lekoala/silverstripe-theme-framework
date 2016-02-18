@@ -74,7 +74,7 @@
                 $this.list.addClass('uk-grid-width-'+bp+'-1-'+$this.options[bp]);
             });
 
-            this.on("click.uikit.slideset", '[data-uk-slideset-item]', function(e) {
+            this.on("click.uk.slideset", '[data-uk-slideset-item]', function(e) {
 
                 e.preventDefault();
 
@@ -97,7 +97,7 @@
 
             });
 
-            this.controls.on('click.uikit.slideset', '[data-uk-filter]', function(e) {
+            this.controls.on('click.uk.slideset', '[data-uk-filter]', function(e) {
 
                 var ele = UI.$(this);
 
@@ -395,7 +395,7 @@
 
     function coreAnimation(cls, current, next, dir) {
 
-        var d = UI.$.Deferred(),
+        var d     = UI.$.Deferred(),
             delay = (this.options.delay === false) ? Math.floor(this.options.duration/2) : this.options.delay,
             $this = this, clsIn, clsOut, release, i;
 
@@ -431,13 +431,21 @@
                 next.eq(dir == 1 ? i:(next.length - i)-1).css('animation-delay', (i*delay)+'ms');
             }
 
-            next.addClass(clsIn)[dir==1 ? 'last':'first']().one(UI.support.animation.end, function() {
-
+            var finish = function() {
                 next.removeClass(''+clsIn+'').css({opacity:'', display:'', 'animation-delay':'', 'animation':''});
                 d.resolve();
                 $this.element.css('min-height', '');
+                finish = false;
+            };
 
+            next.addClass(clsIn)[dir==1 ? 'last':'first']().one(UI.support.animation.end, function(){
+                if(finish) finish();
             }).end().css('display', '');
+
+            // make sure everything resolves really
+            setTimeout(function() {
+                if(finish) finish();
+            },  next.length * delay * 2);
         };
 
         if (next.length) {
@@ -455,7 +463,11 @@
                 (function (index, ele){
 
                     setTimeout(function(){
-                        ele.css('display', 'none').css('display', '').css('opacity', 0).addClass(clsOut+' uk-animation-reverse');
+
+                        ele.css('display', 'none').css('display', '').css('opacity', 0).on(UI.support.animation.end, function(){
+                            ele.removeClass(clsOut);
+                        }).addClass(clsOut+' uk-animation-reverse');
+
                     }.bind(this), i * delay);
 
                 })(i, current.eq(dir == 1 ? i:(current.length - i)-1));
