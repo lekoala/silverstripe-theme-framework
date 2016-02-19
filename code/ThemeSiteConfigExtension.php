@@ -7,10 +7,12 @@
  */
 class ThemeSiteConfigExtension extends DataExtension
 {
-    const BACKGROUND_NO_REPEAT = 'no-repeat';
-    const BACKGROUND_REPEAT    = 'repeat';
-    const BACKGROUND_REPEAT_X  = 'repeat-x';
-    const BACKGROUND_REPEAT_Y  = 'repeat-y';
+    const BACKGROUND_NO_REPEAT  = 'no-repeat';
+    const BACKGROUND_REPEAT     = 'repeat';
+    const BACKGROUND_REPEAT_X   = 'repeat-x';
+    const BACKGROUND_REPEAT_Y   = 'repeat-y';
+    const BACKGROUND_SIZE_COVER = 'cover';
+    const BACKGROUND_SIZE_FULL  = '100%';
 
     private static $db               = array(
         'BaseColor' => 'DBColor',
@@ -46,6 +48,7 @@ class ThemeSiteConfigExtension extends DataExtension
      */
     protected static $background_image        = null;
     protected static $background_image_repeat = null;
+    protected static $background_size         = 'cover';
 
     public static function getBackgroundImage()
     {
@@ -53,10 +56,15 @@ class ThemeSiteConfigExtension extends DataExtension
     }
 
     public static function setBackgroundImage(Image $background_image,
-                                              $repeat = null)
+                                              $repeat = null, $size = null)
     {
-        self::$background_image        = $background_image;
-        self::$background_image_repeat = $repeat;
+        self::$background_image = $background_image;
+        if ($repeat !== null) {
+            self::$background_image_repeat = $repeat;
+        }
+        if ($size !== null) {
+            self::$background_size = $size;
+        }
     }
 
     public function updateCMSFields(FieldList $fields)
@@ -223,11 +231,11 @@ class ThemeSiteConfigExtension extends DataExtension
             $img = $this->RandomBackgroundImage();
         }
         if ($img) {
-            $repeat       = 'background-size:cover';
-            $resizedImage = $img;
+            $backgroundSize = 'background-size:' . self::$background_size . ';background-repeat:no-repeat';
+            $resizedImage   = $img;
             // If we use a pattern, repeat it accordingly
             if ($this->owner->BackgroundRepeat !== self::BACKGROUND_NO_REPEAT) {
-                $repeat = 'background-size:initial;background-repeat:'.$this->owner->BackgroundRepeat;
+                $backgroundSize = 'background-size:initial;background-repeat:'.$this->owner->BackgroundRepeat;
             }
             // Or resize to a nice size and stretch
             else {
@@ -236,7 +244,7 @@ class ThemeSiteConfigExtension extends DataExtension
                     $resizedImage = $img;
                 }
             }
-            return "background-image:url('".$resizedImage->Link()."');$repeat";
+            return "background-image:url('".$resizedImage->Link()."');$backgroundSize";
         }
     }
 
