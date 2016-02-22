@@ -61,6 +61,15 @@ class ThemePageControllerExtension extends Extension
     private static $outdated_browser;
     protected $sessionMessage;
 
+    public function isDarkBackground() {
+        $color = SiteConfig::current_site_config()->BaseColor;
+        if(!$color) {
+            return false;
+        }
+        $db = new DBColor();
+        return $db->getLightOrDark($color) == '#FFFFFF' ? true : false;
+    }
+
     /**
      * Helper to detect if we are in admin or development admin
      * 

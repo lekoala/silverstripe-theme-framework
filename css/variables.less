@@ -25,10 +25,14 @@
 // Base Colors //
 /////////////////
 
-@base-color: #fff; //positive or negative
+@base-color: #fff; 
+@base-color-contrast: contrast(@base-color,#000,#fff);
 
 @primary-color:#e6e2af;
 @secondary-color:#046380;
+
+@primary-color-contrast: contrast(@primary-color,#000,#fff);
+@secondary-color-contrast:  contrast(@secondary-color,#000,#fff);
 
 @very-light-gray: #eee;
 @light-gray: #ccc;
@@ -50,7 +54,7 @@
 @hover-color: darken(@link-color,15%);
 
 @body-bg-color: @base-color;
-@body-text-color: @dark-gray;
+@body-text-color: contrast(@base-color,@very-dark-gray,@very-light-gray);
 @header-color: lighten(@body-text-color,15%);
 
 ///////////
@@ -69,7 +73,7 @@
 //check http://www.gridlover.net/app/ to generate others
 
 @base-font-size: 14px;
-@base-line-height: 20px;
+@base-line-height: @base-font-size * 1.5;
 @measure: 600px;
 
 @h1-font-size: 33px;

@@ -81,8 +81,10 @@ class ThemeSiteConfigExtension extends DataExtension
             new HeaderField('ColorH',
             _t('ThemeSiteConfigExtension.ColorH', 'Colors')));
         $fields->addFieldToTab('Root.Theme',
-            new MiniColorsField('BaseColor',
+            $BaseColor = new MiniColorsField('BaseColor',
             _t('ThemeSiteConfigExtension.BaseColor', 'Base Color')));
+        $BaseColor->setDescription(_t('ThemeSiteConfigExtension.BaseColorDesc',
+                "The background color of your website"));
         $fields->addFieldToTab('Root.Theme',
             new MiniColorsField('PrimaryColor',
             _t('ThemeSiteConfigExtension.PrimaryColor', 'Primary Color')));
@@ -231,7 +233,7 @@ class ThemeSiteConfigExtension extends DataExtension
             $img = $this->RandomBackgroundImage();
         }
         if ($img) {
-            $backgroundSize = 'background-size:' . self::$background_size . ';background-repeat:no-repeat';
+            $backgroundSize = 'background-size:'.self::$background_size.';background-repeat:no-repeat';
             $resizedImage   = $img;
             // If we use a pattern, repeat it accordingly
             if ($this->owner->BackgroundRepeat !== self::BACKGROUND_NO_REPEAT) {
@@ -308,8 +310,9 @@ class ThemeSiteConfigExtension extends DataExtension
         try {
             $parser->parseFile(Director::baseFolder().'/'.$themeDir.'/css/all.less',
                 '/'.$themeDir.'/css');
-            $vars = array();
-
+            $vars = array(
+                'base_color' => '#ffffff'
+            );
             foreach (self::$styles_variables as $var) {
                 if ($this->owner->$var) {
                     $less_var        = strtolower(preg_replace('/([a-z])([A-Z])/',
@@ -317,6 +320,7 @@ class ThemeSiteConfigExtension extends DataExtension
                     $vars[$less_var] = $this->owner->$var;
                 }
             }
+
             if (!empty($vars)) {
                 $parser->ModifyVars($vars);
             }
