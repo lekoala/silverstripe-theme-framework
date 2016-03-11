@@ -41,8 +41,11 @@
 @dark-gray: #333;
 @very-dark-gray: #111;
 
+@neutral-bg-color: #f8f8f8;
+@neutral-text-color: contrast(@neutral-bg-color,#4a4a4a,#a4a4a4);
+
 @footer-bg-color: @light-gray;
-@footer-text-color: @dark-gray;
+@footer-text-color: contrast(@footer-bg-color,@dark-gray,@light-gray);
 
 // For validation or message boxes for instance
 @good-color:#dea;
