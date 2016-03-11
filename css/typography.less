@@ -6,165 +6,177 @@
 ////////////////
 
 .typography {
-	code {
-		display:block;
-		white-space: -moz-pre-wrap;
-		white-space: -pre-wrap;
-		white-space: -o-pre-wrap;
-		white-space: pre-wrap; 
-		word-wrap: break-word; /* Internet Explorer 5.5+ */  
-		padding:@blh/4;
-	}
+    code {
+        display:block;
+        white-space: -moz-pre-wrap;
+        white-space: -pre-wrap;
+        white-space: -o-pre-wrap;
+        white-space: pre-wrap; 
+        word-wrap: break-word; /* Internet Explorer 5.5+ */  
+        padding:@blh/4;
+    }
 
-	.left {
-		text-align: left;
-	}
-	.center {
-		text-align: center;
-	}
-	.right {
-		text-align: right;
-	}
+    .left {
+        text-align: left;
+    }
+    .center {
+        text-align: center;
+    }
+    .right {
+        text-align: right;
+    }
 
-	.primary-bg-color {
-		color:@base-color;
-		background:@primary-color;
-	}
+    .primary-bg-color {
+        color:@primary-color-contrast;
+        background:@primary-color;
+    }
 
-	.secondary-bg-color {
-		color:@base-color;
-		background:@secondary-color;
-	}
+    .secondary-bg-color {
+        color:@secondary-color-contrast;
+        background:@secondary-color;
+    }
 
-	.margin {
-		margin:@blh/2 0;
-	}
+    .margin {
+        margin:@blh/2 0;
+    }
 
-	.no-margin-top {
-		margin-top:0 !important;
-	}
+    .no-margin-top {
+        margin-top:0 !important;
+    }
 
-	.no-margin-bottom {
-		margin-bottom:0 !important;
-	}
+    .no-margin-bottom {
+        margin-bottom:0 !important;
+    }
 
-	.no-margin {
-		margin:0 !important;
-	}
+    .no-margin {
+        margin:0 !important;
+    }
+    
+    .no-padding-top {
+        padding-top:0 !important;
+    }
 
-	hr {
-		display:block;
-		text-align:left;
-		border:0;
-		border-bottom:1px solid @light-gray;
-		margin-bottom:@h3-margin-bottom;
+    .no-padding-bottom {
+        padding-bottom:0 !important;
+    }
 
-		.small {
-			display:inline-block;
-			width:100px;
-		}
-	}
+    .no-padding {
+        padding:0 !important;
+    }
 
-	ul ul, ol ol, ul ol, ol ul {
-		margin-top: 0;
-		margin-bottom: 0;
-	}
+    hr {
+        display:block;
+        text-align:left;
+        border:0;
+        border-bottom:1px solid @light-gray;
+        margin-bottom:@h3-margin-bottom;
 
-	b, strong, em, small, code {
-		line-height: 1;
-	}
+        .small {
+            display:inline-block;
+            width:100px;
+        }
+    }
 
-	b, strong {
-		font-weight:600; //cf open sans semi bold
-	}
+    ul ul, ol ol, ul ol, ol ul {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
 
-	sup, sub {
-		vertical-align: baseline;
-		position: relative;
-		top: -0.4em;
-	}
+    b, strong, em, small, code {
+        line-height: 1;
+    }
 
-	sub {
-		top: 0.4em;
-	}
+    b, strong {
+        font-weight:600; //cf open sans semi bold
+    }
 
-	h1, h2, h3, h4, h5, h6 {
-		font-weight:@header-font-weight;
-		clear:both;
-		margin: @base-line-height 0;
-		line-height: @base-line-height;
-		font-size:@base-font-size;
-		font-family:@header-font;
-		small {
-			line-height: 1;
-		}
-	}
+    sup, sub {
+        vertical-align: baseline;
+        position: relative;
+        top: -0.4em;
+    }
 
-	h1 {
-		font-size: @h1-font-size;
-		line-height: @h1-line-height;
-		margin-top: @h1-margin-top;
-		margin-bottom: @h1-margin-bottom;
-	}
-	h2 {
-		color:@gray;
-		font-size: @h2-font-size;
-		line-height: @h2-line-height;
-		margin-top: @h2-margin-top;
-		margin-bottom: @h2-margin-bottom;
-	}
-	h3 {
-		font-size: @h3-font-size;
-		line-height: @h3-line-height;
-		margin-top: @h3-margin-top;
-		margin-bottom: @h3-margin-bottom;
-	}
-	h4 {
-		font-size: @h4-font-size;
-		line-height: @h4-line-height;
-		margin-top: @h4-margin-top;
-		margin-bottom: @h4-margin-bottom;
-	}
+    sub {
+        top: 0.4em;
+    }
 
-	h1 small { font-size: @base-font-size * 1.75; } // ~24px
-	h2 small { font-size: @base-font-size * 1.25; } // ~18px
-	h3 small { font-size: @base-font-size; }
-	h4 small { font-size: @base-font-size; }
+    h1, h2, h3, h4, h5, h6 {
+        font-weight:@header-font-weight;
+        clear:both;
+        margin: @base-line-height 0;
+        line-height: @base-line-height;
+        font-size:@base-font-size;
+        font-family:@header-font;
+        small {
+            line-height: 1;
+        }
+    }
 
-	p {
-		orphans: 2;
-		widows: 2;
-	}
+    h1 {
+        font-size: @h1-font-size;
+        line-height: @h1-line-height;
+        margin-top: @h1-margin-top;
+        margin-bottom: @h1-margin-bottom;
+    }
+    h2 {
+        color:@gray;
+        font-size: @h2-font-size;
+        line-height: @h2-line-height;
+        margin-top: @h2-margin-top;
+        margin-bottom: @h2-margin-bottom;
+    }
+    h3 {
+        font-size: @h3-font-size;
+        line-height: @h3-line-height;
+        margin-top: @h3-margin-top;
+        margin-bottom: @h3-margin-bottom;
+    }
+    h4 {
+        font-size: @h4-font-size;
+        line-height: @h4-line-height;
+        margin-top: @h4-margin-top;
+        margin-bottom: @h4-margin-bottom;
+    }
 
-	p, ul, ol, pre, table, blockquote {
-		margin-top: 0;
-		margin-bottom: @base-line-height/2;
-	}
+    h1 small { font-size: @base-font-size * 1.75; } // ~24px
+    h2 small { font-size: @base-font-size * 1.25; } // ~18px
+    h3 small { font-size: @base-font-size; }
+    h4 small { font-size: @base-font-size; }
+
+    p {
+        orphans: 2;
+        widows: 2;
+    }
+
+    p, ul, ol, pre, table, blockquote {
+        margin-top: 0;
+        margin-bottom: @base-line-height/2;
+    }
 
     .intro {
         font-family:@header-font;
         font-size: @base-font-size*1.1;
-		line-height:@base-line-height;
+        line-height:@base-line-height;
     }
-	.big {
-		font-size:@base-font-size*1.2;
-		line-height:@base-line-height/1.2;
-	}
-	.small {
-		font-size:@base-font-size*0.8;
-		line-height:@base-line-height*0.8;
-	}
+    .big {
+        font-size:@base-font-size*1.2;
+        line-height:@base-line-height/1.2;
+    }
+    .small {
+        font-size:@base-font-size*0.8;
+        line-height:@base-line-height*0.8;
+    }
     em {
         font-style: italic;
     }
 
-	a, a.intro {
-		color: @link-color;
-		text-decoration: none;
-	}
+    a, a.intro {
+        color: @link-color;
+        text-decoration: none;
+    }
     a:hover {
         color: @hover-color;
-		text-decoration:underline;
+        text-decoration:underline;
     }
     a:focus {
 
@@ -173,37 +185,37 @@
     table {
         border-collapse: collapse;
         border-spacing: 0;
-		margin-bottom:@base-line-height;
+        margin-bottom:@base-line-height;
         text-align: left;
-		width:100%;
+        width:100%;
 
-		tr {
-			background-color:#fff;
-		}
+        tr {
+            background-color:#fff;
+        }
         tr:nth-child(even) {
             background-color: #ededed;
         }
         th {
             font-weight: bold;
-			background-color: @primary-color;
-			color:#fff;
-		}
-		td,th {
-			border: 1px solid #eee;
-			line-height:@base-line-height;
-			padding:@base-line-height/2 - 1px;
-			vertical-align: top;
-		}
+            background-color: @primary-color;
+            color:#fff;
+        }
+        td,th {
+            border: 1px solid #eee;
+            line-height:@base-line-height;
+            padding:@base-line-height/2 - 1px;
+            vertical-align: top;
+        }
     }
 
     img {
         height: auto;
-		max-width:100%;
+        max-width:100%;
     }
 
-	img.full {
-		width:100%;
-	}
+    img.full {
+        width:100%;
+    }
 
     img.left {
         float: left;
@@ -230,7 +242,7 @@
         margin-left: auto;
         margin-right: auto;
         display: block;
-		margin-top: @base-line-height/2;
+        margin-top: @base-line-height/2;
         margin-bottom: @base-line-height/2;
         clear: both;
     }
@@ -279,15 +291,15 @@
         margin: 0 auto @base-line-height;
     }
 
-	.captionImage.left[style],.captionImage.right[style] {
-		max-width: 50%;
-	}
+    .captionImage.left[style],.captionImage.right[style] {
+        max-width: 50%;
+    }
 
-	.captionImage.left img,.captionImage.right img {
-		float: none;
-		max-width: none;
-		width: 100%;
-	}
+    .captionImage.left img,.captionImage.right img {
+        float: none;
+        max-width: none;
+        width: 100%;
+    }
 
     blockquote {
         font-family:@header-font;
@@ -299,20 +311,20 @@
         width: 50%;
         margin-left: @base-line-height;
         clear: both;
-		position:relative;
-		quotes: '\201C' '\201D';
-		border-left:1px solid @secondary-color;
-		padding-left:@base-line-height;
+        position:relative;
+        quotes: '\201C' '\201D';
+        border-left:1px solid @secondary-color;
+        padding-left:@base-line-height;
 
         p {
-			display:inline;
+            display:inline;
             font-size:  @base-line-height - 8px;
             line-height: @base-line-height;
         }
-		cite {
-			margin-top:@base-line-height;
-			display:block;
-		}
+        cite {
+            margin-top:@base-line-height;
+            display:block;
+        }
     }
 
     pre {
@@ -320,60 +332,60 @@
         border: 1px solid #E4E4E4;
         font-family: Courier, monospace;
         padding: @base-line-height/2 - 1px;
-		margin:0;
+        margin:0;
         clear: both;
     }
 
-	address {
-		display: block;
-		margin-bottom: @base-line-height;
-	}
+    address {
+        display: block;
+        margin-bottom: @base-line-height;
+    }
 
-	.leaflet-popup-content p {
-		color:#777;
-	}
+    .leaflet-popup-content p {
+        color:#777;
+    }
 
 }
 
 /* jquery ui compatibility */
 
 .typography .ui-datepicker-calendar {
-	margin:0;
-	padding:0;
+    margin:0;
+    padding:0;
 
-	th, td {
-		padding:0;
-		text-align:center;
-	}
-	a {
-		text-align:center;
-	}
+    th, td {
+        padding:0;
+        text-align:center;
+    }
+    a {
+        text-align:center;
+    }
 }
 
 /* uikit compatibility */
 
 .uk-nav, .uk-nav-side, .uk-subnav, .uk-tab, nav.uk-navbar {
-	a, a:hover, li a {
-		text-decoration:none !important;
+    a, a:hover, li a {
+        text-decoration:none !important;
     }
 }
 nav.uk-navbar a {
-	padding-top:0 !important;
-	padding-bottom:0 !important;
+    padding-top:0 !important;
+    padding-bottom:0 !important;
 }
 a.uk-badge {
-	color:#fff;
+    color:#fff;
 
-	&:hover {
-		color:#ccc;
-		text-decoration:none !important;
-	}
+    &:hover {
+        color:#ccc;
+        text-decoration:none !important;
+    }
 }
 .uk-subnav-pill {
-	.uk-active a {
-		color:#fff;
-	}
+    .uk-active a {
+        color:#fff;
+    }
 }
 ul.uk-tab {
-	margin-bottom: 0;
+    margin-bottom: 0;
 }
