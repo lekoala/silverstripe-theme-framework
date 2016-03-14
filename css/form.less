@@ -22,15 +22,27 @@ a.btn, span.btn, label.btn, form button, input[type="submit"], .Actions .action 
     margin-right: @base-line-height/2;
     cursor:pointer;
     max-width:100%;
-    
+
     i {
         color:#fff;
     }
 
     &:hover, &.current {
         background:@hover-color;
-        color: #fff;
+        color: @primary-color-contrast;
         text-decoration: none;
+    }
+
+    &.btn-outline {
+        background:transparent;
+        border:2px solid @link-color;
+        color:@link-color;
+
+        &:hover {
+            background:@hover-color;
+            border-color:@hover-color;
+            color: @primary-color-contrast;
+        }
     }
 
     &.btn-big {
@@ -63,6 +75,10 @@ a.btn, span.btn, label.btn, form button, input[type="submit"], .Actions .action 
         content: '\2190';
         padding-right: 10px;
     }
+}
+
+p .btn {
+    margin-left: @base-line-height/2;
 }
 
 // message 
