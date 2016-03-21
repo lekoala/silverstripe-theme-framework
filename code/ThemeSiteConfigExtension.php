@@ -20,9 +20,9 @@ class ThemeSiteConfigExtension extends DataExtension
         'SecondaryColor' => 'DBColor',
         'GoogleAnalyticsCode' => 'Varchar',
         'HeaderFont' => 'Varchar(100)',
-        'HeaderFontWeight' => 'Int',
+        'HeaderFontWeight' => 'Varchar(6)',
         'BodyFont' => 'Varchar(100)',
-        'BodyFontWeight' => 'Int',
+        'BodyFontWeight' => 'Varchar(6)',
         'GoogleFonts' => 'Varchar(255)',
         'BackgroundRepeat' => "Enum('no-repeat,repeat,repeat-x,repeat-y','no-repeat')",
     );
