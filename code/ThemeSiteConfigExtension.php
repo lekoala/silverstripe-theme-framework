@@ -20,13 +20,16 @@ class ThemeSiteConfigExtension extends DataExtension
         'SecondaryColor' => 'DBColor',
         'GoogleAnalyticsCode' => 'Varchar',
         'HeaderFont' => 'Varchar(100)',
+        'HeaderFontWeight' => 'Int',
         'BodyFont' => 'Varchar(100)',
+        'BodyFontWeight' => 'Int',
         'GoogleFonts' => 'Varchar(255)',
         'BackgroundRepeat' => "Enum('no-repeat,repeat,repeat-x,repeat-y','no-repeat')",
     );
     private static $has_one          = array(
         'Logo' => 'Image',
         'Icon' => 'Image', // Will be converted to favicon
+        'FooterImage' => 'Image',
     );
     private static $many_many        = array(
         'BackgroundImages' => 'Image'
@@ -40,7 +43,7 @@ class ThemeSiteConfigExtension extends DataExtension
         'GoogleFonts' => "family=Open+Sans:400italic,400,600&subset=latin,latin-ext"
     );
     private static $styles_variables = array(
-        'BaseColor', 'PrimaryColor', 'SecondaryColor', 'HeaderFont', 'BodyFont'
+        'BaseColor', 'PrimaryColor', 'SecondaryColor', 'HeaderFont', 'BodyFont', 'HeaderFontWeight', 'BodyFontWeight'
     );
 
     /**
@@ -97,13 +100,19 @@ class ThemeSiteConfigExtension extends DataExtension
             new HeaderField('FontsH',
             _t('ThemeSiteConfigExtension.FontsH', 'Fonts')));
         $fields->addFieldToTab('Root.Theme',
-            $hf = new TextField('HeaderFont',
+            $hf  = new TextField('HeaderFont',
             _t('ThemeSiteConfigExtension.HeaderFont', 'Header Font')));
         $fields->addFieldToTab('Root.Theme',
-            $bf = new TextField('BodyFont',
+            $hfw = new TextField('HeaderFontWeight',
+            _t('ThemeSiteConfigExtension.HeaderFontWeight', 'Header Font Weight')));
+        $fields->addFieldToTab('Root.Theme',
+            $bf  = new TextField('BodyFont',
             _t('ThemeSiteConfigExtension.BodyFont', 'Body Font')));
         $fields->addFieldToTab('Root.Theme',
-            $gf = new TextField('GoogleFonts',
+            $bf  = new TextField('BodyFontWeight',
+            _t('ThemeSiteConfigExtension.BodyFontWeight', 'Body Font Weight')));
+        $fields->addFieldToTab('Root.Theme',
+            $gf  = new TextField('GoogleFonts',
             _t('ThemeSiteConfigExtension.GoogleFonts', 'Google Fonts')));
 
 
@@ -122,6 +131,9 @@ class ThemeSiteConfigExtension extends DataExtension
         $fields->addFieldToTab('Root.Theme',
             $icon = ImageUploadField::createForClass($this, 'Icon',
                 _t('ThemeSiteConfigExtension.Icon', 'Icon')));
+        $fields->addFieldToTab('Root.Theme',
+            ImageUploadField::createForClass($this, 'FooterImage',
+                _t('ThemeSiteConfigExtension.FooterImage', 'Footer Image')));
 
         if (is_file(Director::baseFolder().$this->FaviconPath())) {
             $icon->setDescription(_t('ThemeSiteConfigExtension.FaviconPreview',
