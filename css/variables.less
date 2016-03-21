@@ -31,8 +31,8 @@
 @primary-color:#e6e2af;
 @secondary-color:#046380;
 
-@primary-color-contrast: contrast(@primary-color,#000,#fff);
-@secondary-color-contrast:  contrast(@secondary-color,#000,#fff);
+@primary-color-contrast: contrast(@primary-color,#000,#fff, 60%);
+@secondary-color-contrast:  contrast(@secondary-color,#000,#fff, 60%);
 
 @very-light-gray: #eee;
 @light-gray: #ccc;
@@ -42,10 +42,10 @@
 @very-dark-gray: #111;
 
 @neutral-bg-color: #f8f8f8;
-@neutral-text-color: contrast(@neutral-bg-color,#4a4a4a,#a4a4a4);
+@neutral-text-color: contrast(@neutral-bg-color,#4a4a4a,#a4a4a4, 60%);
 
 @footer-bg-color: @light-gray;
-@footer-text-color: contrast(@footer-bg-color,@dark-gray,@light-gray);
+@footer-text-color: contrast(@footer-bg-color,@dark-gray,@light-gray, 60%);
 
 // For validation or message boxes for instance
 @good-color:#dea;
@@ -57,7 +57,7 @@
 @hover-color: darken(@link-color,15%);
 
 @body-bg-color: @base-color;
-@body-text-color: contrast(@base-color,@very-dark-gray,@very-light-gray);
+@body-text-color: contrast(@base-color,@very-dark-gray,@very-light-gray, 60%);
 @header-color: lighten(@body-text-color,15%);
 
 ///////////
