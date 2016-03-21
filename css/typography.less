@@ -42,15 +42,27 @@
         color:@secondary-color-contrast;
     }
 
+    .primary-borders {
+        border-color:@hover-color;
+    }
+
     .primary-bg-color {
         color:@primary-color-contrast;
         background:@primary-color;
+
+        a {
+            color:@primary-color-contrast;
+
+            &:hover {
+                color:@primary-color-contrast;
+            }
+        }
     }
-    
+
     a.primary-bg-color:hover {
         background:@hover-color;
     }
-    
+
     .secondary-bg-color {
         color:@secondary-color-contrast;
         background:@secondary-color;
