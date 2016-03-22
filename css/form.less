@@ -57,6 +57,13 @@ a.btn, span.btn, label.btn, form button, input[type="submit"], .Actions .action 
         }
     }
 
+    &.btn-cta {
+        background: @cta-color;
+        &:hover {
+            background: saturate(@contribute-color,100%);
+        }
+    }
+
     &.btn-inactive {
         background:@light-gray !important;
         color:@medium-gray !important;

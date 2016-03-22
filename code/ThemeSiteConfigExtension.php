@@ -18,6 +18,7 @@ class ThemeSiteConfigExtension extends DataExtension
         'BaseColor' => 'DBColor',
         'PrimaryColor' => 'DBColor',
         'SecondaryColor' => 'DBColor',
+        'CtaColor' => 'DBColor',
         'GoogleAnalyticsCode' => 'Varchar',
         'HeaderFont' => 'Varchar(100)',
         'HeaderFontWeight' => 'Varchar(6)',
@@ -43,7 +44,8 @@ class ThemeSiteConfigExtension extends DataExtension
         'GoogleFonts' => "family=Open+Sans:400italic,400,600&subset=latin,latin-ext"
     );
     private static $styles_variables = array(
-        'BaseColor', 'PrimaryColor', 'SecondaryColor', 'HeaderFont', 'BodyFont', 'HeaderFontWeight', 'BodyFontWeight'
+        'BaseColor', 'PrimaryColor', 'SecondaryColor', 'CtaColor', 'HeaderFont',
+        'BodyFont', 'HeaderFontWeight', 'BodyFontWeight'
     );
 
     /**
@@ -94,6 +96,9 @@ class ThemeSiteConfigExtension extends DataExtension
         $fields->addFieldToTab('Root.Theme',
             new MiniColorsField('SecondaryColor',
             _t('ThemeSiteConfigExtension.SecondaryColor', 'Secondary Color')));
+        $fields->addFieldToTab('Root.Theme',
+            new MiniColorsField('CtaColor',
+            _t('ThemeSiteConfigExtension.CtaColor', 'Call To Action Color')));
 
         // Fonts
         $fields->addFieldToTab('Root.Theme',
@@ -109,7 +114,7 @@ class ThemeSiteConfigExtension extends DataExtension
             $bf  = new TextField('BodyFont',
             _t('ThemeSiteConfigExtension.BodyFont', 'Body Font')));
         $fields->addFieldToTab('Root.Theme',
-            $bf  = new TextField('BodyFontWeight',
+            $bfw = new TextField('BodyFontWeight',
             _t('ThemeSiteConfigExtension.BodyFontWeight', 'Body Font Weight')));
         $fields->addFieldToTab('Root.Theme',
             $gf  = new TextField('GoogleFonts',
@@ -118,8 +123,8 @@ class ThemeSiteConfigExtension extends DataExtension
 
         $hf->setAttribute('placeholder', 'Arial, Helvetica, sans-serif');
         $bf->setAttribute('placeholder', 'Arial, Helvetica, sans-serif');
-        $gf->setAttribute('placeholder',
-            'family=Open+Sans:400italic,400,600&subset=latin,latin-ext');
+
+        $gf->setDescription('family=Open+Sans:400italic,400,600&subset=latin,latin-ext');
 
         // Images
         $fields->addFieldToTab('Root.Theme',
