@@ -294,7 +294,7 @@ class ThemeSiteConfigExtension extends DataExtension
     {
         if (class_exists('Subsite')) {
             if ($subsiteID === null) {
-                $subsiteID = $this->SubsiteID ? $this->SubsiteID : Subsite::currentSubsiteID();
+                $subsiteID = $this->SubsiteID ? $this->owner->SubsiteID : Subsite::currentSubsiteID();
             }
             $path = '/assets/Theme/styles-'.$subsiteID.'.css';
         } else {
