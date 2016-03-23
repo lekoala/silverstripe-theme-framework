@@ -27,7 +27,7 @@ class ThemeRebuildAllStylesTask extends BuildTask
                     "error");
                 continue;
             }
-            $mainConfig->compileStyles();
+            $subsiteConfig->compileStyles();
             DB::alteration_message("Compile styles for subsite ".$subsite->ID);
         }
         DB::alteration_message("All done");
