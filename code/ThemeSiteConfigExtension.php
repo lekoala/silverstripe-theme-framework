@@ -182,6 +182,48 @@ class ThemeSiteConfigExtension extends DataExtension
         return $fields;
     }
 
+    public function ConfigurableEmailTheme()
+    {
+        $env  = new Less_Environment($this->lessEnvOptions());
+        $less = new Less_Functions($env);
+
+        $panelColor = trim((string) $this->owner->PrimaryColor, '#');
+        if (!$panelColor) {
+            $panelColor = '666';
+        }
+        $btnColor = trim((string) $this->owner->CtaColor, '#');
+        if (!$btnColor) {
+            $btnColor = $panelColor;
+        }
+        $headerColor = trim((string) $this->owner->SecondaryColor, '#');
+        if (!$headerColor) {
+            $headerColor = $panelColor;
+        }
+
+        return array(
+            'header_color' => '#'.$headerColor,
+            'header_font_color' => $less->contrast(new Less_Tree_Color($headerColor),
+                new Less_Tree_Color('000000'), new Less_Tree_Color('ffffff'),
+                new Less_Tree_Dimension(0.60))->toRGB(),
+            'footer_color' => '#'.$panelColor,
+            'footer_font_color' => $less->contrast(new Less_Tree_Color($panelColor),
+                new Less_Tree_Color('000000'), new Less_Tree_Color('ffffff'),
+                new Less_Tree_Dimension(0.60))->toRGB(),
+            'panel_color' => '#'.$panelColor,
+            'panel_border_color' => $less->darken(new Less_Tree_Color($panelColor),
+                new Less_Tree_Dimension(15))->toRGB(),
+            'panel_font_color' => $less->contrast(new Less_Tree_Color($panelColor),
+                new Less_Tree_Color('000000'), new Less_Tree_Color('ffffff'),
+                new Less_Tree_Dimension(0.60))->toRGB(),
+            'btn_color' => '#'.$btnColor,
+            'btn_border_color' => $less->darken(new Less_Tree_Color($btnColor),
+                new Less_Tree_Dimension(15))->toRGB(),
+            'btn_font_color' => $less->contrast(new Less_Tree_Color($btnColor),
+                new Less_Tree_Color('000000'), new Less_Tree_Color('ffffff'),
+                new Less_Tree_Dimension(0.60))->toRGB(),
+        );
+    }
+
     /**
      * Check if GoogleAnalytics is enabled
      * @return boolean
@@ -303,6 +345,22 @@ class ThemeSiteConfigExtension extends DataExtension
         return $path;
     }
 
+    public function lessEnvOptions()
+    {
+        $options = array(
+            'compress' => false
+        );
+        if (Director::isLive()) {
+            $options['compress'] = true;
+        }
+        if (Director::isDev()) {
+            $options['sourceMap'] = true;
+        }
+        $options['cache_dir'] = TEMP_FOLDER;
+
+        return $options;
+    }
+
     /**
      * Compile styles from theme/css/all.less to assets/Theme/styles.css
      */
@@ -315,15 +373,8 @@ class ThemeSiteConfigExtension extends DataExtension
         } else {
             $themeDir = SSViewer::get_theme_folder();
         }
-        $options = array();
-        if (Director::isLive()) {
-            $options['compress'] = true;
-        }
-        if (Director::isDev()) {
-            $options['sourceMap'] = true;
-        }
-        $options['cache_dir'] = TEMP_FOLDER;
-        $parser               = new Less_Parser($options);
+
+        $parser = new Less_Parser($this->lessEnvOptions());
         try {
             $parser->parseFile(Director::baseFolder().'/'.$themeDir.'/css/all.less',
                 '/'.$themeDir.'/css');
