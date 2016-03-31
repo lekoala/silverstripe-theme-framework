@@ -7,30 +7,30 @@
 
 // Reset font sizes
 html { 
-	font-size:62.5%;
-	position: relative;
-	min-height: 100% 
+    font-size:62.5%;
+    position: relative;
+    min-height: 100% 
 }; 
 
 // Define base colors
 body {
-	min-height:100%;
-	font-size:@bfs;
+    min-height:100%;
+    font-size:@bfs;
     line-height: @blh;
-	background: @body-bg-color;
+    background: @body-bg-color;
     color: @body-text-color;
     font-family: @body-font;
     a {
-		color:@link-color;
+        color:@link-color;
         text-decoration: none;
-		.transition(all, 0.2s, ease-in-out);
+        .transition(all, 0.2s, ease-in-out);
     }
     a:link {
         -webkit-tap-highlight-color: @link-color;
     }
-	&.iframe {
-		padding:20px;
-	}
+    &.iframe {
+        padding:20px;
+    }
 }
 
 ::selection,::-moz-selection {
@@ -40,13 +40,13 @@ body {
 }
 
 a img {
-	-webkit-tap-highlight-color: rgba(0,0,0,0);
-	-webkit-tap-highlight-color: transparent; /* For some Androids */
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-tap-highlight-color: transparent; /* For some Androids */
 }
 
 // Lazy classes for lazysizes
 .no-js img.lazyload {
-	display: none;
+    display: none;
 }
 .lazyload,
 .lazyloading {
@@ -80,29 +80,29 @@ a img {
 
 // Simple box based on base line height
 .box {
-	padding:@base-line-height;
-	margin-bottom:@base-line-height;
+    padding:@base-line-height;
+    margin-bottom:@base-line-height;
 }
 
 // Default nav styles
 .typography nav {
-	ul {
-		list-style:none;
-		margin:0;
-		padding:0;
-	}
-	li {
-		float:left;
-	}
-	a {
-		padding:@base-line-height/2;
-	}
+    ul {
+        list-style:none;
+        margin:0;
+        padding:0;
+    }
+    li {
+        float:left;
+    }
+    a {
+        padding:@base-line-height/2;
+    }
 }
 
 // Sticky footer
 footer.sticky {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	clear: both;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    clear: both;
 }
