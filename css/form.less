@@ -401,6 +401,9 @@ form {
     }
     // UploadField
     .ss-uploadfield {
+        ul,li {
+            list-style: none !important;
+        }
         .ss-uploadfield-item .ss-uploadfield-item-info {
             label.btn {
                 text-transform: none;
@@ -417,9 +420,17 @@ form {
                 clear:both;
             }
         }
+        .ss-uploadfield-item-name {
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
         .ss-uploadfield-item-preview.ss-uploadfield-dropzone {
             line-height:initial;
             padding:5px;
+        }
+        .ss-uploadfield-item-actions {
+            margin-top:0;
+            padding-top:0;
         }
         .ss-uploadfield-item.ui-state-error .ss-uploadfield-item-info .ss-uploadfield-item-actions {
             width:auto;
@@ -431,12 +442,17 @@ form {
         .middleColumn {
             min-width: 200px !important;
         }
+        &.not-autocompleted .middleColumn {
+            background: #fec;
+            border-color: #FFE79F;
+        }
         .ss-uploadfield-files .ss-uploadfield-item-cancel button {
             text-indent: 0;
             padding:0 10px;
             width:auto;
             height:auto;
             .box-shadow(none);
+            
         }
     }
     // SexyPassword
