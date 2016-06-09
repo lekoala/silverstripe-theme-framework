@@ -17,6 +17,7 @@ class ThemeSiteConfigExtension extends DataExtension
     private static $db               = array(
         'BaseColor' => 'DBColor',
         'PrimaryColor' => 'DBColor',
+        'HoverColor' => 'DBColor',
         'SecondaryColor' => 'DBColor',
         'CtaColor' => 'DBColor',
         'GoogleAnalyticsCode' => 'Varchar',
@@ -44,7 +45,7 @@ class ThemeSiteConfigExtension extends DataExtension
         'GoogleFonts' => "family=Open+Sans:400italic,400,600&subset=latin,latin-ext"
     );
     private static $styles_variables = array(
-        'BaseColor', 'PrimaryColor', 'SecondaryColor', 'CtaColor', 'HeaderFont',
+        'BaseColor', 'PrimaryColor', 'HoverColor', 'SecondaryColor', 'CtaColor', 'HeaderFont',
         'BodyFont', 'HeaderFontWeight', 'BodyFontWeight'
     );
 
@@ -93,6 +94,9 @@ class ThemeSiteConfigExtension extends DataExtension
         $fields->addFieldToTab('Root.Theme',
             new MiniColorsField('PrimaryColor',
             _t('ThemeSiteConfigExtension.PrimaryColor', 'Primary Color')));
+        $fields->addFieldToTab('Root.Theme',
+            new MiniColorsField('HoverColor',
+            _t('ThemeSiteConfigExtension.HoverColor', 'Hover Color')));
         $fields->addFieldToTab('Root.Theme',
             new MiniColorsField('SecondaryColor',
             _t('ThemeSiteConfigExtension.SecondaryColor', 'Secondary Color')));
