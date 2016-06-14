@@ -53,14 +53,14 @@ a.btn, span.btn, label.btn, form button, input[type="submit"], .Actions .action 
     &.btn-secondary {
         background: @secondary-color;
         &:hover {
-            background : darken(@secondary-color,15%);
+            background: contrast(@secondary-color,lighten(@secondary-color, 15%),darken(@secondary-color, 15%));
         }
     }
 
     &.btn-cta {
         background: @cta-color;
         &:hover {
-            background: saturate(@cta-color,100%);
+            background: contrast(@cta-color,lighten(@cta-color, 15%),darken(@cta-color, 15%));
         }
     }
 
