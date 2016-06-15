@@ -58,6 +58,8 @@ a.btn, span.btn, label.btn, form button, input[type="submit"], .Actions .action 
     }
 
     &.btn-cta {
+        font-family:@header-font;
+        font-weight:@header-font-weight;
         background: @cta-color;
         &:hover {
             background: contrast(@cta-color,lighten(@cta-color, 15%),darken(@cta-color, 15%));
@@ -452,7 +454,7 @@ form {
             width:auto;
             height:auto;
             .box-shadow(none);
-            
+
         }
     }
     // SexyPassword
