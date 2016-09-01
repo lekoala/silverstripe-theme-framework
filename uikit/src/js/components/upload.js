@@ -43,15 +43,15 @@
 
             this.on("drop", function(e){
 
-                if (e.dataTransfer && e.dataTransfer.files) {
+                if (e.originalEvent.dataTransfer && e.originalEvent.dataTransfer.files) {
 
                     e.stopPropagation();
                     e.preventDefault();
 
                     $this.element.removeClass($this.options.dragoverClass);
-                    $this.element.trigger('dropped.uk.upload', [e.dataTransfer.files]);
+                    $this.element.trigger('dropped.uk.upload', [e.originalEvent.dataTransfer.files]);
 
-                    xhrupload(e.dataTransfer.files, $this.options);
+                    xhrupload(e.originalEvent.dataTransfer.files, $this.options);
                 }
 
             }).on("dragenter", function(e){
@@ -92,9 +92,6 @@
         return supportFileAPI() && supportAjaxUploadProgressEvents() && supportFormData();
     })();
 
-    if (UI.support.ajaxupload){
-        UI.$.event.props.push("dataTransfer");
-    }
 
     function xhrupload(files, settings) {
 
@@ -191,6 +188,10 @@
                 xhr.setRequestHeader("Accept", "application/json");
             }
 
+            for (var h in settings.headers) {
+                xhr.setRequestHeader(h, settings.headers[h]);
+            }
+
             xhr.onreadystatechange = function() {
 
                 settings.readystatechange(xhr);
@@ -216,29 +217,30 @@
     }
 
     xhrupload.defaults = {
-        'action': '',
-        'single': true,
-        'method': 'POST',
-        'param' : 'files[]',
-        'params': {},
-        'allow' : '*.*',
-        'type'  : 'text',
-        'filelimit': false,
+        action: '',
+        single: true,
+        method: 'POST',
+        param : 'files[]',
+        params: {},
+        allow : '*.*',
+        type  : 'text',
+        filelimit: false,
+        headers: {},
 
         // events
-        'before'          : function(o){},
-        'beforeSend'      : function(xhr){},
-        'beforeAll'       : function(){},
-        'loadstart'       : function(){},
-        'load'            : function(){},
-        'loadend'         : function(){},
-        'error'           : function(){},
-        'abort'           : function(){},
-        'progress'        : function(){},
-        'complete'        : function(){},
-        'allcomplete'     : function(){},
-        'readystatechange': function(){},
-        'notallowed'      : function(file, settings){ alert('Only the following file types are allowed: '+settings.allow); }
+        before          : function(o){},
+        beforeSend      : function(xhr){},
+        beforeAll       : function(){},
+        loadstart       : function(){},
+        load            : function(){},
+        loadend         : function(){},
+        error           : function(){},
+        abort           : function(){},
+        progress        : function(){},
+        complete        : function(){},
+        allcomplete     : function(){},
+        readystatechange: function(){},
+        notallowed      : function(file, settings){ alert('Only the following file types are allowed: '+settings.allow); }
     };
 
     function matchName(pattern, path) {
