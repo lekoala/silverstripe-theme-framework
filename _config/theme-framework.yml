@@ -5,6 +5,7 @@ After:
   - 'cms/*'
 ---
 SiteConfig:
+  can_select_theme: false
   extensions: 
     - ThemeSiteConfigExtension
 SiteTree:

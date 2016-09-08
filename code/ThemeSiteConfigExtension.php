@@ -45,7 +45,8 @@ class ThemeSiteConfigExtension extends DataExtension
         'GoogleFonts' => "family=Open+Sans:400italic,400,600&subset=latin,latin-ext"
     );
     private static $styles_variables = array(
-        'BaseColor', 'PrimaryColor', 'HoverColor', 'SecondaryColor', 'CtaColor', 'HeaderFont',
+        'BaseColor', 'PrimaryColor', 'HoverColor', 'SecondaryColor', 'CtaColor',
+        'HeaderFont',
         'BodyFont', 'HeaderFontWeight', 'BodyFontWeight'
     );
 
@@ -76,11 +77,15 @@ class ThemeSiteConfigExtension extends DataExtension
     public function updateCMSFields(FieldList $fields)
     {
         $fields->removeByName('Theme');
-        $themeDropdownField = new DropdownField("Theme",
-            _t('SiteConfig.THEME', 'Theme'), $this->getAvailableThemesExtended());
-        $themeDropdownField->setEmptyString(_t('SiteConfig.DEFAULTTHEME',
-                '(Use default theme)'));
-        $fields->addFieldToTab('Root.Theme', $themeDropdownField);
+
+        if (Config::inst()->get('SiteConfig', 'can_select_theme')) {
+            $themeDropdownField = new DropdownField("Theme",
+                _t('SiteConfig.THEME', 'Theme'),
+                $this->getAvailableThemesExtended());
+            $themeDropdownField->setEmptyString(_t('SiteConfig.DEFAULTTHEME',
+                    '(Use default theme)'));
+            $fields->addFieldToTab('Root.Theme', $themeDropdownField);
+        }
 
         // Colors
         $fields->addFieldToTab('Root.Theme',
@@ -413,6 +418,15 @@ class ThemeSiteConfigExtension extends DataExtension
     public function HeadScripts()
     {
         return ThemeHeadRequirements::output();
+    }
+
+    public function onBeforeWrite()
+    {
+        parent::onBeforeWrite();
+
+        if (!Config::inst()->get('SiteConfig', 'can_select_theme')) {
+            $this->owner->Theme = Config::inst()->get('SSViewer', 'theme');
+        }
     }
 
     public function onAfterWrite()
