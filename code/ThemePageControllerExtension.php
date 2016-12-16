@@ -83,6 +83,9 @@ class ThemePageControllerExtension extends Extension
         if (strpos($url, 'admin/') === 0) {
             return true;
         }
+        if (strpos($url, 'dev/') === 0) {
+            return true;
+        }
         // Because keep-alive pings done through ajax could trigger requirements loading
         if (strpos($url, 'Security/ping') === 0) {
             return true;
@@ -132,7 +135,7 @@ class ThemePageControllerExtension extends Extension
         /* @var $request SS_HttpRequest */
         $request = $this->owner->getRequest();
         $url = $request->getURL();
-        if (strpos($url, 'dev/build') === 0) {
+        if (strpos($url, 'dev/') === 0) {
             return;
         }
 
