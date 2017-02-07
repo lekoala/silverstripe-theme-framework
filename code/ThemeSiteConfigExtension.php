@@ -7,14 +7,15 @@
  */
 class ThemeSiteConfigExtension extends DataExtension
 {
-    const BACKGROUND_NO_REPEAT  = 'no-repeat';
-    const BACKGROUND_REPEAT     = 'repeat';
-    const BACKGROUND_REPEAT_X   = 'repeat-x';
-    const BACKGROUND_REPEAT_Y   = 'repeat-y';
-    const BACKGROUND_SIZE_COVER = 'cover';
-    const BACKGROUND_SIZE_FULL  = '100%';
 
-    private static $db               = array(
+    const BACKGROUND_NO_REPEAT = 'no-repeat';
+    const BACKGROUND_REPEAT = 'repeat';
+    const BACKGROUND_REPEAT_X = 'repeat-x';
+    const BACKGROUND_REPEAT_Y = 'repeat-y';
+    const BACKGROUND_SIZE_COVER = 'cover';
+    const BACKGROUND_SIZE_FULL = '100%';
+
+    private static $db = array(
         'BaseColor' => 'DBColor',
         'PrimaryColor' => 'DBColor',
         'HoverColor' => 'DBColor',
@@ -28,15 +29,15 @@ class ThemeSiteConfigExtension extends DataExtension
         'GoogleFonts' => 'Varchar(255)',
         'BackgroundRepeat' => "Enum('no-repeat,repeat,repeat-x,repeat-y','no-repeat')",
     );
-    private static $has_one          = array(
+    private static $has_one = array(
         'Logo' => 'Image',
         'Icon' => 'Image', // Will be converted to favicon
         'FooterImage' => 'Image',
     );
-    private static $many_many        = array(
+    private static $many_many = array(
         'BackgroundImages' => 'Image'
     );
-    private static $defaults         = array(
+    private static $defaults = array(
         'BaseColor' => '#ffffff',
         'PrimaryColor' => '#284d6d',
         'SecondaryColor' => '#44c8f4',
@@ -53,17 +54,16 @@ class ThemeSiteConfigExtension extends DataExtension
     /**
      * @var Image
      */
-    protected static $background_image        = null;
+    protected static $background_image = null;
     protected static $background_image_repeat = null;
-    protected static $background_size         = 'cover';
+    protected static $background_size = 'cover';
 
     public static function getBackgroundImage()
     {
         return self::$background_image;
     }
 
-    public static function setBackgroundImage(Image $background_image,
-                                              $repeat = null, $size = null)
+    public static function setBackgroundImage(Image $background_image, $repeat = null, $size = null)
     {
         self::$background_image = $background_image;
         if ($repeat !== null) {
@@ -79,55 +79,27 @@ class ThemeSiteConfigExtension extends DataExtension
         $fields->removeByName('Theme');
 
         if (Config::inst()->get('SiteConfig', 'can_select_theme')) {
-            $themeDropdownField = new DropdownField("Theme",
-                _t('SiteConfig.THEME', 'Theme'),
-                $this->getAvailableThemesExtended());
-            $themeDropdownField->setEmptyString(_t('SiteConfig.DEFAULTTHEME',
-                    '(Use default theme)'));
+            $themeDropdownField = new DropdownField("Theme", _t('SiteConfig.THEME', 'Theme'), $this->getAvailableThemesExtended());
+            $themeDropdownField->setEmptyString(_t('SiteConfig.DEFAULTTHEME', '(Use default theme)'));
             $fields->addFieldToTab('Root.Theme', $themeDropdownField);
         }
 
         // Colors
-        $fields->addFieldToTab('Root.Theme',
-            new HeaderField('ColorH',
-            _t('ThemeSiteConfigExtension.ColorH', 'Colors')));
-        $fields->addFieldToTab('Root.Theme',
-            $BaseColor = new MiniColorsField('BaseColor',
-            _t('ThemeSiteConfigExtension.BaseColor', 'Base Color')));
-        $BaseColor->setDescription(_t('ThemeSiteConfigExtension.BaseColorDesc',
-                "The background color of your website"));
-        $fields->addFieldToTab('Root.Theme',
-            new MiniColorsField('PrimaryColor',
-            _t('ThemeSiteConfigExtension.PrimaryColor', 'Primary Color')));
-        $fields->addFieldToTab('Root.Theme',
-            new MiniColorsField('HoverColor',
-            _t('ThemeSiteConfigExtension.HoverColor', 'Hover Color')));
-        $fields->addFieldToTab('Root.Theme',
-            new MiniColorsField('SecondaryColor',
-            _t('ThemeSiteConfigExtension.SecondaryColor', 'Secondary Color')));
-        $fields->addFieldToTab('Root.Theme',
-            new MiniColorsField('CtaColor',
-            _t('ThemeSiteConfigExtension.CtaColor', 'Call To Action Color')));
+        $fields->addFieldToTab('Root.Theme', new HeaderField('ColorH', _t('ThemeSiteConfigExtension.ColorH', 'Colors')));
+        $fields->addFieldToTab('Root.Theme', $BaseColor = new MiniColorsField('BaseColor', _t('ThemeSiteConfigExtension.BaseColor', 'Base Color')));
+        $BaseColor->setDescription(_t('ThemeSiteConfigExtension.BaseColorDesc', "The background color of your website"));
+        $fields->addFieldToTab('Root.Theme', new MiniColorsField('PrimaryColor', _t('ThemeSiteConfigExtension.PrimaryColor', 'Primary Color')));
+        $fields->addFieldToTab('Root.Theme', new MiniColorsField('HoverColor', _t('ThemeSiteConfigExtension.HoverColor', 'Hover Color')));
+        $fields->addFieldToTab('Root.Theme', new MiniColorsField('SecondaryColor', _t('ThemeSiteConfigExtension.SecondaryColor', 'Secondary Color')));
+        $fields->addFieldToTab('Root.Theme', new MiniColorsField('CtaColor', _t('ThemeSiteConfigExtension.CtaColor', 'Call To Action Color')));
 
         // Fonts
-        $fields->addFieldToTab('Root.Theme',
-            new HeaderField('FontsH',
-            _t('ThemeSiteConfigExtension.FontsH', 'Fonts')));
-        $fields->addFieldToTab('Root.Theme',
-            $hf  = new TextField('HeaderFont',
-            _t('ThemeSiteConfigExtension.HeaderFont', 'Header Font')));
-        $fields->addFieldToTab('Root.Theme',
-            $hfw = new TextField('HeaderFontWeight',
-            _t('ThemeSiteConfigExtension.HeaderFontWeight', 'Header Font Weight')));
-        $fields->addFieldToTab('Root.Theme',
-            $bf  = new TextField('BodyFont',
-            _t('ThemeSiteConfigExtension.BodyFont', 'Body Font')));
-        $fields->addFieldToTab('Root.Theme',
-            $bfw = new TextField('BodyFontWeight',
-            _t('ThemeSiteConfigExtension.BodyFontWeight', 'Body Font Weight')));
-        $fields->addFieldToTab('Root.Theme',
-            $gf  = new TextField('GoogleFonts',
-            _t('ThemeSiteConfigExtension.GoogleFonts', 'Google Fonts')));
+        $fields->addFieldToTab('Root.Theme', new HeaderField('FontsH', _t('ThemeSiteConfigExtension.FontsH', 'Fonts')));
+        $fields->addFieldToTab('Root.Theme', $hf = new TextField('HeaderFont', _t('ThemeSiteConfigExtension.HeaderFont', 'Header Font')));
+        $fields->addFieldToTab('Root.Theme', $hfw = new TextField('HeaderFontWeight', _t('ThemeSiteConfigExtension.HeaderFontWeight', 'Header Font Weight')));
+        $fields->addFieldToTab('Root.Theme', $bf = new TextField('BodyFont', _t('ThemeSiteConfigExtension.BodyFont', 'Body Font')));
+        $fields->addFieldToTab('Root.Theme', $bfw = new TextField('BodyFontWeight', _t('ThemeSiteConfigExtension.BodyFontWeight', 'Body Font Weight')));
+        $fields->addFieldToTab('Root.Theme', $gf = new TextField('GoogleFonts', _t('ThemeSiteConfigExtension.GoogleFonts', 'Google Fonts')));
 
 
         $hf->setAttribute('placeholder', 'Arial, Helvetica, sans-serif');
@@ -136,36 +108,20 @@ class ThemeSiteConfigExtension extends DataExtension
         $gf->setDescription('family=Open+Sans:400italic,400,600&subset=latin,latin-ext');
 
         // Images
-        $fields->addFieldToTab('Root.Theme',
-            new HeaderField('ImagesH',
-            _t('ThemeSiteConfigExtension.ImagesH', 'Images')));
-        $fields->addFieldToTab('Root.Theme',
-            ImageUploadField::createForClass($this, 'Logo',
-                _t('ThemeSiteConfigExtension.Logo', 'Logo')));
-        $fields->addFieldToTab('Root.Theme',
-            $icon = ImageUploadField::createForClass($this, 'Icon',
-                _t('ThemeSiteConfigExtension.Icon', 'Icon')));
-        $fields->addFieldToTab('Root.Theme',
-            ImageUploadField::createForClass($this, 'FooterImage',
-                _t('ThemeSiteConfigExtension.FooterImage', 'Footer Image')));
+        $fields->addFieldToTab('Root.Theme', new HeaderField('ImagesH', _t('ThemeSiteConfigExtension.ImagesH', 'Images')));
+        $fields->addFieldToTab('Root.Theme', ImageUploadField::createForClass($this, 'Logo', _t('ThemeSiteConfigExtension.Logo', 'Logo')));
+        $fields->addFieldToTab('Root.Theme', $icon = ImageUploadField::createForClass($this, 'Icon', _t('ThemeSiteConfigExtension.Icon', 'Icon')));
+        $fields->addFieldToTab('Root.Theme', ImageUploadField::createForClass($this, 'FooterImage', _t('ThemeSiteConfigExtension.FooterImage', 'Footer Image')));
 
-        if (is_file(Director::baseFolder().$this->FaviconPath())) {
-            $icon->setDescription(_t('ThemeSiteConfigExtension.FaviconPreview',
-                    'Favicon preview').' <img src="'.$this->FaviconPath().'" alt="Favicon" />');
+        if (is_file(Director::baseFolder() . $this->FaviconPath())) {
+            $icon->setDescription(_t('ThemeSiteConfigExtension.FaviconPreview', 'Favicon preview') . ' <img src="' . $this->FaviconPath() . '" alt="Favicon" />');
         } else {
-            $icon->setDescription(_t('ThemeSiteConfigExtension.NoFavicon',
-                    'No favicon created for this site'));
+            $icon->setDescription(_t('ThemeSiteConfigExtension.NoFavicon', 'No favicon created for this site'));
         }
 
-        $fields->addFieldToTab('Root.Theme',
-            ImageUploadField::createForClass($this, 'BackgroundImages',
-                _t('ThemeSiteConfigExtension.BackgroundImages',
-                    'Background Images')));
+        $fields->addFieldToTab('Root.Theme', ImageUploadField::createForClass($this, 'BackgroundImages', _t('ThemeSiteConfigExtension.BackgroundImages', 'Background Images')));
 
-        $fields->addFieldToTab('Root.Theme',
-            new DropdownField('BackgroundRepeat',
-            _t('ThemeSiteConfigExtension.BackgroundRepeat', 'Background Repeat'),
-            array(
+        $fields->addFieldToTab('Root.Theme', new DropdownField('BackgroundRepeat', _t('ThemeSiteConfigExtension.BackgroundRepeat', 'Background Repeat'), array(
             self::BACKGROUND_NO_REPEAT => 'no repeat',
             self::BACKGROUND_REPEAT => 'repeat',
             self::BACKGROUND_REPEAT_X => 'repeat x',
@@ -173,18 +129,14 @@ class ThemeSiteConfigExtension extends DataExtension
         )));
 
         if (Director::isDev() || Permission::check('ADMIN')) {
-            $fields->addFieldToTab('Root.Theme',
-                new HeaderField('ThemeDevHeader', 'Dev tools'));
-            $fields->addFieldToTab('Root.Theme',
-                new CheckboxField('RefreshTheme'));
-            $fields->addFieldToTab('Root.Theme',
-                new CheckboxField('RefreshIcon'));
+            $fields->addFieldToTab('Root.Theme', new HeaderField('ThemeDevHeader', 'Dev tools'));
+            $fields->addFieldToTab('Root.Theme', new CheckboxField('RefreshTheme'));
+            $fields->addFieldToTab('Root.Theme', new CheckboxField('RefreshIcon'));
         }
 
         // Simple Google Analytics helper, disable if other extension are found
         if (!$this->owner->hasExtension('GoogleConfig') && !$this->owner->hasExtension('ZenGoogleAnalytics')) {
-            $fields->addFieldToTab('Root.Main',
-                $ga = new TextField('GoogleAnalyticsCode'));
+            $fields->addFieldToTab('Root.Main', $ga = new TextField('GoogleAnalyticsCode'));
             $ga->setAttribute('placeholder', 'UA-0000000-00');
         }
 
@@ -193,7 +145,7 @@ class ThemeSiteConfigExtension extends DataExtension
 
     public function ConfigurableEmailTheme()
     {
-        $env  = new Less_Environment($this->lessEnvOptions());
+        $env = new Less_Environment($this->lessEnvOptions());
         $less = new Less_Functions($env);
 
         $panelColor = trim((string) $this->owner->PrimaryColor, '#');
@@ -210,26 +162,16 @@ class ThemeSiteConfigExtension extends DataExtension
         }
 
         return array(
-            'header_color' => '#'.$headerColor,
-            'header_font_color' => $less->contrast(new Less_Tree_Color($headerColor),
-                new Less_Tree_Color('000000'), new Less_Tree_Color('ffffff'),
-                new Less_Tree_Dimension(0.60))->toRGB(),
-            'footer_color' => '#'.$panelColor,
-            'footer_font_color' => $less->contrast(new Less_Tree_Color($panelColor),
-                new Less_Tree_Color('000000'), new Less_Tree_Color('ffffff'),
-                new Less_Tree_Dimension(0.60))->toRGB(),
-            'panel_color' => '#'.$panelColor,
-            'panel_border_color' => $less->darken(new Less_Tree_Color($panelColor),
-                new Less_Tree_Dimension(15))->toRGB(),
-            'panel_font_color' => $less->contrast(new Less_Tree_Color($panelColor),
-                new Less_Tree_Color('000000'), new Less_Tree_Color('ffffff'),
-                new Less_Tree_Dimension(0.60))->toRGB(),
-            'btn_color' => '#'.$btnColor,
-            'btn_border_color' => $less->darken(new Less_Tree_Color($btnColor),
-                new Less_Tree_Dimension(15))->toRGB(),
-            'btn_font_color' => $less->contrast(new Less_Tree_Color($btnColor),
-                new Less_Tree_Color('000000'), new Less_Tree_Color('ffffff'),
-                new Less_Tree_Dimension(0.60))->toRGB(),
+            'header_color' => '#' . $headerColor,
+            'header_font_color' => $less->contrast(new Less_Tree_Color($headerColor), new Less_Tree_Color('000000'), new Less_Tree_Color('ffffff'), new Less_Tree_Dimension(0.60))->toRGB(),
+            'footer_color' => '#' . $panelColor,
+            'footer_font_color' => $less->contrast(new Less_Tree_Color($panelColor), new Less_Tree_Color('000000'), new Less_Tree_Color('ffffff'), new Less_Tree_Dimension(0.60))->toRGB(),
+            'panel_color' => '#' . $panelColor,
+            'panel_border_color' => $less->darken(new Less_Tree_Color($panelColor), new Less_Tree_Dimension(15))->toRGB(),
+            'panel_font_color' => $less->contrast(new Less_Tree_Color($panelColor), new Less_Tree_Color('000000'), new Less_Tree_Color('ffffff'), new Less_Tree_Dimension(0.60))->toRGB(),
+            'btn_color' => '#' . $btnColor,
+            'btn_border_color' => $less->darken(new Less_Tree_Color($btnColor), new Less_Tree_Dimension(15))->toRGB(),
+            'btn_font_color' => $less->contrast(new Less_Tree_Color($btnColor), new Less_Tree_Color('000000'), new Less_Tree_Color('ffffff'), new Less_Tree_Dimension(0.60))->toRGB(),
         );
     }
 
@@ -258,7 +200,7 @@ class ThemeSiteConfigExtension extends DataExtension
         if (class_exists('Subsite') && Subsite::currentSubsiteID()) {
             $subsiteThemes = Subsite::config()->allowed_themes;
             // Make sure set theme is allowed
-            $subsite       = Subsite::currentSubsite();
+            $subsite = Subsite::currentSubsite();
             if ($subsite->Theme && !in_array($subsite->Theme, $subsiteThemes)) {
                 $subsiteThemes[] = $subsite->Theme;
             }
@@ -269,10 +211,11 @@ class ThemeSiteConfigExtension extends DataExtension
             }
             return array_combine($subsiteThemes, $subsiteThemes);
         }
-        $themes   = SSViewer::get_themes($baseDir);
+        $themes = SSViewer::get_themes($baseDir);
         $disabled = (array) $this->owner->config()->disabled_themes;
         foreach ($disabled as $theme) {
-            if (isset($themes[$theme])) unset($themes[$theme]);
+            if (isset($themes[$theme]))
+                unset($themes[$theme]);
         }
         return $themes;
     }
@@ -294,18 +237,17 @@ class ThemeSiteConfigExtension extends DataExtension
     public function BackgroundImageStyles()
     {
         if (self::$background_image) {
-            $img                           = self::$background_image;
-            $this->owner->BackgroundRepeat = self::$background_image_repeat ? self::$background_image_repeat
-                    : self::BACKGROUND_NO_REPEAT;
+            $img = self::$background_image;
+            $this->owner->BackgroundRepeat = self::$background_image_repeat ? self::$background_image_repeat : self::BACKGROUND_NO_REPEAT;
         } else {
             $img = $this->RandomBackgroundImage();
         }
         if ($img) {
-            $backgroundSize = 'background-size:'.self::$background_size.';background-repeat:no-repeat';
-            $resizedImage   = $img;
+            $backgroundSize = 'background-size:' . self::$background_size . ';background-repeat:no-repeat';
+            $resizedImage = $img;
             // If we use a pattern, repeat it accordingly
             if ($this->owner->BackgroundRepeat !== self::BACKGROUND_NO_REPEAT) {
-                $backgroundSize = 'background-size:initial;background-repeat:'.$this->owner->BackgroundRepeat;
+                $backgroundSize = 'background-size:initial;background-repeat:' . $this->owner->BackgroundRepeat;
             }
             // Or resize to a nice size and stretch
             else {
@@ -314,7 +256,7 @@ class ThemeSiteConfigExtension extends DataExtension
                     $resizedImage = $img;
                 }
             }
-            return "background-image:url('".$resizedImage->Link()."');$backgroundSize";
+            return "background-image:url('" . $resizedImage->Link() . "');$backgroundSize";
         }
     }
 
@@ -329,7 +271,7 @@ class ThemeSiteConfigExtension extends DataExtension
             if ($subsiteID === null) {
                 $subsiteID = Subsite::currentSubsiteID();
             }
-            $path = '/assets/Theme/favico-'.$subsiteID.'.ico';
+            $path = '/assets/Theme/favico-' . $subsiteID . '.ico';
         } else {
             $path = '/assets/Theme/favico.ico';
         }
@@ -347,7 +289,7 @@ class ThemeSiteConfigExtension extends DataExtension
             if ($subsiteID === null) {
                 $subsiteID = $this->owner->SubsiteID ? $this->owner->SubsiteID : Subsite::currentSubsiteID();
             }
-            $path = '/assets/Theme/styles-'.$subsiteID.'.css';
+            $path = '/assets/Theme/styles-' . $subsiteID . '.css';
         } else {
             $path = '/assets/Theme/styles.css';
         }
@@ -375,25 +317,23 @@ class ThemeSiteConfigExtension extends DataExtension
      */
     public function compileStyles()
     {
-        $destination = Director::baseFolder().$this->StylesPath();
+        $destination = Director::baseFolder() . $this->StylesPath();
 
         if ($this->owner->Theme) {
-            $themeDir = 'themes/'.$this->owner->Theme;
+            $themeDir = 'themes/' . $this->owner->Theme;
         } else {
             $themeDir = SSViewer::get_theme_folder();
         }
 
         $parser = new Less_Parser($this->lessEnvOptions());
         try {
-            $parser->parseFile(Director::baseFolder().'/'.$themeDir.'/css/all.less',
-                '/'.$themeDir.'/css');
+            $parser->parseFile(Director::baseFolder() . '/' . $themeDir . '/css/all.less', '/' . $themeDir . '/css');
             $vars = array(
                 'base_color' => '#ffffff'
             );
             foreach (self::$styles_variables as $var) {
                 if ($this->owner->$var) {
-                    $less_var        = strtolower(preg_replace('/([a-z])([A-Z])/',
-                            '$1-$2', $var));
+                    $less_var = strtolower(preg_replace('/([a-z])([A-Z])/', '$1-$2', $var));
                     $vars[$less_var] = $this->owner->$var;
                 }
             }
@@ -403,15 +343,14 @@ class ThemeSiteConfigExtension extends DataExtension
             }
             $css = $parser->getCss();
 
-            $baseDir = Director::baseFolder().'/assets/Theme';
+            $baseDir = Director::baseFolder() . '/assets/Theme';
             if (!is_dir($baseDir)) {
                 mkdir($baseDir, 0777, true);
             }
 
             file_put_contents($destination, $css);
         } catch (Exception $ex) {
-            SS_Log::log('Failed to create css files : '.$ex->getMessage(),
-                SS_Log::DEBUG);
+            SS_Log::log('Failed to create css files : ' . $ex->getMessage(), SS_Log::DEBUG);
         }
     }
 
@@ -433,12 +372,12 @@ class ThemeSiteConfigExtension extends DataExtension
     {
         parent::onAfterWrite();
 
-        $baseDir = Director::baseFolder().'/assets/Theme';
+        $baseDir = Director::baseFolder() . '/assets/Theme';
         if (!is_dir($baseDir)) {
             mkdir($baseDir, 0777, true);
         }
 
-        $changes       = array_keys($this->owner->getChangedFields(false, 1));
+        $changes = array_keys($this->owner->getChangedFields(false, 1));
         $shouldCompile = false;
         foreach ($changes as $change) {
             if (in_array($change, self::$styles_variables)) {
@@ -452,15 +391,16 @@ class ThemeSiteConfigExtension extends DataExtension
         }
 
         // Create favicon
-        $destination = Director::baseFolder().$this->FaviconPath();
+        $destination = Director::baseFolder() . $this->FaviconPath();
         if ($this->owner->IconID && (!empty($_POST['RefreshIcon']) || ($this->owner->isChanged('IconID')))) {
-            $source  = $this->owner->Icon()->getFullPath();
-            $ico_lib = new PHP_ICO($source, array(array(16, 16)));
-            try {
-                $ico_lib->save_ico($destination);
-            } catch (Exception $ex) {
-                SS_Log::log('Failed to create favicon : '.$ex->getMessage(),
-                    SS_Log::DEBUG);
+            $source = $this->owner->Icon()->getFullPath();
+            if (is_file($source)) {
+                $ico_lib = new PHP_ICO($source, array(array(16, 16)));
+                try {
+                    $ico_lib->save_ico($destination);
+                } catch (Exception $ex) {
+                    SS_Log::log('Failed to create favicon : ' . $ex->getMessage(), SS_Log::DEBUG);
+                }
             }
         }
     }
