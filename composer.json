@@ -16,7 +16,7 @@
 				"lekoala/silverstripe-form-extras": "*"
 			},
 	"extra": {
-		"installer-name": "subsites-extras"
+		"installer-name": "theme-framework"
 	}
 
 }
