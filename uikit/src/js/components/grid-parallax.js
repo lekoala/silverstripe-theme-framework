@@ -2,13 +2,13 @@
 
     var component;
 
-    if (window.UIkit) {
-        component = addon(UIkit);
+    if (window.UIkit2) {
+        component = addon(UIkit2);
     }
 
-    if (typeof define == "function" && define.amd) {
-        define("uikit-grid-parallax", ["uikit"], function(){
-            return component || addon(UIkit);
+    if (typeof define == 'function' && define.amd) {
+        define('uikit-grid-parallax', ['uikit'], function(){
+            return component || addon(UIkit2);
         });
     }
 
@@ -27,16 +27,16 @@
     UI.component('gridparallax', {
 
         defaults: {
-            target   : false,
-            smooth   : 150,
-            translate     : 150
+            target    : false,
+            smooth    : 150,
+            translate : 150
         },
 
         boot: function() {
 
             // listen to scroll and resize
-            UI.$doc.on("scrolling.uk.document", checkParallaxes);
-            UI.$win.on("load resize orientationchange", UI.Utils.debounce(function(){
+            UI.$doc.on('scrolling.uk.document', checkParallaxes);
+            UI.$win.on('load resize orientationchange', UI.Utils.debounce(function(){
                 checkParallaxes();
             }, 50));
 
@@ -47,8 +47,8 @@
 
                     var parallax = UI.$(this);
 
-                    if (!parallax.data("gridparallax")) {
-                        UI.gridparallax(parallax, UI.Utils.options(parallax.attr("data-uk-grid-parallax")));
+                    if (!parallax.data('gridparallax')) {
+                        UI.gridparallax(parallax, UI.Utils.options(parallax.attr('data-uk-grid-parallax')));
                     }
                 });
             });
@@ -106,7 +106,7 @@
             }
 
             while(mods.length < columns) {
-               if(!(mods[mods.length-1] - 2)) break;
+               if (!(mods[mods.length-1] - 2)) break;
                mods.push(mods[mods.length-1] - 2);
             }
 
@@ -138,7 +138,7 @@
 
         var top       = element.offset().top,
             height    = element.outerHeight(),
-            scrolltop = UIkit.$win.scrollTop(),
+            scrolltop = UI.$win.scrollTop(),
             wh        = window.innerHeight,
             distance, percentage, percent;
 

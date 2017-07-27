@@ -1,17 +1,23 @@
 (function(core) {
 
-    if (typeof define == "function" && define.amd) { // AMD
+    var uikit;
 
-        define("uikit", function(){
+    if (!window.jQuery) {
+        throw new Error('UIkit 2.x requires jQuery');
+    } else {
+        uikit = core(window.jQuery);
+    }
 
-            var uikit = window.UIkit || core(window, window.jQuery, window.document);
+    if (typeof define == 'function' && define.amd) { // AMD
+
+        define('uikit', function(){
 
             uikit.load = function(res, req, onload, config) {
 
-                var resources = res.split(','), load = [], i, base = (config.config && config.config.uikit && config.config.uikit.base ? config.config.uikit.base : "").replace(/\/+$/g, "");
+                var resources = res.split(','), load = [], i, base = (config.config && config.config.uikit && config.config.uikit.base ? config.config.uikit.base : '').replace(/\/+$/g, '');
 
                 if (!base) {
-                    throw new Error( "Please define base path to UIkit in the requirejs config." );
+                    throw new Error('Please define base path to UIkit in the requirejs config.');
                 }
 
                 for (i = 0; i < resources.length; i += 1) {
@@ -28,27 +34,22 @@
         });
     }
 
-    if (!window.jQuery) {
-        throw new Error( "UIkit requires jQuery" );
-    }
-
-    if (window && window.jQuery) {
-        core(window, window.jQuery, window.document);
-    }
-
-
-})(function(global, $, doc) {
+})(function($) {
 
     "use strict";
 
-    var UI = {}, _UI = global.UIkit ? Object.create(global.UIkit) : undefined;
+    if (window.UIkit2) {
+        return window.UIkit2;
+    }
 
-    UI.version = '2.27.1';
+    var UI = {}, _UI = window.UIkit || undefined;
+
+    UI.version = '2.27.4';
 
     UI.noConflict = function() {
         // restore UIkit version
         if (_UI) {
-            global.UIkit = _UI;
+            window.UIkit = _UI;
             $.UIkit      = _UI;
             $.fn.uk      = _UI.fn;
         }
@@ -56,9 +57,11 @@
         return UI;
     };
 
-    UI.prefix = function(str) {
-        return str;
-    };
+    window.UIkit2 = UI;
+
+    if (!_UI) {
+        window.UIkit = UI;
+    }
 
     // cache jQuery
     UI.$ = $;
@@ -72,7 +75,7 @@
 
         var transitionEnd = (function() {
 
-            var element = doc.body || doc.documentElement,
+            var element = document.body || document.documentElement,
                 transEndEventNames = {
                     WebkitTransition : 'webkitTransitionEnd',
                     MozTransition    : 'transitionend',
@@ -92,7 +95,7 @@
 
         var animationEnd = (function() {
 
-            var element = doc.body || doc.documentElement,
+            var element = document.body || document.documentElement,
                 animEndEventNames = {
                     WebkitAnimation : 'webkitAnimationEnd',
                     MozAnimation    : 'animationend',
@@ -136,13 +139,13 @@
 
     UI.support.touch = (
         ('ontouchstart' in document) ||
-        (global.DocumentTouch && document instanceof global.DocumentTouch)  ||
-        (global.navigator.msPointerEnabled && global.navigator.msMaxTouchPoints > 0) || //IE 10
-        (global.navigator.pointerEnabled && global.navigator.maxTouchPoints > 0) || //IE >=11
+        (window.DocumentTouch && document instanceof window.DocumentTouch)  ||
+        (window.navigator.msPointerEnabled && window.navigator.msMaxTouchPoints > 0) || //IE 10
+        (window.navigator.pointerEnabled && window.navigator.maxTouchPoints > 0) || //IE >=11
         false
     );
 
-    UI.support.mutationobserver = (global.MutationObserver || global.WebKitMutationObserver || null);
+    UI.support.mutationobserver = (window.MutationObserver || window.WebKitMutationObserver || null);
 
     UI.Utils = {};
 
@@ -160,7 +163,7 @@
                     .replace(/'([^']+)'/g, function(_, $1){return '"'+$1+'"';})
                 );
             } else {
-                return (new Function("", "var json = " + str + "; return JSON.parse(JSON.stringify(json));"))();
+                return (new Function('', 'var json = ' + str + '; return JSON.parse(JSON.stringify(json));'))();
             }
         } catch(e) { return false; }
     };
@@ -326,30 +329,30 @@
 
                 switch(cmd) {
                     case '~':
-                        output.push("for(var $i=0;$i<"+prop+".length;$i++) { var $item = "+prop+"[$i];");
+                        output.push('for(var $i=0;$i<'+prop+'.length;$i++) { var $item = '+prop+'[$i];');
                         openblocks++;
                         break;
                     case ':':
-                        output.push("for(var $key in "+prop+") { var $val = "+prop+"[$key];");
+                        output.push('for(var $key in '+prop+') { var $val = '+prop+'[$key];');
                         openblocks++;
                         break;
                     case '#':
-                        output.push("if("+prop+") {");
+                        output.push('if('+prop+') {');
                         openblocks++;
                         break;
                     case '^':
-                        output.push("if(!"+prop+") {");
+                        output.push('if(!'+prop+') {');
                         openblocks++;
                         break;
                     case '/':
-                        output.push("}");
+                        output.push('}');
                         openblocks--;
                         break;
                     case '!':
-                        output.push("__ret.push("+prop+");");
+                        output.push('__ret.push('+prop+');');
                         break;
                     default:
-                        output.push("__ret.push(escape("+prop+"));");
+                        output.push('__ret.push(escape('+prop+'));');
                         break;
                 }
             } else {
@@ -373,6 +376,10 @@
     UI.Utils.focus = function(element, extra) {
 
         element = $(element);
+
+        if (!element.length) {
+            return element;
+        }
 
         var autofocus = element.find('[autofocus]:first'), tabidx;
 
@@ -403,8 +410,6 @@
     UI.Utils.events       = {};
     UI.Utils.events.click = UI.support.touch ? 'tap' : 'click';
 
-    global.UIkit = UI;
-
     // deprecated
 
     UI.fn = function(command, options) {
@@ -412,7 +417,7 @@
         var args = arguments, cmd = command.match(/^([a-z\-]+)(?:\.([a-z]+))?/i), component = cmd[1], method = cmd[2];
 
         if (!UI[component]) {
-            $.error("UIkit component [" + component + "] does not exist.");
+            $.error('UIkit component [' + component + '] does not exist.');
             return this;
         }
 
@@ -430,7 +435,11 @@
 
     UI.components    = {};
 
-    UI.component = function(name, def) {
+    UI.component = function(name, def, override) {
+
+        if (UI.components[name] && !override) {
+            return UI.components[name];
+        }
 
         var fn = function(element, options) {
 
@@ -530,7 +539,7 @@
                 switch(arguments.length) {
                     case 1:
 
-                        if (typeof arguments[0] === "string" || arguments[0].nodeType || arguments[0] instanceof jQuery) {
+                        if (typeof arguments[0] === 'string' || arguments[0].nodeType || arguments[0] instanceof jQuery) {
                             element = $(arguments[0]);
                         } else {
                             options = arguments[0];
@@ -785,7 +794,7 @@
     }());
 
     // add touch identifier class
-    UI.$html.addClass(UI.support.touch ? "uk-touch" : "uk-notouch");
+    UI.$html.addClass(UI.support.touch ? 'uk-touch' : 'uk-notouch');
 
     // add uk-hover class on tap to support overlays on touch devices
     if (UI.support.touch) {
