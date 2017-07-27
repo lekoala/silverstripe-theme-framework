@@ -225,6 +225,12 @@ class ThemeSiteConfigExtension extends DataExtension
      */
     public function RandomBackgroundImage()
     {
+        // This simple query will prevent an expensive rand image if no image is set
+        $sc = SiteConfig::current_site_config();
+        $count = DB::query('SELECT COUNT(ID) FROM SiteConfig_BackgroundImages WHERE SiteConfigID = ' . $sc->ID)->value();
+        if (!$count) {
+            return;
+        }
         /* @var $img Image */
         $img = $this->owner->BackgroundImages()->sort('RAND()')->first();
         return $img;
