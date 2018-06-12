@@ -113,6 +113,7 @@ class ThemeSiteConfigExtension extends DataExtension
         $fields->addFieldToTab('Root.Theme', $icon = ImageUploadField::createForClass($this, 'Icon', _t('ThemeSiteConfigExtension.Icon', 'Icon')));
         $fields->addFieldToTab('Root.Theme', ImageUploadField::createForClass($this, 'FooterImage', _t('ThemeSiteConfigExtension.FooterImage', 'Footer Image')));
 
+        $icon->getValidator()->setAllowedExtensions(array('jpg', 'jpeg', 'png', 'gif', 'ico'));
         if (is_file(Director::baseFolder() . $this->FaviconPath())) {
             $icon->setDescription(_t('ThemeSiteConfigExtension.FaviconPreview', 'Favicon preview') . ' <img src="' . $this->FaviconPath() . '" alt="Favicon" />');
         } else {
