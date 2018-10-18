@@ -127,6 +127,16 @@ class ThemePageControllerExtension extends Extension
         $this->owner->extend('updateOpenGraphTitle', $title);
         return $title;
     }
+    
+    public function OpenGraphDescription()
+    {
+        $desc = null;
+        if ($this->owner->data()) {
+            $desc = $this->owner->data()->MetaDescription;
+        }
+        $this->owner->extend('updateOpenGraphDescription', $desc);
+        return $desc;
+    }
 
     public function onBeforeInit()
     {
