@@ -22,6 +22,7 @@ class ThemeSiteConfigExtension extends DataExtension
         'SecondaryColor' => 'DBColor',
         'CtaColor' => 'DBColor',
         'GoogleAnalyticsCode' => 'Varchar',
+        'GoogleAnalyticsCode4' => 'Varchar',
         'HeaderFont' => 'Varchar(100)',
         'HeaderFontWeight' => 'Varchar(6)',
         'BodyFont' => 'Varchar(100)',
@@ -138,6 +139,10 @@ class ThemeSiteConfigExtension extends DataExtension
         if (!$this->owner->hasExtension('GoogleConfig') && !$this->owner->hasExtension('ZenGoogleAnalytics')) {
             $fields->addFieldToTab('Root.Main', $ga = new TextField('GoogleAnalyticsCode'));
             $ga->setAttribute('placeholder', 'UA-0000000-00');
+
+            // Add Google Analytics v4
+            $fields->addFieldToTab('Root.Main', $ga4 = new TextField('GoogleAnalyticsCode4'));
+            $ga4->setAttribute('placeholder', 'G-0000000000');
         }
 
         return $fields;
@@ -185,6 +190,21 @@ class ThemeSiteConfigExtension extends DataExtension
             return false;
         }
         if ($this->owner->GoogleAnalyticsCode) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check if GoogleAnalytics v4 is enabled
+     * @return boolean
+     */
+    public function GoogleAnalytics4Enabled()
+    {
+        if (Director::isDev()) {
+            return false;
+        }
+        if ($this->owner->GoogleAnalyticsCode4) {
             return true;
         }
         return false;
