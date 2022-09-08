@@ -46,6 +46,9 @@
 		<% if SiteConfig.GoogleAnalyticsEnabled %>
 		<% include GoogleAnalyticsSnippet %>
 		<% end_if %>
+		<% if SiteConfig.GoogleAnalytics4Enabled %>
+		<% include GoogleAnalytics4Snippet %>
+		<% end_if %>
 		<% if OutdatedBrowserEnabled %>
 		<% include OutdatedBrowserSnippet %>
 		<% end_if %>
